@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckTests", "DuckTests\DuckTests\DuckTests.csproj", "{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DuckTestsContent", "DuckTests\DuckTestsContent\DuckTestsContent.contentproj", "{E7913790-7D48-4D16-B5AF-60CB7A84DFA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckEngine", "DuckEngine\DuckEngine\DuckEngine.csproj", "{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckEngineContent", "DuckEngine\DuckEngineContent\DuckEngineContent.contentproj", "{06AB0E85-29DE-4C27-B3A2-51169DD6283F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckGame", "DuckGame\DuckGame\DuckGame.csproj", "{ED9401B6-63C8-443B-BEE8-752176D92AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckGameContent", "DuckGame\DuckGameContent\DuckGameContent.contentproj", "{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Debug|x86.ActiveCfg = Debug|x86
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Debug|x86.Build.0 = Debug|x86
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Release|Any CPU.ActiveCfg = Release|x86
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Release|x86.ActiveCfg = Release|x86
+		{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}.Release|x86.Build.0 = Release|x86
+		{E7913790-7D48-4D16-B5AF-60CB7A84DFA4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E7913790-7D48-4D16-B5AF-60CB7A84DFA4}.Debug|x86.ActiveCfg = Debug|x86
+		{E7913790-7D48-4D16-B5AF-60CB7A84DFA4}.Release|Any CPU.ActiveCfg = Release|x86
+		{E7913790-7D48-4D16-B5AF-60CB7A84DFA4}.Release|x86.ActiveCfg = Release|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Debug|x86.ActiveCfg = Debug|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Debug|x86.Build.0 = Debug|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Release|Any CPU.ActiveCfg = Release|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Release|x86.ActiveCfg = Release|x86
+		{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}.Release|x86.Build.0 = Release|x86
+		{06AB0E85-29DE-4C27-B3A2-51169DD6283F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AB0E85-29DE-4C27-B3A2-51169DD6283F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06AB0E85-29DE-4C27-B3A2-51169DD6283F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AB0E85-29DE-4C27-B3A2-51169DD6283F}.Release|x86.ActiveCfg = Debug|Any CPU
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Debug|x86.ActiveCfg = Debug|x86
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Debug|x86.Build.0 = Debug|x86
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Release|Any CPU.ActiveCfg = Release|x86
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Release|x86.ActiveCfg = Release|x86
+		{ED9401B6-63C8-443B-BEE8-752176D92AA7}.Release|x86.Build.0 = Release|x86
+		{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}.Release|x86.ActiveCfg = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
