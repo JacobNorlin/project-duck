@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b8f3d96b-0450-46a4-b34f-d030aa3be184"
+  name="Mindstep.Duck.Engine" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="fed87087-229a-46c9-b865-2881921687f8"
+        name="Model"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bdb472cd-ace1-416c-80ae-de33626f2fef"
+        name="AnimationController"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8c5ce3b3-b4f1-4ddc-a8f8-eb6d18216154"
+        name="PhysicsManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="3c8a2f3d-d816-482a-a1b4-ccbd3dab8324"
+            name="addBody"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="1e7ede97-6a25-435b-a95d-201eb9ee46d7"
+            name="removeBody"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f44ce186-8d01-468f-a32a-4645c0895dee"
+        name="InputManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="2a2c306a-b1d5-4b47-ac9b-14e18b63f694"
+            name="isAction"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="2b315562-ca4a-4796-9ffe-6d9ad3c64a7f"
+                  name="Action action"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="a21e7b35-14e7-458f-84e6-1a5d56f37899"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="81d5d412-80ae-4762-80a6-724f9dc9b075"
+                      LastKnownName="bool"
+                      LastKnownLocation="Package_0125.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="76af0141-f521-418d-bf90-280458301f08"
+            name="wasAction"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="9763df93-b042-479b-b81f-55fe95563047"
+                  name="Action action"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="280a518a-dd30-4932-943b-02df5a0a5df9"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="81d5d412-80ae-4762-80a6-724f9dc9b075"
+                      LastKnownName="bool"
+                      LastKnownLocation="Package_0125.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="c4f4124a-46cd-4a66-ab87-c6dea9dcabca"
+        name="SoundManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="0b9eee84-fc62-42c6-b663-fcf1ac09b229"
+            name="Play"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="feb51d6c-0a3d-4456-9657-f2da49e9b376"
+                  name="string soundName"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="2e0f9f24-893d-4313-9fa5-8678ab34a076"
+            name="getSound"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="159adddf-f4c9-4a6e-8a0c-d16c33bc0507"
+                  name="string soundName"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="aa4cc10a-3915-47ab-8f6a-2b4bc949fce2"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d65afbc8-5266-4fe1-8024-31a1f6e94129"
+                      LastKnownName="Sound"
+                      LastKnownLocation="Package_0125.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="655306b0-5834-4c0b-9a16-bfdfd875445d"
+        name="StorageManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="fea61d0b-43bb-4368-803b-1b4e4656376c"
+        name="Action"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="d95e28e1-b100-4e3a-b74e-ab8d29768c79"
+            name="FIRE" />
+          <enumerationLiteral
+            Id="77cf49ec-8ac0-491b-abc5-33903fb757e9"
+            name="JUMP" />
+          <enumerationLiteral
+            Id="1e5f6225-6f68-4952-bef4-41abadac4a51"
+            name="RELOAD" />
+          <enumerationLiteral
+            Id="c504026b-1c84-4bad-8d63-1b726b8f2b36"
+            name="WALK_FORWARD" />
+          <enumerationLiteral
+            Id="5a0633be-49f0-420e-9245-4fbc2dcb2696"
+            name="WALK_BACKWARD" />
+          <enumerationLiteral
+            Id="770cd6f5-8294-446f-b7e2-5bfd4baf8b3a"
+            name="WALK_LEFT" />
+          <enumerationLiteral
+            Id="4f6145ae-c5e1-4d05-92aa-74d8db91c6b7"
+            name="WALK_RIGHT" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f8e16e3e-ca52-4094-bce3-33aa853eab7a"
+        name="Entity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="99e11111-a8b8-46ba-9b00-091049c7cc50"
+            name="Update"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="dc32518e-e226-4c73-9aed-ad784800b931"
+                  name="GameTime gameTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8c7bcefa-cd0b-4ca0-8cab-346b15122c7d"
+        name="Entity2D"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="d65afbc8-5266-4fe1-8024-31a1f6e94129"
+        name="Sound" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="88bb88ab-486d-4ea7-82de-bd7a2fd74fdb"
+        name="void" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bcd864c5-79f8-4b31-9fbe-7a9b4630070e"
+        name="Sound"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="81d5d412-80ae-4762-80a6-724f9dc9b075"
+        name="bool" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="076492ca-8104-481f-a7fa-752f574112fa"
+        name="Entity3D"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

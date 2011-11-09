@@ -92,8 +92,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DuckEngine\DuckEngine\DuckEngine.csproj">
+      <Project>{6ECDED0D-E11E-43F7-8C31-813628E6C2E0}</Project>
+      <Name>DuckEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DuckGameContent\DuckGameContent.contentproj">
+      <Project>{704284D4-F9D6-4B64-B1B5-8E8A7BD535C5}</Project>
+      <Name>DuckGameContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
