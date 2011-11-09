@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Render3DActivity">
+  <activityRootModelMoniker Id="6ef768f2-4b18-4f77-9e23-b1fc81a23f96" />
+  <nestedChildShapes>
+    <initialNodeShape Id="1c746cfc-93f0-4ed2-bfff-cd4f7bca094c" absoluteBounds="3.25, 1.25, 0.125, 0.125" customColor="89, 89, 89">
+      <initialNodeMoniker Id="6ec5f147-0957-4a9b-ba73-b441f944b46e" LastKnownName="Initial1" />
+    </initialNodeShape>
+    <activityFinalNodeShape Id="d09f94bf-adb7-410e-81ae-fcb355c67ff4" absoluteBounds="3.25, 2.625, 0.125, 0.125" customColor="89, 89, 89">
+      <activityFinalNodeMoniker Id="04191f1e-4484-4714-af6d-32d5a039ffa2" LastKnownName="ActivityFinal1" />
+    </activityFinalNodeShape>
+    <controlFlowConnector edgePoints="[(3.3125 : 1.375); (3.3125 : 2.625)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="a75d9eaf-b8dc-49ed-b8fd-5848d98edd02" />
+      <relativeChildShapes />
+      <nodes>
+        <initialNodeShapeMoniker Id="1c746cfc-93f0-4ed2-bfff-cd4f7bca094c" />
+        <activityFinalNodeShapeMoniker Id="d09f94bf-adb7-410e-81ae-fcb355c67ff4" />
+      </nodes>
+    </controlFlowConnector>
+  </nestedChildShapes>
+</activityDiagram>

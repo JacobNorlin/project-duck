@@ -17,6 +17,20 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
   <ItemGroup>
+    <Content Include="Draw2DActivity.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Draw2DActivity.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Draw2DActivity.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="InputActivty.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="InputActivty.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>InputActivty.activitydiagram</DependentUpon>
+    </Content>
     <Content Include="ModelDefinition\Package_0125.uml">
       <SubType>Content</SubType>
     </Content>
@@ -26,12 +40,33 @@
     <Content Include="ModelDefinition\Package_0129.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="GameActivity.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GameActivity.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>GameActivity.activitydiagram</DependentUpon>
+    </Content>
+    <Content Include="Render3DActivity.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Render3DActivity.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Render3DActivity.activitydiagram</DependentUpon>
+    </Content>
     <Content Include="UMLClassDiagram.classdiagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="UMLClassDiagram.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>UMLClassDiagram.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="UpdateActivity.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="UpdateActivity.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>UpdateActivity.activitydiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\DuckModeling.uml">

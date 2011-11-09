@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="cde1e7a4-8242-4444-a51a-4a5e881e9620" name="Draw2DActivity" linkedPackageId="53df477f-4002-4203-9d1a-4c8e028eb1bc" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="4134df1f-b395-4b82-9134-6688c9c61075">
+      <profileInstance Id="5d749c27-652a-43ca-8b4b-f136a930b62d" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="11c0c59d-5992-456a-8b60-a1fb3ff58a54">
+      <profileInstance Id="7dac14d3-afff-4ff6-a127-2ff5aef29c72" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="04abf99b-0c31-44d1-874a-afaca39bde52" name="Draw2DActivity" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="e42a7d74-42cf-4c40-b5db-44a2f6c0ed72" />
+        <nodes>
+          <initialNode Id="dbc1826c-04a3-4450-a750-0abe931f0d3b" name="Initial1" isLeaf="false">
+            <elementDefinition Id="85c452a7-8609-4d20-afca-24b81dcdb52e" />
+            <flowNodeTargets>
+              <controlFlow Id="dfb613aa-ffea-4dda-9166-63bfc41b59af" isLeaf="false">
+                <activityFinalNodeMoniker Id="6165d9e1-8899-4ff6-b02d-c1281dde6900" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="48e016cc-6539-443b-8a2c-52c523d099bb" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode Id="6165d9e1-8899-4ff6-b02d-c1281dde6900" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="84d230b7-c486-4a13-83c0-04f9390ad89a" />
+          </activityFinalNode>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="53df477f-4002-4203-9d1a-4c8e028eb1bc" name="DuckModeling">
+    <elementDefinition Id="cdf1cc86-88e5-4e62-bdc3-23fbaf3c041a" />
+  </package>
+</activityRootModel>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="InputActivty">
+  <activityRootModelMoniker Id="b4b242ad-cafe-42eb-819c-33ebb9b47fd8" />
+  <nestedChildShapes>
+    <initialNodeShape Id="e59ed988-1c3d-4741-81f5-2ea545d12359" absoluteBounds="3, 1, 0.125, 0.125" customColor="89, 89, 89">
+      <initialNodeMoniker Id="24f288ea-488c-486a-8fe4-913d3fab9c9d" LastKnownName="Initial1" />
+    </initialNodeShape>
+    <activityFinalNodeShape Id="66e7e99e-457d-44a2-a01f-1ae48dcc5738" absoluteBounds="3, 2.375, 0.125, 0.125" customColor="89, 89, 89">
+      <activityFinalNodeMoniker Id="8754633e-6140-47c4-9c0b-df0d9383b6f4" LastKnownName="ActivityFinal1" />
+    </activityFinalNodeShape>
+    <controlFlowConnector edgePoints="[(3.0625 : 1.125); (3.0625 : 2.375)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="115ef6d7-0e51-4d14-a621-6e8995ccbc46" />
+      <relativeChildShapes />
+      <nodes>
+        <initialNodeShapeMoniker Id="e59ed988-1c3d-4741-81f5-2ea545d12359" />
+        <activityFinalNodeShapeMoniker Id="66e7e99e-457d-44a2-a01f-1ae48dcc5738" />
+      </nodes>
+    </controlFlowConnector>
+  </nestedChildShapes>
+</activityDiagram>

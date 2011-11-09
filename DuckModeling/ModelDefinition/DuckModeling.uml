@@ -1,8 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="cdf1cc86-88e5-4e62-bdc3-23fbaf3c041a"
   name="DuckModeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="5590e75a-e8f1-4396-9b4f-0142c4d184f9">
+      <body>Continure running?</body>
+      <annotatedElements>
+        <decisionNodeMoniker
+          Id="2a98a20e-3502-412d-ad5c-819cea93d175"
+          LastKnownName="Decision1"
+          LastKnownLocation="DuckModeling.uml" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
   <profileInstances>
     <packageHasProfileInstances
       Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
@@ -35,6 +47,325 @@
         Id="bd6f678e-7c08-42ae-a8c0-16d2f61d8efc"
         LastKnownName="Mindstep.Duck.Tests"
         LastKnownLocation="Package_0129.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="39f8e8b3-2866-4808-a543-322554558b9e"
+        name="Activity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="72d41324-3088-41f5-b88e-f274184e9b5f"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="3d7ba638-4499-45c0-a605-3d6cd2b74c7a"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="fa87c8d7-6099-4f42-b978-93bdec610918"
+                  LastKnownName="Game Initialization"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="fa87c8d7-6099-4f42-b978-93bdec610918"
+            name="Game Initialization"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="0211eb98-8ea0-4182-8aa9-05b158477260"
+                isLeaf="false">
+                <mergeNodeMoniker
+                  Id="d8a266f4-0d8b-473f-8265-b69984c6b15e"
+                  LastKnownName="Merge1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode
+            Id="2a98a20e-3502-412d-ad5c-819cea93d175"
+            name="Decision1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="47d102b5-39cf-426d-824b-0755fed616ce"
+                guard="Still Running"
+                isLeaf="false">
+                <mergeNodeMoniker
+                  Id="d8a266f4-0d8b-473f-8265-b69984c6b15e"
+                  LastKnownName="Merge1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="98b40dbd-838f-431a-9030-c4cab2e989a8"
+                guard="Exiting"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="353731f1-aad7-40e3-9ecb-7c16ad67eb25"
+                  LastKnownName="Unload Content"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <mergeNode
+            Id="d8a266f4-0d8b-473f-8265-b69984c6b15e"
+            name="Merge1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5df0ab01-9d57-41e0-b703-1eda47ae724f"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="d9daa06e-a35c-49f9-a9ea-a9f8d7591e00"
+                  LastKnownName="Input"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </mergeNode>
+          <opaqueAction
+            Id="353731f1-aad7-40e3-9ecb-7c16ad67eb25"
+            name="Unload Content"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="453fe825-e3d0-46d5-845b-cc1d6375e0a2"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="73442f5a-40c0-4d27-b014-fa5ba898d605"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode
+            Id="73442f5a-40c0-4d27-b014-fa5ba898d605"
+            name="ActivityFinal1"
+            isLeaf="false" />
+          <callBehaviorAction
+            Id="d9daa06e-a35c-49f9-a9ea-a9f8d7591e00"
+            name="Input"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="64e9c2fb-695e-4aab-a0c2-23c2e9b6bbd3"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="16730df6-750d-4a4d-92e9-86a1282c0f03"
+                  LastKnownName="Update"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+            <behavior>
+              <activityMoniker
+                Id="0149485d-d396-4ffd-a2c2-a12a3babc919"
+                LastKnownName="InputActivty"
+                LastKnownLocation="DuckModeling.uml" />
+            </behavior>
+          </callBehaviorAction>
+          <callBehaviorAction
+            Id="16730df6-750d-4a4d-92e9-86a1282c0f03"
+            name="Update"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a9b4ee02-056c-44ec-a197-ba8e8be94c50"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="5522401c-7615-4a44-abcb-97e365cca167"
+                  LastKnownName="Render 3D"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+            <behavior>
+              <activityMoniker
+                Id="b179ed0d-1390-44a3-be43-b59df72f1858"
+                LastKnownName="UpdateActivity"
+                LastKnownLocation="DuckModeling.uml" />
+            </behavior>
+          </callBehaviorAction>
+          <callBehaviorAction
+            Id="5522401c-7615-4a44-abcb-97e365cca167"
+            name="Render 3D"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="cde445c3-d6b3-4e3a-9bb6-c8ef36ddec18"
+                isLeaf="false">
+                <callBehaviorActionMoniker
+                  Id="7b170896-0f56-4a2e-8b9a-73963194065b"
+                  LastKnownName="Draw 2D"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+            <behavior>
+              <activityMoniker
+                Id="411ed858-4e76-477e-80ba-665667a87f08"
+                LastKnownName="Render3DActivity"
+                LastKnownLocation="DuckModeling.uml" />
+            </behavior>
+          </callBehaviorAction>
+          <callBehaviorAction
+            Id="7b170896-0f56-4a2e-8b9a-73963194065b"
+            name="Draw 2D"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="591ec8d8-db90-4d51-a8a7-4c2bc67f6822"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="2a98a20e-3502-412d-ad5c-819cea93d175"
+                  LastKnownName="Decision1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+            <behavior>
+              <activityMoniker
+                Id="e42a7d74-42cf-4c40-b5db-44a2f6c0ed72"
+                LastKnownName="Draw2DActivity"
+                LastKnownLocation="DuckModeling.uml" />
+            </behavior>
+          </callBehaviorAction>
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="0149485d-d396-4ffd-a2c2-a12a3babc919"
+        name="InputActivty"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="5c4638d3-25f6-41e4-8874-9eef3737c88b"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5bc9b720-514e-47eb-aea3-2fa8ce55a195"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="fe5cc602-6bc1-41b9-b6ed-2c009f2f5d8f"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode
+            Id="fe5cc602-6bc1-41b9-b6ed-2c009f2f5d8f"
+            name="ActivityFinal1"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="b179ed0d-1390-44a3-be43-b59df72f1858"
+        name="UpdateActivity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="a6551406-b1be-4963-b2ec-8fa07af16008"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="8520c297-61fe-43fb-a6d2-a0336aca604b"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="8a949b13-f8c0-4551-b4a2-3c7ee5a8c87a"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode
+            Id="8a949b13-f8c0-4551-b4a2-3c7ee5a8c87a"
+            name="ActivityFinal1"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="411ed858-4e76-477e-80ba-665667a87f08"
+        name="Render3DActivity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="216428ac-de6e-4d87-845b-459c25d83e7b"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="fa6d118c-8230-4a5f-9785-289288c406f5"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="3ec0ec50-182b-49d0-9950-516d1e0f6bd6"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode
+            Id="3ec0ec50-182b-49d0-9950-516d1e0f6bd6"
+            name="ActivityFinal1"
+            isLeaf="false" />
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="e42a7d74-42cf-4c40-b5db-44a2f6c0ed72"
+        name="Draw2DActivity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="85c452a7-8609-4d20-afca-24b81dcdb52e"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="48e016cc-6539-443b-8a2c-52c523d099bb"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="84d230b7-c486-4a13-83c0-04f9390ad89a"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="DuckModeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <activityFinalNode
+            Id="84d230b7-c486-4a13-83c0-04f9390ad89a"
+            name="ActivityFinal1"
+            isLeaf="false" />
+        </nodes>
+      </activity>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
