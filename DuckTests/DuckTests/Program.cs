@@ -1,6 +1,8 @@
 using System;
+using DuckGame;
+using DuckEngine;
 
-namespace DuckTests
+namespace DuckMain
 {
 #if WINDOWS || XBOX
     static class Program
@@ -10,10 +12,17 @@ namespace DuckTests
         /// </summary>
         static void Main(string[] args)
         {
-            using (DuckTests game = new DuckTests())
+            //This is how everything used to be started
+            /* using (Engine game = new Engine())
             {
                 game.Run();
-            }
+            }*/
+            Engine game = new Engine(
+                (engine) => {
+                    new World(engine);
+                }
+            );
+            game.Run();
         }
     }
 #endif
