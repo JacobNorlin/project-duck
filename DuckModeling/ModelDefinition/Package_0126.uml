@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="36b016ca-9faa-4160-a66c-9fa9aafb038a"
   name="Mindstep.Duck.Game" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -118,6 +118,56 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="fea61d0b-43bb-4368-803b-1b4e4656376c"
+        name="Action"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="d95e28e1-b100-4e3a-b74e-ab8d29768c79"
+            name="FIRE" />
+          <enumerationLiteral
+            Id="77cf49ec-8ac0-491b-abc5-33903fb757e9"
+            name="JUMP" />
+          <enumerationLiteral
+            Id="1e5f6225-6f68-4952-bef4-41abadac4a51"
+            name="RELOAD" />
+          <enumerationLiteral
+            Id="c504026b-1c84-4bad-8d63-1b726b8f2b36"
+            name="WALK_FORWARD" />
+          <enumerationLiteral
+            Id="5a0633be-49f0-420e-9245-4fbc2dcb2696"
+            name="WALK_BACKWARD" />
+          <enumerationLiteral
+            Id="770cd6f5-8294-446f-b7e2-5bfd4baf8b3a"
+            name="WALK_LEFT" />
+          <enumerationLiteral
+            Id="4f6145ae-c5e1-4d05-92aa-74d8db91c6b7"
+            name="WALK_RIGHT" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d1440781-89c3-456b-ac06-e9366cc4104b"
+        name="TestMap1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="53d74f5c-4ed9-4d4a-ac39-c9a93192e3dd"
+            isSubstitutable="false">
+            <classMoniker
+              Id="ab155f07-7528-4beb-9423-22e0fcf8cbb8"
+              LastKnownName="Map"
+              LastKnownLocation="Package_0126.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
 </package>
