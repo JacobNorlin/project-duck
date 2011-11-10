@@ -109,7 +109,7 @@
     <Compile Include="Sound\Sound.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Jitter Physics 0.1.7.0\Jitter\Jitter.csproj">
+    <ProjectReference Include="..\..\..\..\..\dependencies\Jitter Physics 0.1.7.0\Jitter\Jitter.csproj">
       <Project>{AA03EF1A-94F7-4D30-AB14-2092863FF923}</Project>
       <Name>Jitter</Name>
     </ProjectReference>
