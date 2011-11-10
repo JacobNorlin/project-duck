@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="fd60e603-f424-4657-8edc-8bfbf2757a8b" name="UMLClassDiagram" linkedPackageId="20aa345f-1cc7-4af8-a259-959b96c7cbb7" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="fd60e603-f424-4657-8edc-8bfbf2757a8b" name="UMLClassDiagram" linkedPackageId="20aa345f-1cc7-4af8-a259-959b96c7cbb7" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="8696d8d5-6370-4b18-aac2-686b1a3a8560" name="Mindstep.Duck.Engine">
@@ -108,24 +108,6 @@
           <packageHasNamedElement>
             <class Id="9f37e730-ea8f-4c3f-8291-8deb353e8e89" name="SoundManager" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="c4f4124a-46cd-4a66-ab87-c6dea9dcabca" />
-              <targetEnds>
-                <association Id="b4f17d97-967f-4c82-b64f-a06aee8945be" isDerived="false" sourceEndRoleName="SoundManager" targetEndRoleName="Sound" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="7bbbb786-5355-4214-903f-d7dfe2e68ba7" LastKnownName="Sound" />
-                  <relationshipOwnedElementsInternal>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="561029ca-d980-4597-b30b-7437aa5ded63" name="SoundManager" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
-                        <elementDefinition Id="ccd0f2a8-77e7-4a03-9dda-785361655bff" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="21be8fa3-5ded-4aa9-89da-78766ab2c682" name="Sound" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
-                        <elementDefinition Id="1f090d70-b7d5-4d44-8f20-c495edceeee1" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                  </relationshipOwnedElementsInternal>
-                  <elementDefinition Id="c2ed266b-bebb-4335-a42f-ff7f5326f464" />
-                </association>
-              </targetEnds>
               <ownedOperationsInternal>
                 <operation Id="a581864d-79a4-4533-bd68-0dc67ec37af6" name="Play" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
                   <elementDefinition Id="0b9eee84-fc62-42c6-b663-fcf1ac09b229" />
@@ -162,34 +144,6 @@
             <class Id="7ba1c27f-2070-431f-b2ae-f417f74d5cb8" name="StorageManager" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="655306b0-5834-4c0b-9a16-bfdfd875445d" />
             </class>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <enumeration Id="76abbb78-ece1-4709-9dac-def401a4ccfb" name="Action" isAbstract="false" isLeaf="false">
-              <elementDefinition Id="fea61d0b-43bb-4368-803b-1b4e4656376c" />
-              <ownedLiterals>
-                <enumerationLiteral Id="ff925c1b-2b90-4520-9c7b-1f6b86edc9fe" name="FIRE">
-                  <elementDefinition Id="d95e28e1-b100-4e3a-b74e-ab8d29768c79" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="207227ec-8c8b-4e43-9248-d7ccef0fe10a" name="JUMP">
-                  <elementDefinition Id="77cf49ec-8ac0-491b-abc5-33903fb757e9" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="155ddb8d-7146-4225-8406-d3bb7a7de8bf" name="RELOAD">
-                  <elementDefinition Id="1e5f6225-6f68-4952-bef4-41abadac4a51" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="6755a2ee-552d-44f0-9616-624e963795c1" name="WALK_FORWARD">
-                  <elementDefinition Id="c504026b-1c84-4bad-8d63-1b726b8f2b36" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="553ae352-d332-49ff-b958-bd9e59033af7" name="WALK_BACKWARD">
-                  <elementDefinition Id="5a0633be-49f0-420e-9245-4fbc2dcb2696" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="1bbbfdcd-d7be-4794-b4b4-ff63e760d355" name="WALK_LEFT">
-                  <elementDefinition Id="770cd6f5-8294-446f-b7e2-5bfd4baf8b3a" />
-                </enumerationLiteral>
-                <enumerationLiteral Id="9d0c27f7-9200-470e-bb58-0765b0bbd816" name="WALK_RIGHT">
-                  <elementDefinition Id="4f6145ae-c5e1-4d05-92aa-74d8db91c6b7" />
-                </enumerationLiteral>
-              </ownedLiterals>
-            </enumeration>
           </packageHasNamedElement>
           <packageHasNamedElement>
             <class Id="0b633d66-dca7-4db0-b628-7b1f84ac4d05" name="Entity" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -575,6 +529,45 @@
               <elementDefinition Id="b76ce98d-6ee3-4f46-8258-4a9e91602418" />
             </class>
           </packageHasNamedElement>
+          <packageHasNamedElement>
+            <enumeration Id="76abbb78-ece1-4709-9dac-def401a4ccfb" name="Action" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="fea61d0b-43bb-4368-803b-1b4e4656376c" />
+              <ownedLiterals>
+                <enumerationLiteral Id="ff925c1b-2b90-4520-9c7b-1f6b86edc9fe" name="FIRE">
+                  <elementDefinition Id="d95e28e1-b100-4e3a-b74e-ab8d29768c79" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="207227ec-8c8b-4e43-9248-d7ccef0fe10a" name="JUMP">
+                  <elementDefinition Id="77cf49ec-8ac0-491b-abc5-33903fb757e9" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="155ddb8d-7146-4225-8406-d3bb7a7de8bf" name="RELOAD">
+                  <elementDefinition Id="1e5f6225-6f68-4952-bef4-41abadac4a51" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="6755a2ee-552d-44f0-9616-624e963795c1" name="WALK_FORWARD">
+                  <elementDefinition Id="c504026b-1c84-4bad-8d63-1b726b8f2b36" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="553ae352-d332-49ff-b958-bd9e59033af7" name="WALK_BACKWARD">
+                  <elementDefinition Id="5a0633be-49f0-420e-9245-4fbc2dcb2696" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="1bbbfdcd-d7be-4794-b4b4-ff63e760d355" name="WALK_LEFT">
+                  <elementDefinition Id="770cd6f5-8294-446f-b7e2-5bfd4baf8b3a" />
+                </enumerationLiteral>
+                <enumerationLiteral Id="9d0c27f7-9200-470e-bb58-0765b0bbd816" name="WALK_RIGHT">
+                  <elementDefinition Id="4f6145ae-c5e1-4d05-92aa-74d8db91c6b7" />
+                </enumerationLiteral>
+              </ownedLiterals>
+            </enumeration>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5b0ad3f0-02b5-4676-b35d-85ad263ddbbc" name="TestMap1" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d1440781-89c3-456b-ac06-e9366cc4104b" />
+              <generalsInternal>
+                <generalization Id="c31c885b-6be0-43aa-a48c-d069b53c5daa" isSubstitutable="false">
+                  <classMoniker Id="b33a459f-d469-4050-997a-0ab5e4eafa41" LastKnownName="Map" />
+                  <elementDefinition Id="53d74f5c-4ed9-4d4a-ac39-c9a93192e3dd" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
         </packagedElements>
       </package>
     </logicalClassDesignerModelHasPackages>
@@ -583,35 +576,42 @@
         <elementDefinition Id="bd6f678e-7c08-42ae-a8c0-16d2f61d8efc" />
         <packagedElements>
           <packageHasNamedElement>
-            <class Id="561043bf-1b54-45c6-9950-ba44b9be295a" name="DuckTests" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="0e7d0f3a-aa62-45b8-9679-24b10291c29b" />
-              <ownedOperationsInternal>
-                <operation Id="5a5aa835-738d-491a-9a6e-abd8cf4e48bd" name="Update" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-                  <elementDefinition Id="ce652079-6910-4691-94c5-a34340e86cf8" />
-                  <ownedParameters>
-                    <operationHasOwnedParameters>
-                      <parameter Id="6ed6a705-4768-465a-b92a-66b49a3acd4a" name="GameTime gameTime" direction="In" isUnique="false">
-                        <elementDefinition Id="e0de21f6-a37c-4143-88c4-c33c248f25be" />
-                      </parameter>
-                    </operationHasOwnedParameters>
-                  </ownedParameters>
-                </operation>
-                <operation Id="d7317fad-1109-4983-bd6b-4654a8e50f33" name="Draw" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-                  <elementDefinition Id="27d7da64-0824-4872-9cdd-3f81e75639f4" />
-                  <ownedParameters>
-                    <operationHasOwnedParameters>
-                      <parameter Id="4717c51f-2874-4930-872a-9523ab1cbbb3" name="GameTime gameTime" direction="In" isUnique="false">
-                        <elementDefinition Id="db4f83e0-d9b1-47f2-87e5-fa4c358d3a95" />
-                      </parameter>
-                    </operationHasOwnedParameters>
-                  </ownedParameters>
-                </operation>
-              </ownedOperationsInternal>
-            </class>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
             <class Id="afa36c81-88a5-48fc-8d69-26b33df1f914" name="Program" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="331e71eb-00cb-4487-bed4-cc20a4d3f665" />
+              <targetEnds>
+                <association Id="2417b112-57d0-455c-8477-12dd54fea667" isDerived="false" sourceEndRoleName="Program" targetEndRoleName="DuckEngine" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c09157fd-c51f-440c-bf35-a2db27df1e6b" LastKnownName="DuckEngine" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="d2a84e81-8a6a-4d0c-8a69-b7bc35a4bc8e" name="Program" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="c3de8ba1-b408-467a-9dd7-b7d393ecdce6" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9755a375-8114-4897-8f9d-652c348725b0" name="DuckEngine" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="fafdac4c-9754-4eef-9bd2-102e8b6feb6a" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="742e703a-d8bf-4e21-9a5d-988089b4a312" />
+                </association>
+                <association Id="ead02a57-80e1-4820-abd5-3c11496ae216" isDerived="false" sourceEndRoleName="Program" targetEndRoleName="TestMap1" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5b0ad3f0-02b5-4676-b35d-85ad263ddbbc" LastKnownName="TestMap1" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="896a7bd6-3f7a-4144-818b-2a2c387bc4af" name="Program" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="d8733512-755b-4c45-afa1-7bdc92f6630e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="f81c783c-0a7c-4f85-b8de-1e64f7d514a7" name="TestMap1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="01075750-3b9f-4798-84d3-997c99e9fd1d" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="be447b92-c3f7-4d97-854d-ddbee1c7d3cd" />
+                </association>
+              </targetEnds>
               <ownedOperationsInternal>
                 <operation Id="aebe9463-5572-4f1f-8cac-f2536a7633fe" name="main" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
                   <elementDefinition Id="c4d36c12-34ee-4fce-b416-6d05b87820d8" />
