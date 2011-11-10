@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="b8f3d96b-0450-46a4-b34f-d030aa3be184"
   name="Mindstep.Duck.Engine" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -222,6 +222,47 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="c2ed266b-bebb-4335-a42f-ff7f5326f464"
+            isDerived="false"
+            sourceEndRoleName="SoundManager"
+            targetEndRoleName="Sound"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="bcd864c5-79f8-4b31-9fbe-7a9b4630070e"
+              LastKnownName="Sound"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ccd0f2a8-77e7-4a03-9dda-785361655bff"
+                  name="SoundManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1f090d70-b7d5-4d44-8f20-c495edceeee1"
+                  name="Sound"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedOperationsInternal>
           <operation
             Id="0b9eee84-fc62-42c6-b663-fcf1ac09b229"
@@ -321,26 +362,26 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="99e11111-a8b8-46ba-9b00-091049c7cc50"
-            name="Update"
+        <ownedAttributesInternal>
+          <property
+            Id="ae7b033a-18a7-4bcd-a12f-e7fd3b3bc990"
+            name="Owner"
             isLeaf="false"
             isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="dc32518e-e226-4c73-9aed-ad784800b931"
-                  name="GameTime gameTime"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="55b89dd9-f0dc-43b4-8782-a81fc5e98224"
+                LastKnownName="DuckEngine"
+                LastKnownLocation="Package_0125.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -446,6 +487,16 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="8a5f7425-b1a3-41f7-95dd-685228a2efd7"
+            isSubstitutable="false">
+            <classMoniker
+              Id="f8e16e3e-ca52-4094-bce3-33aa853eab7a"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_0125.uml" />
+          </generalization>
+        </generalsInternal>
         <ownedAttributesInternal>
           <property
             Id="864f998e-5ded-4454-9270-cc51bccf3da2"
@@ -530,7 +581,7 @@
     <packageHasNamedElement>
       <Interface
         Id="5599df81-5b3d-4866-871c-f799fdf075e8"
-        name="Drawable"
+        name="IDraw2D"
         isAbstract="false"
         isLeaf="false">
         <ownedOperations>
@@ -558,7 +609,7 @@
     <packageHasNamedElement>
       <Interface
         Id="a992ad37-3aa0-4878-9fa1-3c6a5d3ee493"
-        name="Renderable"
+        name="IDraw3D"
         isAbstract="false"
         isLeaf="false">
         <ownedOperations>
@@ -591,7 +642,7 @@
     <packageHasNamedElement>
       <Interface
         Id="b79d9f85-2bac-4ee3-acec-b75643c050f0"
-        name="Inputable"
+        name="IInput"
         isAbstract="false"
         isLeaf="false">
         <ownedOperations>
@@ -623,6 +674,449 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="55b89dd9-f0dc-43b4-8782-a81fc5e98224"
+        name="DuckEngine" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="30e78267-1d98-4ac1-8179-039c04a8d0e1"
+        name="ILogic"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedOperations>
+          <operation
+            Id="7b915dd1-8686-450f-8d0c-b73acbe3a84f"
+            name="Update"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="85163118-c455-4e2f-81bd-2155d2c28775"
+                  name="GameTime gameTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a876fbc4-fd9d-4933-a702-5b50d9a8a138"
+        name="DuckEngine"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="c9044cb2-a617-4f61-bdd9-0506311890ad"
+            isDerived="false"
+            sourceEndRoleName="DuckEngine"
+            targetEndRoleName="PhysicsManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="8c5ce3b3-b4f1-4ddc-a8f8-eb6d18216154"
+              LastKnownName="PhysicsManager"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f8bbc06e-c9c4-4954-994b-660bbb7d1005"
+                  name="DuckEngine"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ba41317a-bc96-4607-ae7a-8d5377b3d0f8"
+                  name="PhysicsManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="f1b250fa-f5ba-4f79-889b-dcbd71bfa8c7"
+            isDerived="false"
+            sourceEndRoleName="DuckEngine"
+            targetEndRoleName="SoundManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="c4f4124a-46cd-4a66-ab87-c6dea9dcabca"
+              LastKnownName="SoundManager"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fc9300d5-dc5a-47bb-9336-390564753ab4"
+                  name="DuckEngine"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8794e70b-0775-4b91-95c7-aa91580436a6"
+                  name="SoundManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="3278dd9f-7b59-46bf-b966-951c5859a77d"
+            isDerived="false"
+            sourceEndRoleName="DuckEngine"
+            targetEndRoleName="StorageManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="655306b0-5834-4c0b-9a16-bfdfd875445d"
+              LastKnownName="StorageManager"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c6631982-b46d-4c52-a21c-f9bfb9be59b2"
+                  name="DuckEngine"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c8b9a324-817a-494d-80b5-4fa6b9cd6ff1"
+                  name="StorageManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="e3d56a03-9585-4b9c-915c-15f645191c0c"
+            isDerived="false"
+            sourceEndRoleName="DuckEngine"
+            targetEndRoleName="InputManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="f44ce186-8d01-468f-a32a-4645c0895dee"
+              LastKnownName="InputManager"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="47694d0b-1292-4a18-bae7-0f096b07d317"
+                  name="DuckEngine"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="048a9b50-6062-4040-b87a-ced35d29b8de"
+                  name="InputManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="b8035054-2689-4322-8c49-13901f868a65"
+            isDerived="false"
+            sourceEndRoleName="DuckEngine"
+            targetEndRoleName="NetworkManager"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="e21ad81c-f873-45ff-984c-7f9b1d505385"
+              LastKnownName="NetworkManager"
+              LastKnownLocation="Package_0125.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="335b1610-6f90-4a82-9dd7-3de01a824f64"
+                  name="DuckEngine"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b533ad57-352e-4cb7-ba26-1a7a1f3cbcab"
+                  name="NetworkManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="ee30c26d-2a30-41c8-8b62-90ee361ad663"
+            name="EntityLogic"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="6f5859cd-88fb-469f-a5f8-7c6fbc81458b"
+                LastKnownName="List&lt;ILogic&gt;"
+                LastKnownLocation="Package_0125.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="418f75c2-c0a7-4691-875a-e0d6a94caed0"
+            name="EntityInput"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="7326a4c9-270d-4877-8378-5909ebea4fa7"
+                LastKnownName="List&lt;Input&gt;"
+                LastKnownLocation="Package_0125.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="8839a2a5-a8af-4d2e-a430-bb2092436020"
+            name="EntityDraw2D"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="c3c36caf-c458-4b26-8ca4-08c4aa403862"
+                LastKnownName="List&lt;IDraw2D&gt;"
+                LastKnownLocation="Package_0125.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="598a68ab-1411-4889-921c-84d18b4af865"
+            name="EntityDraw3D"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="9eed28a2-8aec-44fe-8a01-af378e542eff"
+                LastKnownName="List&lt;IDraw3d&gt;"
+                LastKnownLocation="Package_0125.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="cf5f2307-fce1-449f-81b6-34a88c2a63fa"
+            name="addEntityLogic"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cbb8113f-a3f1-4874-a526-e33e1cdc669e"
+                  name="ILogic iLogic"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="f4aaf8fe-4198-433f-9820-deaa3f0e90a7"
+            name="addEntityInput"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="42fbdef3-7d90-4bda-9e27-dbd19a6b0ed7"
+                  name="IInput iInput"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="b74a65de-1f08-481d-9a53-bda753370203"
+            name="addEntityDraw2D"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5cde7e78-3dbd-4719-8188-4305a86df29c"
+                  name="IDraw2D iDraw2D"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="dbd91084-6666-4782-aeae-a334cd5f7eba"
+            name="addEntityDraw3D"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="766cdcfe-9466-422e-8009-1f4195b9ea1e"
+                  name="IDraw3D iDraw3D"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="b531e46b-5129-4b12-990d-e7460ee269c5"
+            name="Update"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="9a36c829-4ae3-451c-9cd9-b19624e0a70e"
+                  name="GameTime gameTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="21dd8123-9c1e-4539-b9ad-3895e76fc8f6"
+            name="Draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f4d2f13e-3f92-4cb3-8c26-40039ebbbaf6"
+                  name="GameTime gameTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="6f5859cd-88fb-469f-a5f8-7c6fbc81458b"
+        name="List&lt;ILogic&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="7326a4c9-270d-4877-8378-5909ebea4fa7"
+        name="List&lt;Input&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c3c36caf-c458-4b26-8ca4-08c4aa403862"
+        name="List&lt;IDraw2D&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="9eed28a2-8aec-44fe-8a01-af378e542eff"
+        name="List&lt;IDraw3d&gt;" />
     </packageHasNamedElement>
   </packagedElements>
 </package>
