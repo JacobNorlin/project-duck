@@ -1,6 +1,0 @@
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\bin\x86\Debug\DuckGame.dll
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\bin\x86\Debug\DuckGame.pdb
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\obj\x86\Debug\ResolveAssemblyReference.cache
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\obj\x86\Debug\DuckGame.dll
-D:\Programming\Projects\Development\project-duck\DuckGame\DuckGame\obj\x86\Debug\DuckGame.pdb

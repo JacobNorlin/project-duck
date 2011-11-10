@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="cdf1cc86-88e5-4e62-bdc3-23fbaf3c041a"
   name="DuckModeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -61,7 +61,7 @@
         <nodes>
           <initialNode
             Id="72d41324-3088-41f5-b88e-f274184e9b5f"
-            name="Initial1"
+            name="StartGame"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
@@ -139,14 +139,14 @@
                 isLeaf="false">
                 <activityFinalNodeMoniker
                   Id="73442f5a-40c0-4d27-b014-fa5ba898d605"
-                  LastKnownName="ActivityFinal1"
+                  LastKnownName="ExitGame"
                   LastKnownLocation="DuckModeling.uml" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <activityFinalNode
             Id="73442f5a-40c0-4d27-b014-fa5ba898d605"
-            name="ActivityFinal1"
+            name="ExitGame"
             isLeaf="false" />
           <callBehaviorAction
             Id="d9daa06e-a35c-49f9-a9ea-a9f8d7591e00"
