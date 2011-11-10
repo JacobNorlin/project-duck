@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="fd60e603-f424-4657-8edc-8bfbf2757a8b" name="UMLClassDiagram" linkedPackageId="20aa345f-1cc7-4af8-a259-959b96c7cbb7" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="3c36e3bd-31a2-4a79-9ffa-3c18a526a486">
-      <profileInstance Id="f94d61dc-7946-4552-b322-47980c472666" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="a3bd8fde-94a8-4760-a516-76226d825bfc">
-      <profileInstance Id="080209e0-9f0f-43aa-b974-d95738b4e381" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="8696d8d5-6370-4b18-aac2-686b1a3a8560" name="Mindstep.Duck.Engine">
@@ -260,7 +246,7 @@
                       <parameter Id="2224bbd8-2837-4a1c-9eb1-0579e3ec9f68" direction="Return" isUnique="false">
                         <elementDefinition Id="963e8b5b-bb9a-455b-9327-8bace103ab04" />
                         <type_NamedElement>
-                          <referencedTypeMoniker Id="30c29a96-ca39-429e-a3e3-42a87e4cb798" LastKnownName="MAtrix" />
+                          <referencedTypeMoniker Id="155e7031-d153-44cb-8ad0-ca68013db041" LastKnownName="Matrix" />
                         </type_NamedElement>
                       </parameter>
                     </operationHasOwnedParameters>
@@ -302,6 +288,28 @@
                 </operation>
               </ownedOperations>
             </Interface>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <Interface Id="736feac6-7bec-45e1-b03f-27853dd3fac3" name="Inputable" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="b79d9f85-2bac-4ee3-acec-b75643c050f0" />
+              <ownedOperations>
+                <operation Id="98c421a8-ad08-4d2a-95c1-dadea7b433d4" name="Input" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="d0376af8-d82b-49e3-b16d-efbf14cec68d" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="5f2abfe6-3404-4b30-9101-ec1b92da1841" name="InputManager input" direction="In" isUnique="false">
+                        <elementDefinition Id="c171fc78-953d-487c-b4f7-c8a7e9091280" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperations>
+            </Interface>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="cec85abb-f5eb-4d71-92ac-85c25378f40c" name="NetworkManager" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e21ad81c-f873-45ff-984c-7f9b1d505385" />
+            </class>
           </packageHasNamedElement>
         </packagedElements>
       </package>
@@ -349,6 +357,36 @@
           <packageHasNamedElement>
             <class Id="14341652-9ec1-4389-b349-ab6c6bacca49" name="Team" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="af8ec180-5c6b-4484-abc7-dd931b7e464b" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="9264487c-ea8a-4591-9469-52d9001bd43d" name="Menu" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8507c112-3c22-4d2d-be5d-1e3b0f8b6e0e" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="a35ae7be-5c5f-4834-af01-088afa667810" name="MenuItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="cb35adaa-f92e-4118-9bfa-b9fcd1a48d8f" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="6f6a6444-0c67-481a-8c71-2785c5d09218" name="Technology" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ce6c0fc1-af33-43c7-bf2a-7764df1ca96b" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c8c42e19-9461-47ca-b928-c91b003c25a3" name="Ammunition" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1f58ae89-bb01-48c9-80d7-2cc0d98e1da1" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5a3f1b97-dc6a-403e-8a02-7a04c2e96060" name="Door" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7d820285-6afa-4b9b-8366-c59cffaa16a4" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="abb4e18a-fec1-4671-90a8-f96169662c1c" name="Teleport" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b76ce98d-6ee3-4f46-8258-4a9e91602418" />
             </class>
           </packageHasNamedElement>
         </packagedElements>
@@ -429,11 +467,6 @@
       </referencedType>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <referencedType Id="30c29a96-ca39-429e-a3e3-42a87e4cb798" name="MAtrix" isAbstract="false" isLeaf="false" cachedFullName="MAtrix">
-        <elementDefinition Id="8a5a8dd1-65cd-4d40-b598-3a0db2102501" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
       <referencedType Id="ec731044-25e0-4629-99ac-ae519f13ec25" name="Vector2" isAbstract="false" isLeaf="false" cachedFullName="Vector2">
         <elementDefinition Id="6a0b9d2f-91be-459e-a175-657682564f3e" />
       </referencedType>
@@ -443,8 +476,27 @@
         <elementDefinition Id="192b7694-c6ab-4c82-970c-824f5f0cb4b9" />
       </referencedType>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="155e7031-d153-44cb-8ad0-ca68013db041" name="Matrix" isAbstract="false" isLeaf="false" cachedFullName="Matrix">
+        <elementDefinition Id="5b241f62-b2d1-4311-9772-59421495e42e" />
+      </referencedType>
+    </packageHasNamedElement>
   </packagedElements>
   <package Id="20aa345f-1cc7-4af8-a259-959b96c7cbb7" name="DuckModeling">
     <elementDefinition Id="cdf1cc86-88e5-4e62-bdc3-23fbaf3c041a" />
+    <profileInstances>
+      <packageHasProfileInstances Id="3c36e3bd-31a2-4a79-9ffa-3c18a526a486">
+        <profileInstance Id="f94d61dc-7946-4552-b322-47980c472666" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="a3bd8fde-94a8-4760-a516-76226d825bfc">
+        <profileInstance Id="080209e0-9f0f-43aa-b974-d95738b4e381" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>
