@@ -43,6 +43,9 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jitter">
+      <HintPath>..\..\JitterBinaries\Release\Jitter.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -109,10 +112,6 @@
     <Compile Include="Sound\Sound.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\dependencies\Jitter Physics 0.1.7.0\Jitter\Jitter.csproj">
-      <Project>{AA03EF1A-94F7-4D30-AB14-2092863FF923}</Project>
-      <Name>Jitter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DuckEngineContent\DuckEngineContent.contentproj">
       <Project>{06AB0E85-29DE-4C27-B3A2-51169DD6283F}</Project>
       <Name>DuckEngineContent</Name>
