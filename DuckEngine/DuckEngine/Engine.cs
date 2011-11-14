@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Jitter;
+using DuckEngine.Helpers;
+using Jitter.Collision;
 
 namespace DuckEngine
 {
@@ -23,11 +26,33 @@ namespace DuckEngine
         private List<IInput>  AllInput  = new List<IInput>();
         private List<ILogic>  AllLogic  = new List<ILogic>();
 
-        public Engine(Startup startup)
+        private DebugDrawer debugDrawer;
+
+        World world;
+        public World World { get { return world; } }
+        Camera camera;
+        public Camera Camera { get { return camera; } }
+        Helper3D helper3D;
+        public Helper3D Helper3D { get { return helper3D; } }
+
+        public bool multithread = true;
+        
+        public Engine()
         {
+            this.IsMouseVisible = true;
+            world = new World(new CollisionSystemSAP());
             graphics = new GraphicsDeviceManager(this);
+            debugDrawer = new DebugDrawer(this);
+            helper3D = new Helper3D(this);
+            camera = new Camera(this);
+            camera.Position = new Vector3(0, 3, 10);
+            Window.ClientSizeChanged += new EventHandler<System.EventArgs>(Window_ClientSizeChanged);
             Content.RootDirectory = "Content";
-            startup(this);
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            camera.WindowSizeChanged();
         }
 
         /// <summary>
@@ -38,8 +63,7 @@ namespace DuckEngine
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            camera.WindowSizeChanged();
             base.Initialize();
         }
 
@@ -51,8 +75,7 @@ namespace DuckEngine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            helper3D.LoadContent();
         }
 
         /// <summary>
@@ -78,12 +101,16 @@ namespace DuckEngine
             }
             foreach (IInput e in AllInput)
             {
-                e.Input();
+                e.Input(gameTime);
             }
             foreach (ILogic e in AllLogic)
             {
                 e.Update(gameTime);
             }
+
+            float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (step > 0.01f) step = 0.01f;
+            world.Step(step, multithread);
 
             base.Update(gameTime);
         }

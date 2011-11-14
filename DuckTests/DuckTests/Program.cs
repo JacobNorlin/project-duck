@@ -17,12 +17,7 @@ namespace DuckMain
             {
                 game.Run();
             }*/
-            Engine game = new Engine(
-                (engine) => {
-                    new World(engine);
-                }
-            );
-            game.Run();
+            Game game = new Game();
         }
     }
 #endif

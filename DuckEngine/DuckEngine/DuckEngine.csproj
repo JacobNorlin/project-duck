@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>ddc9d219-cb26-4f76-9bce-6f4baa20507f</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
   </PropertyGroup>
@@ -43,8 +43,9 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jitter">
-      <HintPath>..\..\JitterBinaries\Release\Jitter.dll</HintPath>
+    <Reference Include="Jitter, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\JitterBinaries\Debug\Jitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
@@ -95,6 +96,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DebugDrawer.cs" />
+    <Compile Include="Helpers\Conversion.cs" />
+    <Compile Include="Helpers\Helper3D.cs" />
+    <Compile Include="IDraw3D.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Managers\PhysicsManager.cs" />
@@ -102,7 +107,6 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="IDraw2D.cs" />
-    <Compile Include="IDraw3D.cs" />
     <Compile Include="IInput.cs" />
     <Compile Include="ILogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
