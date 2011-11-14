@@ -97,7 +97,6 @@
   <ItemGroup>
     <Compile Include="Box.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Ground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
