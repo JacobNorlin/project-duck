@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DuckEngine
+﻿namespace DuckEngine
 {
     public class Entity
     {
-        public Engine owner;
+        public readonly Engine owner;
         public Engine Owner
         {
             get { return owner; }
+        }
+
+        public Entity(Engine _owner)
+        {
+            owner = _owner;
         }
     }
 }

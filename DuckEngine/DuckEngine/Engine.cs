@@ -133,18 +133,15 @@ namespace DuckEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            Input.Update();
+            foreach (IInput entity in AllInput)
             {
-                this.Exit();
+                entity.Input(gameTime, Input);
             }
-            foreach (IInput e in AllInput)
+
+            foreach (ILogic entity in AllLogic)
             {
-                e.Input(gameTime);
-            }
-            foreach (ILogic e in AllLogic)
-            {
-                e.Update(gameTime);
+                entity.Update(gameTime);
             }
 
             float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -162,13 +159,14 @@ namespace DuckEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            foreach (IDraw3D e in AllDraw3D)
+            foreach (IDraw3D entity in AllDraw3D)
             {
-                e.Draw3D(gameTime);
+                entity.Draw3D(gameTime);
             }
-            foreach (IDraw2D e in AllDraw2D)
+
+            foreach (IDraw2D entity in AllDraw2D)
             {
-                e.Draw2D(gameTime);
+                entity.Draw2D(gameTime);
             }
             
             base.Draw(gameTime);

@@ -16,9 +16,10 @@ namespace DuckGame
         private RigidBody boxBody;
         public RigidBody Body { get { return boxBody; } }
 
-        public Box(Engine _owner, JVector size) {
-            owner = _owner;
-            owner.addDraw3D(this);
+        public Box(Engine _owner, JVector size)
+            : base(_owner)
+        {
+            Owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);
             boxBody = new RigidBody(boxShape);
             owner.World.AddBody(boxBody);

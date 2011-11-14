@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DuckEngine;
 using DuckEngine.Interfaces;
+using DuckEngine.Input;
 
 namespace DuckEngine
 {
@@ -27,29 +28,30 @@ namespace DuckEngine
         private float nearPlaneDistance = 0.01f;
         private float farPlaneDistance = 1000.0f;
 
-        private MouseState prevMouseState = new MouseState();
-
         /// <summary>
         /// Initializes new camera component.
         /// </summary>
         /// <param name="owner">Game to which attach this camera.</param>
         public Camera(Engine _owner)
+            : base(_owner)
         {
-            owner = _owner;
-            owner.addInput(this);
-            owner.addLogic(this);
+            Owner.addInput(this);
+            Owner.addLogic(this);
             UpdateProjection();
             CenterMouse();
         }
 
+        #region Properties
         /// <summary>
         /// Gets camera view matrix.
         /// </summary>
         public Matrix View { get { return view; } }
+
         /// <summary>
         /// Gets or sets camera projection matrix.
         /// </summary>
         public Matrix Projection { get { return projection; } set { projection = value; } }
+
         /// <summary>
         /// Gets camera view matrix multiplied by projection matrix.
         /// </summary>
@@ -64,14 +66,17 @@ namespace DuckEngine
         /// Gets or sets camera field of view.
         /// </summary>
         public float FieldOfView { get { return fieldOfView; } set { fieldOfView = value; UpdateProjection(); } }
+
         /// <summary>
         /// Gets or sets camera aspect ratio.
         /// </summary>
         public float AspectRatio { get { return aspectRatio; } set { aspectRatio = value; UpdateProjection(); } }
+
         /// <summary>
         /// Gets or sets camera near plane distance.
         /// </summary>
         public float NearPlaneDistance { get { return nearPlaneDistance; } set { nearPlaneDistance = value; UpdateProjection(); } }
+
         /// <summary>
         /// Gets or sets camera far plane distance.
         /// </summary>
@@ -101,29 +106,15 @@ namespace DuckEngine
                 angles.Y = -(float)Math.Asin(test.M13);
             }
         }
+        #endregion
 
         /// <summary>
-        /// Updates camera with input and updates view matrix.
+        /// Updates camera
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
-            UpdateView();
-        }
-
-        public void Input(GameTime gameTime)
-        {
-            double elapsedTime = (double)gameTime.ElapsedGameTime.Ticks / (double)TimeSpan.TicksPerSecond;
-            ProcessInput((float)elapsedTime * 10);
-        }
-
-        private void UpdateProjection()
-        {
-            projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance);
-        }
-
-        private void UpdateView()
-        {
+            //Update view
             Matrix cameraRotation = Matrix.CreateRotationX(angles.X) * Matrix.CreateRotationY(angles.Y);
             Vector3 targetPos = position + Vector3.Transform(Vector3.Forward, cameraRotation);
 
@@ -132,55 +123,58 @@ namespace DuckEngine
             view = Matrix.CreateLookAt(position, targetPos, upVector);
         }
 
-        private void ProcessInput(float amountOfMovement)
+        /// <summary>
+        /// Provides input to camera
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public void Input(GameTime gameTime, InputManager input)
         {
+            float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             Vector3 moveVector = new Vector3();
 
-            KeyboardState keys = Keyboard.GetState();
-            GamePadState buttons = GamePad.GetState(PlayerIndex.One);
+            //Move camera
+            if (input.CurrentKeyboardState.IsKeyDown(Keys.D) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadRight))
+                moveVector.X += 5f * movementFactor;
+            if (input.CurrentKeyboardState.IsKeyDown(Keys.A) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadLeft))
+                moveVector.X -= 5f * movementFactor;
+            if (input.CurrentKeyboardState.IsKeyDown(Keys.S) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadDown))
+                moveVector.Z += 5f * movementFactor;
+            if (input.CurrentKeyboardState.IsKeyDown(Keys.W) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadUp))
+                moveVector.Z -= 5f * movementFactor;
 
-            if (keys.IsKeyDown(Keys.D))
-                moveVector.X += amountOfMovement;
-            if (keys.IsKeyDown(Keys.A))
-                moveVector.X -= amountOfMovement;
-            if (keys.IsKeyDown(Keys.S))
-                moveVector.Z += amountOfMovement;
-            if (keys.IsKeyDown(Keys.W))
-                moveVector.Z -= amountOfMovement;
-
-            moveVector.Z += (buttons.DPad.Down == ButtonState.Pressed) ? amountOfMovement : 0.0f;
-            moveVector.X -= (buttons.DPad.Left == ButtonState.Pressed) ? amountOfMovement : 0.0f;
-            moveVector.Z -= (buttons.DPad.Up == ButtonState.Pressed) ? amountOfMovement : 0.0f;
-            moveVector.X += (buttons.DPad.Right == ButtonState.Pressed) ? amountOfMovement : 0.0f;
-
-            angles.Y -= buttons.ThumbSticks.Right.X * amountOfMovement * 0.05f;
-            angles.X += buttons.ThumbSticks.Right.Y * amountOfMovement * 0.05f;
+            //Rotate camera
+            angles.Y -= input.CurrentGamePadStates[0].ThumbSticks.Right.X * movementFactor * 1f;
+            angles.X += input.CurrentGamePadStates[0].ThumbSticks.Right.Y * movementFactor * 1f;
 
             Matrix cameraRotation = Matrix.CreateRotationX(angles.X) * Matrix.CreateRotationY(angles.Y);
             position += Vector3.Transform(moveVector, cameraRotation);
 
-            MouseState currentMouseState = Mouse.GetState();
-
-            if (currentMouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+            //Drag camera look at
+            if (input.CurrentMouseState.RightButton == ButtonState.Pressed && input.LastMouseState.RightButton == ButtonState.Released)
             {
                 Mouse.SetPosition(widthOver2, heightOver2);
             }
-            else if (currentMouseState.RightButton == ButtonState.Pressed)
+            else if (input.CurrentMouseState.RightButton == ButtonState.Pressed)
             {
-                if (currentMouseState.X != widthOver2)
-                    angles.Y -= amountOfMovement / 80.0f * (currentMouseState.X - widthOver2);
-                if (currentMouseState.Y != heightOver2)
-                    angles.X -= amountOfMovement / 80.0f * (currentMouseState.Y - heightOver2);
+                if (input.CurrentMouseState.X != widthOver2)
+                    angles.Y -= movementFactor * 0.05f * (input.CurrentMouseState.X - widthOver2);
+                if (input.CurrentMouseState.Y != heightOver2)
+                    angles.X -= movementFactor * 0.05f * (input.CurrentMouseState.Y - heightOver2);
 
                 Mouse.SetPosition(widthOver2, heightOver2);
             }
 
-            prevMouseState = currentMouseState;
-
+            //Constraints
             if (angles.X > 1.4) angles.X = 1.4f;
             if (angles.X < -1.4) angles.X = -1.4f;
             if (angles.Y > Math.PI) angles.Y -= 2 * (float)Math.PI;
             if (angles.Y < -Math.PI) angles.Y += 2 * (float)Math.PI;
+        }
+
+        private void UpdateProjection()
+        {
+            projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance);
         }
 
         internal void WindowSizeChanged()

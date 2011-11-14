@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
+using DuckEngine.Input;
 
 namespace DuckGame
 {
@@ -54,7 +55,7 @@ namespace DuckGame
             //if (gameTime.TotalGameTime.Seconds > 5) engine.Exit();
         }
 
-        public void Input(GameTime gameTime)
+        public void Input(GameTime gameTime, InputManager input)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Console.WriteLine("ESC down");
