@@ -6,7 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace DuckEngine.Network
 {
-    class NetworkManager
+    /// <summary>
+    /// Class responsible for network communications.
+    /// </summary>
+    public class NetworkManager
     {
         void Update(GameTime gameTime)
         {

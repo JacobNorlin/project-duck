@@ -8,6 +8,15 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Jitter;
+using DuckEngine.Helpers;
+using Jitter.Collision;
+using DuckEngine.Input;
+using DuckEngine.Network;
+using DuckEngine.Physics;
+using DuckEngine.Sound;
+using DuckEngine.Storage;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {
@@ -18,16 +27,71 @@ namespace DuckEngine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        #region Objects
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
         private List<IInput>  AllInput  = new List<IInput>();
         private List<ILogic>  AllLogic  = new List<ILogic>();
+        #endregion
 
-        public Engine(Startup startup)
+        private DebugDrawer debugDrawer;
+
+        //The physics world
+        World world;
+        public World World { get { return world; } }
+
+        //Camera to handle view/projection matrices
+        Camera camera;
+        public Camera Camera { get { return camera; } }
+
+        Helper3D helper3D;
+        public Helper3D Helper3D { get { return helper3D; } }
+
+        #region Managers
+        InputManager inputManager;
+        public InputManager Input { get { return inputManager; } }
+
+        NetworkManager networkManager;
+        public NetworkManager Network { get { return networkManager; } }
+
+        PhysicsManager physicsManager;
+        public PhysicsManager Physics { get { return physicsManager; } }
+
+        SoundManager soundManager;
+        public SoundManager Sound { get { return soundManager; } }
+
+        StorageManager storageManager;
+        public StorageManager Storage { get { return storageManager; } }
+        #endregion
+
+        public bool multithread = true;
+        
+        public Engine()
         {
+            this.IsMouseVisible = true;
+
+            world = new World(new CollisionSystemSAP());
             graphics = new GraphicsDeviceManager(this);
+            debugDrawer = new DebugDrawer(this);
+            helper3D = new Helper3D(this);
+
+            inputManager = new InputManager();
+            networkManager = new NetworkManager();
+            physicsManager = new PhysicsManager();
+            soundManager = new SoundManager();
+            storageManager = new StorageManager();
+
+            camera = new Camera(this);
+            camera.Position = new Vector3(0, 3, 10);
+
+            Window.ClientSizeChanged += new EventHandler<System.EventArgs>(Window_ClientSizeChanged);
             Content.RootDirectory = "Content";
-            startup(this);
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            camera.WindowSizeChanged();
         }
 
         /// <summary>
@@ -38,8 +102,7 @@ namespace DuckEngine
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            camera.WindowSizeChanged();
             base.Initialize();
         }
 
@@ -51,8 +114,7 @@ namespace DuckEngine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            helper3D.LoadContent();
         }
 
         /// <summary>
@@ -71,19 +133,20 @@ namespace DuckEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            Input.Update();
+            foreach (IInput entity in AllInput)
             {
-                this.Exit();
+                entity.Input(gameTime, Input);
             }
-            foreach (IInput e in AllInput)
+
+            foreach (ILogic entity in AllLogic)
             {
-                e.Input();
+                entity.Update(gameTime);
             }
-            foreach (ILogic e in AllLogic)
-            {
-                e.Update(gameTime);
-            }
+
+            float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (step > 0.01f) step = 0.01f;
+            world.Step(step, multithread);
 
             base.Update(gameTime);
         }
@@ -96,49 +159,91 @@ namespace DuckEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            foreach (IDraw3D e in AllDraw3D)
+            foreach (IDraw3D entity in AllDraw3D)
             {
-                e.Draw3D(gameTime);
+                entity.Draw3D(gameTime);
             }
-            foreach (IDraw2D e in AllDraw2D)
+
+            foreach (IDraw2D entity in AllDraw2D)
             {
-                e.Draw2D(gameTime);
+                entity.Draw2D(spriteBatch);
             }
             
             base.Draw(gameTime);
         }
 
+        #region Add & remove objects
+        /// <summary>
+        /// Add an object of type IDraw2D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addDraw2D(IDraw2D e)
         {
             AllDraw2D.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IDraw2D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeDraw2D(IDraw2D e)
         {
             AllDraw2D.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type IDraw3D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addDraw3D(IDraw3D e)
         {
             AllDraw3D.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IDraw3D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeDraw3D(IDraw3D e)
         {
             AllDraw3D.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type ILogic to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addLogic(ILogic e)
         {
             AllLogic.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type ILogic to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeLogic(ILogic e)
         {
             AllLogic.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type IInput to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addInput(IInput e)
         {
             AllInput.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IInput to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeInput(IInput e)
         {
             AllInput.Remove(e);
         }
+        #endregion
     }
 }

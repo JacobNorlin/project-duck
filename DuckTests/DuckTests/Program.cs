@@ -13,15 +13,7 @@ namespace DuckMain
         static void Main(string[] args)
         {
             //This is how everything used to be started
-            /* using (Engine game = new Engine())
-            {
-                game.Run();
-            }*/
-            Engine game = new Engine(
-                (engine) => {
-                    new World(engine);
-                }
-            );
+            Game game = new Game();
             game.Run();
         }
     }

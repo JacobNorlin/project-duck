@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckEngine.Physics
 {
-    class PhysicsManager
+    public class PhysicsManager
     {
         void AddBody()
         {
