@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Jitter.LinearMath;
-using Jitter.Collision.Shapes;
 using Jitter.Dynamics;
 using DuckEngine;
 using Microsoft.Xna.Framework;
@@ -14,7 +10,7 @@ using DuckEngine.Input;
 
 namespace DuckGame
 {
-    public class Game : ILogic, IInput
+    public class Game
     {
         private Engine engine;
         private RigidBody box1;
@@ -22,9 +18,11 @@ namespace DuckGame
         public Game() {
             engine = new Engine();
             setupEngine();
-            engine.addLogic(this);
-            engine.addInput(this);
             setupWorld();
+        }
+
+        public void Run()
+        {
             engine.Run();
         }
 
@@ -47,18 +45,6 @@ namespace DuckGame
                 MathHelper.PiOver4));
             Console.WriteLine(Conversion.ToXNAMatrix(box1.Orientation));
             box1.Tag = Color.Green;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            Console.WriteLine(box1.Position);
-            //if (gameTime.TotalGameTime.Seconds > 5) engine.Exit();
-        }
-
-        public void Input(GameTime gameTime, InputManager input)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Console.WriteLine("ESC down");
         }
     }
 }

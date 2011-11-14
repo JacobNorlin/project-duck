@@ -166,7 +166,7 @@ namespace DuckEngine
 
             foreach (IDraw2D entity in AllDraw2D)
             {
-                entity.Draw2D(gameTime);
+                entity.Draw2D(spriteBatch);
             }
             
             base.Draw(gameTime);

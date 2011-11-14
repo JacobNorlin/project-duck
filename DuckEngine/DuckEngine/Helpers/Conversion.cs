@@ -7,18 +7,37 @@ using Microsoft.Xna.Framework;
 
 namespace DuckEngine.Helpers
 {
+    /// <summary>
+    /// A class holding various converter functions.
+    /// </summary>
     public class Conversion
     {
+        /// <summary>
+        /// Converts a XNA Vector3 to a Jitter Jvector
+        /// </summary>
+        /// <param name="vector">The Vector3 object to convert</param>
+        /// <returns>The converted JVector</returns>
         public static JVector ToJitterVector(Vector3 vector)
         {
             return new JVector(vector.X, vector.Y, vector.Z);
         }
 
+        /// <summary>
+        /// Converts a Jitter JVector to a XNA Vector3
+        /// </summary>
+        /// <param name="vector">The JVector object to convert</param>
+        /// <returns>The converted Vector3</returns>
         public static Vector3 ToXNAVector(JVector vector)
         {
             return new Vector3(vector.X, vector.Y, vector.Z);
         }
 
+
+        /// <summary>
+        /// Converts a Jitter JMatrix to a XNA Matrix
+        /// </summary>
+        /// <param name="matrix">The Jmatrix to convert</param>
+        /// <returns>The converted XNA Matrix</returns>
         public static Matrix ToXNAMatrix(JMatrix matrix)
         {
             return new Matrix(matrix.M11,
@@ -35,6 +54,11 @@ namespace DuckEngine.Helpers
                             0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
         }
 
+        /// <summary>
+        /// Converts a XNA Matrix to a Jitter JMatrix
+        /// </summary>
+        /// <param name="matrix">The XNA Matrix to convert</param>
+        /// <returns>The converted Jmatrix</returns>
         public static JMatrix ToJitterMatrix(Matrix matrix)
         {
             JMatrix result;

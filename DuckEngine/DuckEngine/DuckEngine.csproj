@@ -111,7 +111,6 @@
     <Compile Include="Interfaces\ILogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\SoundManager.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="Managers\StorageManager.cs" />
     <Compile Include="Sound\Sound.cs" />
   </ItemGroup>
