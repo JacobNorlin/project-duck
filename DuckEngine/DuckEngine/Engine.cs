@@ -11,6 +11,12 @@ using Microsoft.Xna.Framework.Media;
 using Jitter;
 using DuckEngine.Helpers;
 using Jitter.Collision;
+using DuckEngine.Input;
+using DuckEngine.Network;
+using DuckEngine.Physics;
+using DuckEngine.Sound;
+using DuckEngine.Storage;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {
@@ -21,31 +27,64 @@ namespace DuckEngine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        #region Objects
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
         private List<IInput>  AllInput  = new List<IInput>();
         private List<ILogic>  AllLogic  = new List<ILogic>();
+        #endregion
 
         private DebugDrawer debugDrawer;
 
+        //The physics world
         World world;
         public World World { get { return world; } }
+
+        //Camera to handle view/projection matrices
         Camera camera;
         public Camera Camera { get { return camera; } }
+
         Helper3D helper3D;
         public Helper3D Helper3D { get { return helper3D; } }
+
+        #region Managers
+        InputManager inputManager;
+        public InputManager Input { get { return inputManager; } }
+
+        NetworkManager networkManager;
+        public NetworkManager Network { get { return networkManager; } }
+
+        PhysicsManager physicsManager;
+        public PhysicsManager Physics { get { return physicsManager; } }
+
+        SoundManager soundManager;
+        public SoundManager Sound { get { return soundManager; } }
+
+        StorageManager storageManager;
+        public StorageManager Storage { get { return storageManager; } }
+        #endregion
 
         public bool multithread = true;
         
         public Engine()
         {
             this.IsMouseVisible = true;
+
             world = new World(new CollisionSystemSAP());
             graphics = new GraphicsDeviceManager(this);
             debugDrawer = new DebugDrawer(this);
             helper3D = new Helper3D(this);
+
+            inputManager = new InputManager();
+            networkManager = new NetworkManager();
+            physicsManager = new PhysicsManager();
+            soundManager = new SoundManager();
+            storageManager = new StorageManager();
+
             camera = new Camera(this);
             camera.Position = new Vector3(0, 3, 10);
+
             Window.ClientSizeChanged += new EventHandler<System.EventArgs>(Window_ClientSizeChanged);
             Content.RootDirectory = "Content";
         }
@@ -135,37 +174,78 @@ namespace DuckEngine
             base.Draw(gameTime);
         }
 
+        #region Add & remove objects
+        /// <summary>
+        /// Add an object of type IDraw2D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addDraw2D(IDraw2D e)
         {
             AllDraw2D.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IDraw2D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeDraw2D(IDraw2D e)
         {
             AllDraw2D.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type IDraw3D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addDraw3D(IDraw3D e)
         {
             AllDraw3D.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IDraw3D to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeDraw3D(IDraw3D e)
         {
             AllDraw3D.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type ILogic to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addLogic(ILogic e)
         {
             AllLogic.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type ILogic to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeLogic(ILogic e)
         {
             AllLogic.Remove(e);
         }
+
+        /// <summary>
+        /// Add an object of type IInput to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
         public void addInput(IInput e)
         {
             AllInput.Add(e);
         }
+
+        /// <summary>
+        /// Remove an object of type IInput to the engine.
+        /// </summary>
+        /// <param name="e">The object to be removed</param>
         public void removeInput(IInput e)
         {
             AllInput.Remove(e);
         }
+        #endregion
     }
 }

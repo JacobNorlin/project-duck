@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckEngine.Storage
 {
-    class StorageManager
+    public class StorageManager
     {
 
     }

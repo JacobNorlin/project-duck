@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DuckEngine;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {

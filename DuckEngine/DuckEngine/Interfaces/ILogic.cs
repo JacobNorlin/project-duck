@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace DuckEngine.Network
+namespace DuckEngine.Interfaces
 {
-    public class NetworkManager
+    public interface ILogic
     {
-        void Update(GameTime gameTime)
-        {
-        }
+        void Update(GameTime gameTime);
     }
 }

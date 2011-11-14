@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckEngine.Input
 {
-    class InputManager
+    public class InputManager
     {
         PlayerIndex activePlayer;
 

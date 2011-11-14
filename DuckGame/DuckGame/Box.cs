@@ -7,6 +7,7 @@ using Jitter.Dynamics;
 using Jitter.Collision.Shapes;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
+using DuckEngine.Interfaces;
 
 namespace DuckGame
 {
@@ -15,7 +16,7 @@ namespace DuckGame
         private RigidBody boxBody;
         public RigidBody Body { get { return boxBody; } }
 
-        public Box(DuckEngine _owner, JVector size) {
+        public Box(Engine _owner, JVector size) {
             owner = _owner;
             owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);

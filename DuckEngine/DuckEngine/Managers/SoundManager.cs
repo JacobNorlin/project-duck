@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckEngine.Sound
 {
-    class SoundManager
+    public class SoundManager
     {
         void Play(string soundName)
         {
