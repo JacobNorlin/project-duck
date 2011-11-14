@@ -3,7 +3,7 @@
     /// <summary>
     /// A basic entity from which all entities inherit.
     /// </summary>
-    public class Entity
+    public abstract class Entity
     {
         public readonly Engine owner;
         public Engine Owner

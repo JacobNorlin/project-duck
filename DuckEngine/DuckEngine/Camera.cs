@@ -153,7 +153,7 @@ namespace DuckEngine
             //Drag camera look at
             if (input.CurrentMouseState.RightButton == ButtonState.Pressed && input.LastMouseState.RightButton == ButtonState.Released)
             {
-                Mouse.SetPosition(widthOver2, heightOver2);
+                CenterMouse();
             }
             else if (input.CurrentMouseState.RightButton == ButtonState.Pressed)
             {
@@ -162,7 +162,7 @@ namespace DuckEngine
                 if (input.CurrentMouseState.Y != heightOver2)
                     angles.X -= movementFactor * 0.05f * (input.CurrentMouseState.Y - heightOver2);
 
-                Mouse.SetPosition(widthOver2, heightOver2);
+                CenterMouse();
             }
 
             //Constraints

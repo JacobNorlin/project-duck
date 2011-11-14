@@ -10,7 +10,7 @@ using DuckEngine.Input;
 
 namespace DuckGame
 {
-    public class Game
+    public class Game : IInput
     {
         private Engine engine;
         private RigidBody box1;
@@ -19,6 +19,7 @@ namespace DuckGame
             engine = new Engine();
             setupEngine();
             setupWorld();
+            engine.addInput(this);
         }
 
         public void Run()
@@ -45,6 +46,16 @@ namespace DuckGame
                 MathHelper.PiOver4));
             Console.WriteLine(Conversion.ToXNAMatrix(box1.Orientation));
             box1.Tag = Color.Green;
+        }
+
+        public void Input(GameTime gameTime, InputManager input)
+        {
+            if (input.CurrentKeyboardState.IsKeyDown(Keys.R))
+            {
+                box1.LinearVelocity.Normalize();
+                box1.Position = new JVector(0, 4, 0);
+                box1.IsActive = true;
+            }
         }
     }
 }
