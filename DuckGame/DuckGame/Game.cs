@@ -14,11 +14,11 @@ namespace DuckGame
 {
     public class Game : ILogic, IInput
     {
-        private DuckEngine engine;
+        private Engine engine;
         private RigidBody box1;
 
         public Game() {
-            engine = new DuckEngine();
+            engine = new Engine();
             setupEngine();
             engine.addLogic(this);
             engine.addInput(this);
