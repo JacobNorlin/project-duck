@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {
@@ -25,12 +26,17 @@ namespace DuckEngine
         /// <param name="x">x-coordinate</param>
         /// <param name="y">y-coordinate</param>
         /// <param name="z">z-coordinate</param>
-        public void Fire(float x, float y, float z);
+        public void Fire(float x, float y, float z) { }
 
         /// <summary>
         /// Reloads the weapon.
         /// </summary>
-        public void Reload();
-        
+        public void Reload() { }
+
+
+        public void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

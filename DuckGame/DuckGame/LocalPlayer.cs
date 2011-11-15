@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckEngine
 {
-    class LocalPlayer : Player
+    class LocalPlayer// : Player
     {
 
     }

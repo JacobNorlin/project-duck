@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {
@@ -23,9 +24,9 @@ namespace DuckEngine
         protected float collisionSize;
         public float CollisionSize { get { return collisionSize; } }
 
-        public void Move();
+        public void Move() { }
 
-        public void onHit();
+        public void onHit() { }
 
         public void Update(Microsoft.Xna.Framework.GameTime a)
         {

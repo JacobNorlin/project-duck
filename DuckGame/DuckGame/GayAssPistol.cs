@@ -16,7 +16,7 @@ namespace DuckEngine
 
         public void fire(float x, float y, float z)
         {
-            Projectile p = new GayAssAmmo(owner.Position);
+            //Projectile p = new GayAssAmmo(owner.Position);
 
         }
      }
