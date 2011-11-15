@@ -34,8 +34,10 @@ namespace DuckEngine
         private List<IInput>  AllInput  = new List<IInput>();
         private List<ILogic>  AllLogic  = new List<ILogic>();
         #endregion
+        
 
-        private DebugDrawer debugDrawer;
+        DebugDrawer debugDrawer;
+        public DebugDrawer DebugDrawer { get { return debugDrawer; } }
 
         //The physics world
         World world;

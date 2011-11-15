@@ -27,6 +27,7 @@ namespace DuckEngine
         private float aspectRatio;
         private float nearPlaneDistance = 0.01f;
         private float farPlaneDistance = 1000.0f;
+        private bool moveEnabled;
 
         /// <summary>
         /// Initializes new camera component.
@@ -133,16 +134,18 @@ namespace DuckEngine
 
             Vector3 moveVector = new Vector3();
 
-            //Move camera
-            if (input.CurrentKeyboardState.IsKeyDown(Keys.D) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadRight))
-                moveVector.X += 5f * movementFactor;
-            if (input.CurrentKeyboardState.IsKeyDown(Keys.A) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadLeft))
-                moveVector.X -= 5f * movementFactor;
-            if (input.CurrentKeyboardState.IsKeyDown(Keys.S) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadDown))
-                moveVector.Z += 5f * movementFactor;
-            if (input.CurrentKeyboardState.IsKeyDown(Keys.W) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadUp))
-                moveVector.Z -= 5f * movementFactor;
-
+            moveEnabled ^= input.Keyboard_WasKeyPressed(Keys.Q);
+            if (moveEnabled) {
+                //Move camera
+                if (input.Keyboard_IsKeyDown(Keys.D) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadRight))
+                    moveVector.X += 5f * movementFactor;
+                if (input.Keyboard_IsKeyDown(Keys.A) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadLeft))
+                    moveVector.X -= 5f * movementFactor;
+                if (input.Keyboard_IsKeyDown(Keys.S) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadDown))
+                    moveVector.Z += 5f * movementFactor;
+                if (input.Keyboard_IsKeyDown(Keys.W) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadUp))
+                    moveVector.Z -= 5f * movementFactor;
+            }
             //Rotate camera
             angles.Y -= input.CurrentGamePadStates[0].ThumbSticks.Right.X * movementFactor * 1f;
             angles.X += input.CurrentGamePadStates[0].ThumbSticks.Right.Y * movementFactor * 1f;
@@ -181,7 +184,6 @@ namespace DuckEngine
         {
             widthOver2 = owner.Window.ClientBounds.Width / 2;
             heightOver2 = owner.Window.ClientBounds.Height / 2;
-            Console.WriteLine(owner.Window.ClientBounds);
             aspectRatio = (float)owner.Window.ClientBounds.Width / (float)owner.Window.ClientBounds.Height;
             UpdateProjection();
         }

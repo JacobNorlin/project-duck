@@ -44,13 +44,16 @@ namespace DuckGame
                 MathHelper.PiOver4,
                 MathHelper.PiOver4,
                 MathHelper.PiOver4));
-            Console.WriteLine(Conversion.ToXNAMatrix(box1.Orientation));
             box1.Tag = Color.Green;
+
+            Player player = new Player(engine);
+            player.Body.Position = new JVector(3, 3, 3);
+            player.Body.Tag = Color.Bisque;
         }
 
         public void Input(GameTime gameTime, InputManager input)
         {
-            if (input.CurrentKeyboardState.IsKeyDown(Keys.R))
+            if (input.Keyboard_IsKeyDown(Keys.R))
             {
                 box1.LinearVelocity.Normalize();
                 box1.Position = new JVector(0, 4, 0);

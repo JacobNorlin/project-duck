@@ -19,11 +19,31 @@ namespace DuckEngine.Input
         MouseState lastMouseState;
         public MouseState LastMouseState { get { return lastMouseState; } }
 
-        KeyboardState currentKeyboardState;
-        public KeyboardState CurrentKeyboardState { get { return currentKeyboardState; } }
         KeyboardState lastKeyboardState;
-        public KeyboardState LastKeyboardState {  get { return lastKeyboardState; } }
-
+        KeyboardState currentKeyboardState;
+        #region Keyboard getters
+                //Actually I'd like to name these methods
+                //  Keyboard.Is_____() but I don't know how to do it nicely //Björn
+        public bool Keyboard_IsKeyDown(Keys key)
+        {
+            return currentKeyboardState.IsKeyDown(key);
+        }
+        public bool Keyboard_IsKeyUp(Keys key)
+        {
+            return currentKeyboardState.IsKeyUp(key);
+        }
+        public bool Keyboard_WasKeyPressed(Keys key)
+        {
+            return currentKeyboardState.IsKeyDown(key) &
+                      lastKeyboardState.IsKeyUp(key);
+        }
+        public bool Keyboard_WasKeyReleased(Keys key)
+        {
+            return currentKeyboardState.IsKeyUp(key) &
+                      lastKeyboardState.IsKeyDown(key);
+        }
+        #endregion
+        
         GamePadState[] lastGamePadStates = new GamePadState[4];
         public GamePadState[] LastGamePadStates { get { return lastGamePadStates; } }
         GamePadState[] currentGamePadStates = new GamePadState[4];
