@@ -8,32 +8,26 @@ using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
 using DuckEngine.Input;
 using DuckGame.Maps;
+using DuckEngine;
 
 namespace DuckGame
 {
-    public class Game : IInput
+    public class Game : StartupObject, IInput
     {
-        Engine engine;
-        Map map;
-        RigidBody box1;
-
-        public Game() {
-            engine = new Engine();
-            engine.Window.AllowUserResizing = true;
-
-            map = new TestMap1(engine);
-
-            engine.addInput(this);
+        public override void Initialize(Engine Owner)
+        {
+            Owner.Window.AllowUserResizing = true;
+            Owner.addInput(this);
         }
 
-        public void Run()
+        public override void LoadContent(Engine Owner)
         {
-            engine.Run();
+            new TestMap1(Owner);
         }
 
         public void Input(GameTime gameTime, InputManager input)
         {
-            
+
         }
     }
 }

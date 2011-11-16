@@ -29,6 +29,7 @@ namespace DuckEngine
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        StartupObject startup;
 
         #region Objects
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
@@ -71,9 +72,11 @@ namespace DuckEngine
 
         public bool multithread = true;
         
-        public Engine()
+        public Engine(StartupObject _startup)
         {
             this.IsMouseVisible = true;
+
+            startup = _startup;
 
             world = new World(new CollisionSystemSAP());
             world.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
@@ -108,6 +111,7 @@ namespace DuckEngine
         protected override void Initialize()
         {
             camera.WindowSizeChanged();
+            startup.Initialize(this);
             base.Initialize();
         }
 
@@ -120,6 +124,7 @@ namespace DuckEngine
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             helper3D.LoadContent();
+            startup.LoadContent(this);
         }
 
         /// <summary>

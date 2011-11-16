@@ -114,6 +114,7 @@
     <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Managers\StorageManager.cs" />
     <Compile Include="Sound\Sound.cs" />
+    <Compile Include="StartupObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DuckEngineContent\DuckEngineContent.contentproj">

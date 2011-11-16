@@ -54,5 +54,26 @@ namespace DuckEngine.Helpers
             }
             mesh.Draw();
         }
+
+        public void DrawVertices(Effect effect, VertexPositionColor[] vertices, int[] indices)
+        {
+            RasterizerState rs = new RasterizerState();
+            rs.CullMode = CullMode.None;
+            rs.FillMode = FillMode.WireFrame;
+            engine.GraphicsDevice.RasterizerState = rs;
+
+            effect.CurrentTechnique = effect.Techniques["ColoredNoShading"];
+            effect.Parameters["xView"].SetValue(engine.Camera.View);
+            effect.Parameters["xProjection"].SetValue(engine.Camera.Projection);
+            Matrix worldMatrix = Matrix.Identity;
+            effect.Parameters["xWorld"].SetValue(worldMatrix);
+
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                engine.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, indices, 0, indices.Length / 3, VertexPositionColor.VertexDeclaration);
+            }
+        }
     }
 }

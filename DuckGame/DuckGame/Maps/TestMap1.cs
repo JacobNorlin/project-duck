@@ -11,6 +11,7 @@ using DuckEngine.Interfaces;
 using Microsoft.Xna.Framework.Input;
 using DuckGame.Players;
 using DuckGame.Pickups;
+using DuckEngine.Maps;
 
 namespace DuckGame.Maps
 {
@@ -39,6 +40,9 @@ namespace DuckGame.Maps
 
             //Pickup
             Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));
+
+            //Map
+            Terrain terrain = new Terrain(Owner);
         }
 
         public void Input(GameTime gameTime, DuckEngine.Input.InputManager input)
