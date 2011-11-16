@@ -13,6 +13,7 @@ namespace DuckEngine.Helpers
     {
         private Engine engine;
         Model boxModel;
+        Effect effect;
 
         public Helper3D(Engine _engine)
         {
@@ -22,6 +23,7 @@ namespace DuckEngine.Helpers
         public void LoadContent()
         {
             boxModel = engine.Content.Load<Model>("PrimitiveModels/box");
+            effect = engine.Content.Load<Effect>("Effects/effects");
         }
 
         public void DrawBoxBody(RigidBody body, Color color)
@@ -55,7 +57,7 @@ namespace DuckEngine.Helpers
             mesh.Draw();
         }
 
-        public void DrawVertices(Effect effect, VertexPositionColor[] vertices, int[] indices)
+        public void DrawVertices(VertexBuffer vertices, IndexBuffer indices)
         {
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.None;
@@ -72,7 +74,9 @@ namespace DuckEngine.Helpers
             {
                 pass.Apply();
 
-                engine.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, indices, 0, indices.Length / 3, VertexPositionColor.VertexDeclaration);
+                engine.GraphicsDevice.Indices = indices;
+                engine.GraphicsDevice.SetVertexBuffer(vertices);
+                engine.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.VertexCount, 0, indices.IndexCount / 3);
             }
         }
     }

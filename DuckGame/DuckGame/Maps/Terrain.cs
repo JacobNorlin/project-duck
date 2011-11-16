@@ -15,49 +15,69 @@ namespace DuckEngine.Maps
         int terrainWidth;
         int terrainHeight;
         float[,] heightData;
-        BasicEffect basicEffect;
 
-        VertexPositionColor[] vertices;
-        int[] indices;
+        VertexBuffer vertexBuffer;
+        IndexBuffer indexBuffer;
 
         public Terrain(Engine _owner)
             : base(_owner)
         {
-            terrainWidth = 1;
-            terrainHeight = 1;
-            heightData = new float[,] { 
-                {1f, 1f, 1f},
-                {1f, 2f, 1f},
-                {1f, 1f, 1f}
-            };
-            Shape terrainShape = new TerrainShape(heightData, terrainWidth, terrainHeight);
-            RigidBody terrainBody = new RigidBody(terrainShape);
-            basicEffect = new BasicEffect(Owner.GraphicsDevice);
+            Owner.addDraw3D(this);
 
-        }
+            //Load heightmap
+            Texture2D heightmap = Owner.Content.Load<Texture2D>("Terrain/heightmap");
+            terrainWidth = heightmap.Width;
+            terrainHeight = heightmap.Height;
 
-        public void Draw3D(GameTime gameTime)
-        {
-            Owner.Helper3D.DrawVertices(basicEffect, vertices, indices);
-            //throw new NotImplementedException();
-        }
+            //Get colors (heights)
+            heightData = new float[terrainWidth, terrainHeight];
+            Color[] heightMapColors = new Color[terrainWidth * terrainHeight];
+            heightmap.GetData<Color>(heightMapColors);
 
-        private void SetUpVertices()
-        {
-            vertices = new VertexPositionColor[terrainWidth * terrainHeight];
+            //Create height data for physics engine
             for (int x = 0; x < terrainWidth; x++)
             {
                 for (int y = 0; y < terrainHeight; y++)
                 {
-                    vertices[x + y * terrainWidth].Position = new Vector3(x, heightData[x, y], -y);
+                    heightData[x, y] = (heightMapColors[x + y * terrainWidth].R - 128f) / 5.0f;
+                }
+            }
+
+            //Create body & shape
+            Shape terrainShape = new TerrainShape(heightData, 1f, 1f);
+            RigidBody terrainBody = new RigidBody(terrainShape);
+            terrainBody.IsStatic = true;
+            Owner.World.AddBody(terrainBody);
+
+            //Create vertices and indices for rendering
+            SetUpVertices();
+            SetUpIndices();
+        }
+
+        public void Draw3D(GameTime gameTime)
+        {
+            Owner.Helper3D.DrawVertices(vertexBuffer, indexBuffer);
+        }
+
+        private void SetUpVertices()
+        {
+            VertexPositionColor[] vertices = new VertexPositionColor[terrainWidth * terrainHeight];
+            for (int x = 0; x < terrainWidth; x++)
+            {
+                for (int y = 0; y < terrainHeight; y++)
+                {
+                    vertices[x + y * terrainWidth].Position = new Vector3(x, heightData[x, y], y);
                     vertices[x + y * terrainWidth].Color = Color.White;
                 }
             }
+
+            vertexBuffer = new VertexBuffer(Owner.GraphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            vertexBuffer.SetData<VertexPositionColor>(vertices);
         }
 
         private void SetUpIndices()
         {
-            indices = new int[(terrainWidth - 1) * (terrainHeight - 1) * 6];
+            int[] indices = new int[(terrainWidth - 1) * (terrainHeight - 1) * 6];
             int counter = 0;
             for (int y = 0; y < terrainHeight - 1; y++)
             {
@@ -77,6 +97,9 @@ namespace DuckEngine.Maps
                     indices[counter++] = lowerRight;
                 }
             }
+
+            indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(int), indices.Length, BufferUsage.WriteOnly);
+            indexBuffer.SetData(indices);
         }
     }
 }
