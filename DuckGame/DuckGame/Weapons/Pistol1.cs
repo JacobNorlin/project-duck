@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DuckEngine;
+using DuckGame.Players;
 
-namespace DuckEngine
+namespace DuckGame.Weapons
 {
     class Pistol1 : Weapon
     {

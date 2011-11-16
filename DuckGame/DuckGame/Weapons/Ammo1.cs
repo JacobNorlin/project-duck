@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using DuckEngine;
 
-namespace DuckEngine
+namespace DuckGame.Weapons
 {
     class Ammo1 : Projectile
     {

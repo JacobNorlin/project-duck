@@ -8,8 +8,9 @@ using DuckEngine.Input;
 using Microsoft.Xna.Framework.Input;
 using Jitter.LinearMath;
 using DuckEngine.Helpers;
+using DuckEngine;
 
-namespace DuckEngine
+namespace DuckGame.Players
 {
     class LocalPlayer : Player, IInput
     {
