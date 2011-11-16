@@ -1,0 +1,8 @@
+Q		Toggle camera movement enabled
+WASD	Camera move
+Mouse2	Rotate camera with mouse
+
+Arrows	Player move
+Space	Player jump
+
+R		Respawn green cube
