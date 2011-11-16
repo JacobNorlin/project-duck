@@ -5,11 +5,12 @@ using System.Text;
 
 namespace DuckEngine
 {
-    class GayAssPistol : Weapon
+    class Pistol1 : Weapon
     {
-        public GayAssPistol(Player _owner, string _description, float _reloadTime)
+        public Pistol1(Engine _owner, Player _holder, string _description, float _reloadTime)
+            : base(_owner)
         {
-            owner = _owner;
+            holder = _holder;
             description = _description;
             reloadTime = _reloadTime;
         }

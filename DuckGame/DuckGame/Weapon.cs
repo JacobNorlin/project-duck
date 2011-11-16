@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DuckEngine.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace DuckEngine
 {
     /// <summary>
     /// Abstract for a weapon, contains all fields and methods each weapon must employ.
     /// </summary>
-    abstract class Weapon : ILogic
+    abstract class Weapon : Entity, ILogic
     {
-        protected Player owner;
-        public Player Owner { get { return owner; } }
+        protected Player holder;
+        public Player Holder { get { return holder; } }
 
         protected String description;
         public String Description { get { return description; } }
@@ -20,13 +21,17 @@ namespace DuckEngine
         protected float reloadTime;
         public float ReloadTime { get { return reloadTime; } }
 
+        public Weapon(Engine _owner)
+            : base(_owner)
+        {
+
+        }
+
         /// <summary>
-        /// Will fire the weapon towards the given coordinates x, y and z.
+        /// Will fire the weapon towards the given coordinates Vector3.
         /// </summary>
-        /// <param name="x">x-coordinate</param>
-        /// <param name="y">y-coordinate</param>
-        /// <param name="z">z-coordinate</param>
-        public void Fire(float x, float y, float z) { }
+        /// <param name="target">Target</param>
+        public virtual void Fire(Vector3 target) { }
 
         /// <summary>
         /// Reloads the weapon.

@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class Entity
     {
-        public readonly Engine owner;
+        readonly Engine owner;
         public Engine Owner
         {
             get { return owner; }

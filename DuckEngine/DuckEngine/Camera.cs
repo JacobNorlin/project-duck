@@ -182,9 +182,9 @@ namespace DuckEngine
 
         internal void WindowSizeChanged()
         {
-            widthOver2 = owner.Window.ClientBounds.Width / 2;
-            heightOver2 = owner.Window.ClientBounds.Height / 2;
-            aspectRatio = (float)owner.Window.ClientBounds.Width / (float)owner.Window.ClientBounds.Height;
+            widthOver2 = Owner.Window.ClientBounds.Width / 2;
+            heightOver2 = Owner.Window.ClientBounds.Height / 2;
+            aspectRatio = (float)Owner.Window.ClientBounds.Width / (float)Owner.Window.ClientBounds.Height;
             UpdateProjection();
         }
 

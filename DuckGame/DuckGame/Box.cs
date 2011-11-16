@@ -19,20 +19,20 @@ namespace DuckGame
         public Box(Engine _owner, JVector size)
             : base(_owner)
         {
-            owner.addDraw3D(this);
+            Owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);
             boxBody = new RigidBody(boxShape);
-            owner.World.AddBody(boxBody);
+            Owner.World.AddBody(boxBody);
         }
         ~Box()
         {
-            owner.removeDraw3D(this);
-            owner.World.RemoveBody(boxBody);
+            Owner.removeDraw3D(this);
+            Owner.World.RemoveBody(boxBody);
         }
 
         public void Draw3D(GameTime gameTime)
         {
-            owner.Helper3D.DrawBoxBody(boxBody);
+            Owner.Helper3D.DrawBoxBody(boxBody);
         }
     }
 }
