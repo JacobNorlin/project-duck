@@ -22,6 +22,7 @@ namespace DuckGame
             Owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
+            body.Tag = this;
             Owner.World.AddBody(body);
         }
 
@@ -33,7 +34,7 @@ namespace DuckGame
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body);
+            Owner.Helper3D.DrawBoxBody(Body, Color.Green);
         }
     }
 }

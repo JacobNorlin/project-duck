@@ -24,7 +24,7 @@ namespace DuckEngine.Helpers
             boxModel = engine.Content.Load<Model>("PrimitiveModels/box");
         }
 
-        public void DrawBoxBody(RigidBody body)
+        public void DrawBoxBody(RigidBody body, Color color)
         {
             // We know that the shape is a boxShape
             BoxShape shape = body.Shape as BoxShape;
@@ -45,7 +45,7 @@ namespace DuckEngine.Helpers
 
             foreach (BasicEffect effect in mesh.Effects)
             {
-                effect.DiffuseColor = ((Color)body.Tag).ToVector3();
+                effect.DiffuseColor = color.ToVector3();
                 effect.EnableDefaultLighting();
                 effect.World = scaleMatrix * matrix;
 

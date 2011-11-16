@@ -17,6 +17,8 @@ using DuckEngine.Physics;
 using DuckEngine.Sound;
 using DuckEngine.Storage;
 using DuckEngine.Interfaces;
+using Jitter.Dynamics;
+using Jitter.LinearMath;
 
 namespace DuckEngine
 {
@@ -74,6 +76,7 @@ namespace DuckEngine
             this.IsMouseVisible = true;
 
             world = new World(new CollisionSystemSAP());
+            world.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
             graphics = new GraphicsDeviceManager(this);
             debugDrawer = new DebugDrawer(this);
             helper3D = new Helper3D(this);
@@ -172,6 +175,23 @@ namespace DuckEngine
             }
             
             base.Draw(gameTime);
+
+        }
+
+        private void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, float penetration)
+        {
+            if (body1.Tag != null && body2.Tag != null)
+            {
+                if (body1.Tag is ICollide)
+                {
+                    ((ICollide)body1.Tag).Collide((Entity)body2.Tag);
+                }
+
+                if (body2.Tag is ICollide)
+                {
+                    ((ICollide)body2.Tag).Collide((Entity)body1.Tag);
+                }
+            }
         }
 
         #region Add & remove objects

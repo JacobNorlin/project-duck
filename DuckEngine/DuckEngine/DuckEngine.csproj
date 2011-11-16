@@ -99,6 +99,7 @@
     <Compile Include="Helpers\DebugDrawer.cs" />
     <Compile Include="Helpers\Conversion.cs" />
     <Compile Include="Helpers\Helper3D.cs" />
+    <Compile Include="Interfaces\ICollide.cs" />
     <Compile Include="Interfaces\IDraw3D.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />

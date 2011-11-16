@@ -12,6 +12,7 @@ using Jitter.LinearMath;
 using Jitter.Dynamics.Constraints;
 using DuckEngine;
 using DuckGame.Weapons;
+using DuckEngine.Helpers;
 
 namespace DuckGame.Players
 {
@@ -28,7 +29,7 @@ namespace DuckGame.Players
         private List<Weapon> weapons = new List<Weapon>();
         public List<Weapon> Weapons { get { return weapons; } }
 
-        public Player(Engine _owner)
+        public Player(Engine _owner, Vector3 position)
             : base(_owner)
         {
             //Add to engine
@@ -37,7 +38,9 @@ namespace DuckGame.Players
             //Create body and add to physics engine
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
+            body.Position = Conversion.ToJitterVector(position);
             body.AllowDeactivation = false;
+            body.Tag = this;
             Owner.World.AddBody(body);
 
             //Players can't fall
@@ -59,7 +62,7 @@ namespace DuckGame.Players
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body);
+            Owner.Helper3D.DrawBoxBody(Body, Color.Blue);
         }
     }
 }

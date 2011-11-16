@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Box.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Maps\Terrain.cs" />
     <Compile Include="Weapons\Ammo1.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Pickups\Pickup.cs" />

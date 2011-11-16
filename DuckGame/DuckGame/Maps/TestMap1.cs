@@ -10,6 +10,7 @@ using DuckEngine;
 using DuckEngine.Interfaces;
 using Microsoft.Xna.Framework.Input;
 using DuckGame.Players;
+using DuckGame.Pickups;
 
 namespace DuckGame.Maps
 {
@@ -23,7 +24,6 @@ namespace DuckGame.Maps
             //Ground
             RigidBody ground = new Box(Owner, new JVector(10, 1, 10)).Body;
             ground.IsStatic = true;
-            ground.Tag = Color.LightGreen;
 
             //Falling box
             box1 = new Box(Owner, JVector.One).Body;
@@ -33,12 +33,12 @@ namespace DuckGame.Maps
                 MathHelper.PiOver4,
                 MathHelper.PiOver4,
                 MathHelper.PiOver4));
-            box1.Tag = Color.Green;
 
             //Player
-            Player player = new LocalPlayer(Owner);
-            player.Body.Position = new JVector(3f, 3f, 3f);
-            player.Body.Tag = Color.Bisque;
+            Player player = new LocalPlayer(Owner, new Vector3(3f, 3f, 3f));
+
+            //Pickup
+            Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));
         }
 
         public void Input(GameTime gameTime, DuckEngine.Input.InputManager input)
