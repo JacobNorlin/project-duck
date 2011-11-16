@@ -13,7 +13,7 @@ using DuckGame.Players;
 
 namespace DuckGame.Pickups
 {
-    class Pickup : Entity, IDraw3D, ICollide
+    class Pickup : Entity, ILogic, IDraw3D, ICollide
     {
         private RigidBody body;
         public RigidBody Body { get { return body; } }
@@ -22,12 +22,13 @@ namespace DuckGame.Pickups
             : base(_owner)
         {
             Owner.addDraw3D(this);
+            Owner.addLogic(this);
             Shape boxShape = new BoxShape(1f, .5f, .5f);
             body = new RigidBody(boxShape);
             body.AffectedByGravity = false;
-            body.AddTorque(new JVector(0f, 10f, 0f));
             body.Position = Conversion.ToJitterVector(position);
             body.Tag = this;
+            
             Owner.World.AddBody(body);
         }
 
@@ -49,6 +50,21 @@ namespace DuckGame.Pickups
                 Owner.removeDraw3D(this);
                 Owner.World.RemoveBody(body);
             }
+        }
+
+        public bool BroadPhaseFilter(Entity other)
+        {
+            if (other is Player)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            body.AngularVelocity = new JVector(0f, 5f, 0f);
         }
     }
 }

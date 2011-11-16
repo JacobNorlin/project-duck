@@ -13,7 +13,6 @@ namespace DuckEngine.Helpers
     {
         private Engine engine;
         Model boxModel;
-        Effect effect;
         BasicEffect basicEffect;
 
         public Helper3D(Engine _engine)
@@ -24,7 +23,6 @@ namespace DuckEngine.Helpers
         public void LoadContent()
         {
             boxModel = engine.Content.Load<Model>("PrimitiveModels/box");
-            effect = engine.Content.Load<Effect>("Effects/effects");
             basicEffect = new BasicEffect(engine.GraphicsDevice);
             basicEffect.VertexColorEnabled = true;
         }
@@ -62,6 +60,7 @@ namespace DuckEngine.Helpers
 
         public void DrawVertices(VertexBuffer vertices, IndexBuffer indices, Matrix worldMatrix)
         {
+            RasterizerState oldState = engine.GraphicsDevice.RasterizerState;
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.CullClockwiseFace;
             //rs.FillMode = FillMode.WireFrame;
@@ -71,11 +70,6 @@ namespace DuckEngine.Helpers
             basicEffect.View = engine.Camera.View;
             basicEffect.Projection = engine.Camera.Projection;
 
-            /*effect.CurrentTechnique = effect.Techniques["ColoredNoShading"];
-            effect.Parameters["xView"].SetValue(engine.Camera.View);
-            effect.Parameters["xProjection"].SetValue(engine.Camera.Projection);
-            effect.Parameters["xWorld"].SetValue(worldMatrix);*/
-
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
@@ -84,6 +78,8 @@ namespace DuckEngine.Helpers
                 engine.GraphicsDevice.SetVertexBuffer(vertices);
                 engine.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.VertexCount, 0, indices.IndexCount / 3);
             }
+
+            engine.GraphicsDevice.RasterizerState = oldState;
         }
     }
 }

@@ -80,6 +80,7 @@ namespace DuckEngine
 
             world = new World(new CollisionSystemSAP());
             world.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
+            world.CollisionSystem.PassedBroadphase += new PassedBroadphaseHandler(PassedBroadphase);
             graphics = new GraphicsDeviceManager(this);
             debugDrawer = new DebugDrawer(this);
             helper3D = new Helper3D(this);
@@ -183,7 +184,7 @@ namespace DuckEngine
 
         }
 
-        private void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, float penetration)
+        void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, float penetration)
         {
             if (body1.Tag != null && body2.Tag != null)
             {
@@ -197,6 +198,33 @@ namespace DuckEngine
                     ((ICollide)body2.Tag).Collide((Entity)body1.Tag);
                 }
             }
+        }
+
+        bool PassedBroadphase(IBroadphaseEntity entity1, IBroadphaseEntity entity2)
+        {
+            RigidBody body1 = (RigidBody)entity1;
+            RigidBody body2 = (RigidBody)entity2;
+            if (entity1 is RigidBody && entity2 is RigidBody)
+            {
+                if (body1.Tag != null && body2.Tag != null)
+                {
+                    bool filter1 = true;
+                    bool filter2 = true;
+                    if (body1.Tag is ICollide)
+                    {
+                        filter1 = ((ICollide)body1.Tag).BroadPhaseFilter((Entity)body2.Tag);
+                    }
+
+                    if (body2.Tag is ICollide)
+                    {
+                        filter2 = ((ICollide)body2.Tag).BroadPhaseFilter((Entity)body1.Tag);
+                    }
+
+                    return (filter1 && filter2);
+                }
+            }
+
+            return true;
         }
 
         #region Add & remove objects

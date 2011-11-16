@@ -22,7 +22,7 @@ namespace DuckGame.Maps
         public TestMap1(Engine _owner)
             : base(_owner)
         {
-            /*//Ground
+            //Ground
             RigidBody ground = new Box(Owner, new JVector(10, 1, 10)).Body;
             ground.IsStatic = true;
 
@@ -38,8 +38,8 @@ namespace DuckGame.Maps
             //Player*/
             Player player = new LocalPlayer(Owner, new Vector3(3f, 3f, 3f));
 
-            /*//Pickup
-            Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));*/
+            //Pickup
+            Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));
 
             //Map
             Terrain terrain = new Terrain(Owner, "heightmap");
