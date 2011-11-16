@@ -32,13 +32,15 @@ namespace DuckEngine
             //Add to engine
             Owner.addDraw3D(this);
             
-            //Physics
+            //Create body and add to physics engine
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
+            body.AllowDeactivation = false;
             Owner.World.AddBody(body);
+
+            //Players can't fall
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
             Owner.World.AddConstraint(upright);
-            body.AllowDeactivation = false;
         }
 
         ~Player()
@@ -55,7 +57,7 @@ namespace DuckEngine
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(body);
+            Owner.Helper3D.DrawBoxBody(Body);
         }
     }
 }

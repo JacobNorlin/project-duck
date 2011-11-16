@@ -13,26 +13,27 @@ namespace DuckGame
 {
     class Box : Entity, IDraw3D
     {
-        private RigidBody boxBody;
-        public RigidBody Body { get { return boxBody; } }
+        private RigidBody body;
+        public RigidBody Body { get { return body; } }
 
         public Box(Engine _owner, JVector size)
             : base(_owner)
         {
             Owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);
-            boxBody = new RigidBody(boxShape);
-            Owner.World.AddBody(boxBody);
+            body = new RigidBody(boxShape);
+            Owner.World.AddBody(body);
         }
+
         ~Box()
         {
             Owner.removeDraw3D(this);
-            Owner.World.RemoveBody(boxBody);
+            Owner.World.RemoveBody(body);
         }
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(boxBody);
+            Owner.Helper3D.DrawBoxBody(Body);
         }
     }
 }

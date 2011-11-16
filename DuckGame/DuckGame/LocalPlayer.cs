@@ -7,11 +7,15 @@ using Microsoft.Xna.Framework;
 using DuckEngine.Input;
 using Microsoft.Xna.Framework.Input;
 using Jitter.LinearMath;
+using DuckEngine.Helpers;
 
 namespace DuckEngine
 {
     class LocalPlayer : Player, IInput
     {
+        const float MOVEMENT_SPEED = 5f;
+        const float JUMP_SPEED = 15f;
+
         public LocalPlayer(Engine _owner)
             : base(_owner)
         {
@@ -22,19 +26,22 @@ namespace DuckEngine
         {
             //Movement
             Vector3 movement = Vector3.Zero;
-            if (input.Keyboard_IsKeyDown(Keys.Up)) { movement.Z += 1; }
-            if (input.Keyboard_IsKeyDown(Keys.Down)) { movement.Z -= 1; }
+            if (input.Keyboard_IsKeyDown(Keys.Up)) { movement.Z -= 1; }
+            if (input.Keyboard_IsKeyDown(Keys.Down)) { movement.Z += 1; }
             if (input.Keyboard_IsKeyDown(Keys.Left)) { movement.X -= 1; }
             if (input.Keyboard_IsKeyDown(Keys.Right)) { movement.X += 1; }
-            movement.Normalize();
 
-            //Physics
-            body.LinearVelocity = new JVector(movement.X * 5, body.LinearVelocity.Y, movement.Z * 5);
+            //Apply movement
+            if (movement.Length() > 0)
+            {
+                movement.Normalize();
+                body.Position += Conversion.ToJitterVector(MOVEMENT_SPEED * movement * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            }
             
             //Jump
             if (input.Keyboard_WasKeyPressed(Keys.Space))
             {
-                body.LinearVelocity += new JVector(0, 10, 0);
+                body.ApplyImpulse(JVector.Up * JUMP_SPEED);
             }
         }
 
