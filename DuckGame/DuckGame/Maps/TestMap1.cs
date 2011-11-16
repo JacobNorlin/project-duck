@@ -42,7 +42,7 @@ namespace DuckGame.Maps
             Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));*/
 
             //Map
-            Terrain terrain = new Terrain(Owner);
+            Terrain terrain = new Terrain(Owner, "heightmap");
         }
 
         public void Input(GameTime gameTime, DuckEngine.Input.InputManager input)

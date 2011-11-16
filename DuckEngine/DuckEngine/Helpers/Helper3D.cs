@@ -14,6 +14,7 @@ namespace DuckEngine.Helpers
         private Engine engine;
         Model boxModel;
         Effect effect;
+        BasicEffect basicEffect;
 
         public Helper3D(Engine _engine)
         {
@@ -24,6 +25,8 @@ namespace DuckEngine.Helpers
         {
             boxModel = engine.Content.Load<Model>("PrimitiveModels/box");
             effect = engine.Content.Load<Effect>("Effects/effects");
+            basicEffect = new BasicEffect(engine.GraphicsDevice);
+            basicEffect.VertexColorEnabled = true;
         }
 
         public void DrawBoxBody(RigidBody body, Color color)
@@ -57,20 +60,23 @@ namespace DuckEngine.Helpers
             mesh.Draw();
         }
 
-        public void DrawVertices(VertexBuffer vertices, IndexBuffer indices)
+        public void DrawVertices(VertexBuffer vertices, IndexBuffer indices, Matrix worldMatrix)
         {
             RasterizerState rs = new RasterizerState();
-            rs.CullMode = CullMode.None;
-            rs.FillMode = FillMode.WireFrame;
+            rs.CullMode = CullMode.CullClockwiseFace;
+            //rs.FillMode = FillMode.WireFrame;
             engine.GraphicsDevice.RasterizerState = rs;
 
-            effect.CurrentTechnique = effect.Techniques["ColoredNoShading"];
+            basicEffect.World = worldMatrix;
+            basicEffect.View = engine.Camera.View;
+            basicEffect.Projection = engine.Camera.Projection;
+
+            /*effect.CurrentTechnique = effect.Techniques["ColoredNoShading"];
             effect.Parameters["xView"].SetValue(engine.Camera.View);
             effect.Parameters["xProjection"].SetValue(engine.Camera.Projection);
-            Matrix worldMatrix = Matrix.Identity;
-            effect.Parameters["xWorld"].SetValue(worldMatrix);
+            effect.Parameters["xWorld"].SetValue(worldMatrix);*/
 
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
