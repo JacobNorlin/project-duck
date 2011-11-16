@@ -33,7 +33,9 @@ namespace DuckEngine
             
             //Jump
             if (input.Keyboard_WasKeyPressed(Keys.Space))
+            {
                 body.LinearVelocity += new JVector(0, 10, 0);
+            }
         }
 
         ~LocalPlayer()
