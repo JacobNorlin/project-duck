@@ -36,22 +36,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Terrain\heightmap.bmp">
+    <Compile Include="Terrain\heightmap3.png">
+      <Name>heightmap3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Terrain\heightmap.png">
       <Name>heightmap</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Terrain\heightmap2.bmp">
+    <Compile Include="Terrain\heightmap2.png">
       <Name>heightmap2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Terrain\heightmap3.png">
-      <Name>heightmap3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

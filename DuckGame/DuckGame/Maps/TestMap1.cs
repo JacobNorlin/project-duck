@@ -19,12 +19,12 @@ namespace DuckGame.Maps
             : base(_owner)
         {
             //Ground
-            RigidBody ground = new Box(Owner, new JVector(10, 1, 10)).Body;
+            RigidBody ground = new Box(Owner, new JVector(10, 4, 10)).Body;
             ground.IsStatic = true;
 
             //Falling box
             box1 = new Box(Owner, JVector.One).Body;
-            box1.Position = new JVector(0, 10, 0);
+            box1.Position = new JVector(0, 13, 0);
             box1.Orientation = Conversion.ToJitterMatrix(
                 Matrix.CreateFromYawPitchRoll(
                     MathHelper.PiOver4,
@@ -34,10 +34,10 @@ namespace DuckGame.Maps
             );
 
             //Player
-            Player player = new LocalPlayer(Owner, new Vector3(3f, 3f, 3f));
+            Player player = new LocalPlayer(Owner, new Vector3(3f, 5f, 3f));
 
             //Pickup
-            Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 1f, -3f));
+            Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 3f, -3f));
 
             //Map
             Terrain terrain = new Terrain(Owner, "heightmap3");

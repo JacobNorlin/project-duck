@@ -5,13 +5,14 @@ using DuckEngine.Interfaces;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using DuckEngine.Maps;
 
 namespace DuckGame.Players
 {
     class LocalPlayer : Player, IInput
     {
-        const float MOVEMENT_SPEED = 5f;
-        const float JUMP_SPEED = 15f;
+        const float MOVEMENT_SPEED = 500f;
+        const float JUMP_SPEED = 8f;
 
         public LocalPlayer(Engine _owner, Vector3 position)
             : base(_owner, position)
@@ -32,13 +33,22 @@ namespace DuckGame.Players
             if (movement.Length() > 0)
             {
                 movement.Normalize();
-                body.Position += Conversion.ToJitterVector(MOVEMENT_SPEED * movement * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                movement *= MOVEMENT_SPEED * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            
-            //Jump
-            if (input.Keyboard_WasKeyPressed(Keys.Space))
+
+            //You can't move if you are in the air
+            if (!IsJumping)
             {
-                body.ApplyImpulse(JVector.Up * JUMP_SPEED);
+                JVector jmovement = Conversion.ToJitterVector(movement);
+                body.LinearVelocity = new JVector(jmovement.X, body.LinearVelocity.Y, jmovement.Z);
+                //body.Position += Conversion.ToJitterVector(MOVEMENT_SPEED * movement * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                //Jump
+                if (input.Keyboard_WasKeyPressed(Keys.Space))
+                {
+                    body.ApplyImpulse(JVector.Up * JUMP_SPEED);
+                    isJumping = true;
+                }
             }
         }
 

@@ -132,17 +132,20 @@ namespace DuckEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //Input
             Input.Update();
             foreach (IInput entity in AllInput)
             {
                 entity.Input(gameTime, Input);
             }
 
+            //Update
             foreach (ILogic entity in AllLogic)
             {
                 entity.Update(gameTime);
             }
 
+            //Physics
             float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (step > 0.01f) step = 0.01f;
             physics.Step(step, multithread);

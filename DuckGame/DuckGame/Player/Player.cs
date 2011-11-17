@@ -8,12 +8,19 @@ using Jitter.Dynamics;
 using Jitter.Dynamics.Constraints;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
+using DuckEngine.Maps;
 
 namespace DuckGame.Players
 {
-    class Player : Entity, ILogic, IDraw3D
+    class Player : Entity, ILogic, IDraw3D, ICollide
     {
         private static JVector size = new JVector(1, 2, 1);
+
+        protected bool isJumping = false;
+        public bool IsJumping { get { return isJumping; } }
+
+        bool wasGrounded = true;
+        bool isGrounded = true;
 
         private float hp;
         public float HP { get { return hp; } }
@@ -29,10 +36,12 @@ namespace DuckGame.Players
         {
             //Add to engine
             Owner.addDraw3D(this);
+            Owner.addLogic(this);
             
             //Create body and add to physics engine
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
+            body.Mass = 2f;
             body.Position = Conversion.ToJitterVector(position);
             body.AllowDeactivation = false;
             body.Tag = this;
@@ -52,12 +61,35 @@ namespace DuckGame.Players
 
         public void Update(GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            //Push Grounded status back in queue.
+            wasGrounded = isGrounded;
+            isGrounded = false;
         }
 
         public void Draw3D(GameTime gameTime)
         {
             Owner.Helper3D.DrawBoxBody(Body, Color.Blue);
+        }
+
+        public void Collide(Entity other)
+        {
+            if (other is Box || other is Terrain)
+            {
+                //We are touching ground
+                isGrounded = true;
+
+                //If we were in the air, ...
+                if (!wasGrounded)
+                {
+                    //... we have now landed
+                    isJumping = false;
+                }
+            }
+        }
+
+        public bool BroadPhaseFilter(Entity other)
+        {
+            return true;
         }
     }
 }
