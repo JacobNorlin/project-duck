@@ -33,9 +33,6 @@ namespace DuckGame.Maps
                 )
             );
 
-            //Player
-            Player player = new LocalPlayer(Owner, new Vector3(3f, 5f, 3f));
-
             //Pickup
             Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 3f, -3f));
 

@@ -40,7 +40,7 @@ namespace DuckEngine
 
         //Camera to handle view/projection matrices
         Camera camera;
-        public Camera Camera { get { return camera; } }
+        public Camera Camera { get { return camera; } set { camera = value; } }
 
         Helper3D helper3D;
         public Helper3D Helper3D { get { return helper3D; } }
@@ -67,26 +67,27 @@ namespace DuckEngine
 
             startup = _startup;
 
+            //Physics
             physics = new World(new CollisionSystemSAP());
             physics.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
             physics.CollisionSystem.PassedBroadphase += new PassedBroadphaseHandler(PassedBroadphase);
-            graphics = new GraphicsDeviceManager(this);
-            debugDrawer = new DebugDrawer(this);
-            helper3D = new Helper3D(this);
 
+            //Managers
+            graphics = new GraphicsDeviceManager(this);
             inputManager = new InputManager();
             networkManager = new NetworkManager();
             soundManager = new SoundManager();
             storageManager = new StorageManager();
 
-            camera = new Camera(this);
-            camera.Position = new Vector3(0, 3, 10);
+            //Helpers
+            debugDrawer = new DebugDrawer(this);
+            helper3D = new Helper3D(this);
 
-            Window.ClientSizeChanged += new EventHandler<System.EventArgs>(Window_ClientSizeChanged);
+            Window.ClientSizeChanged += new EventHandler<EventArgs>(ClientSizeChanged);
             Content.RootDirectory = "Content";
         }
 
-        void Window_ClientSizeChanged(object sender, EventArgs e)
+        void ClientSizeChanged(object sender, EventArgs e)
         {
             camera.WindowSizeChanged();
         }
@@ -99,8 +100,8 @@ namespace DuckEngine
         /// </summary>
         protected override void Initialize()
         {
-            camera.WindowSizeChanged();
             startup.Initialize(this);
+            camera.WindowSizeChanged();
             base.Initialize();
         }
 
@@ -122,7 +123,6 @@ namespace DuckEngine
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>

@@ -31,6 +31,8 @@ namespace DuckGame.Players
         private List<Weapon> weapons = new List<Weapon>();
         public List<Weapon> Weapons { get { return weapons; } }
 
+        public Vector3 Position { get { return Conversion.ToXNAVector(Body.Position); } }
+
         public Player(Engine _owner, Vector3 position)
             : base(_owner)
         {
@@ -57,6 +59,7 @@ namespace DuckGame.Players
             //Remove from engine
             Owner.removeDraw3D(this);
             Owner.Physics.RemoveBody(body);
+            Owner.removeLogic(this);
         }
 
         public void Update(GameTime gameTime)
