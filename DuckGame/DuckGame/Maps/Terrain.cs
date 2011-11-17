@@ -5,10 +5,11 @@ using Jitter.Dynamics;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace DuckEngine.Maps
 {
-    class Terrain : Entity, IDraw3D
+    class Terrain : Entity, IDraw3D, IDisposable
     {
         short terrainWidth;
         short terrainHeight;
@@ -46,6 +47,7 @@ namespace DuckEngine.Maps
             body = new RigidBody(terrainShape);
             body.IsStatic = true;
             body.Position = new JVector(-terrainWidth / 2, 0f, -terrainHeight / 2);
+            body.Tag = this;
             Owner.Physics.AddBody(body);
 
             //Create vertices and indices for rendering
@@ -100,6 +102,17 @@ namespace DuckEngine.Maps
 
             indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
             indexBuffer.SetData(indices);
+        }
+
+        ~Terrain()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            vertexBuffer.Dispose();
+            indexBuffer.Dispose();
         }
     }
 }
