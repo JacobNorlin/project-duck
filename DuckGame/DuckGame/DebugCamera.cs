@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DuckEngine;
-using Microsoft.Xna.Framework;
-using DuckEngine.Interfaces;
 using DuckEngine.Input;
+using DuckEngine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace DuckGame

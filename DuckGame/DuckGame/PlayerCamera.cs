@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DuckGame.Players;
-using Microsoft.Xna.Framework;
-using DuckEngine.Interfaces;
+﻿using DuckEngine.Helpers;
 using DuckEngine.Input;
-using Microsoft.Xna.Framework.Input;
-using DuckEngine.Helpers;
+using DuckEngine.Interfaces;
+using DuckGame.Players;
 using Jitter.Collision;
-using Jitter.LinearMath;
 using Jitter.Dynamics;
+using Jitter.LinearMath;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckEngine
 {
@@ -46,6 +42,7 @@ namespace DuckEngine
             float fraction;
             Owner.Physics.CollisionSystem.Raycast(Conversion.ToJitterVector(playerPosition), Conversion.ToJitterVector(cameraDirection), new RaycastCallback(RaycastCallback), out body, out normal, out fraction);
 
+            //TODO: Maybe add a smooth transition between distances.
             //If we didin't hit anything
             Vector3 cameraPosition;
             if (body == null)

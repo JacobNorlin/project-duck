@@ -3,7 +3,6 @@ using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
 using DuckEngine.Maps;
 using DuckGame.Pickups;
-using DuckGame.Players;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;

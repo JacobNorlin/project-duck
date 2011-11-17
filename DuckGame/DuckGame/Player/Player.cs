@@ -2,13 +2,13 @@
 using DuckEngine;
 using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
+using DuckEngine.Maps;
 using DuckGame.Weapons;
 using Jitter.Collision.Shapes;
 using Jitter.Dynamics;
 using Jitter.Dynamics.Constraints;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
-using DuckEngine.Maps;
 
 namespace DuckGame.Players
 {
@@ -49,6 +49,7 @@ namespace DuckGame.Players
             body.Tag = this;
             Owner.Physics.AddBody(body);
 
+            //TODO: Fix so that players can rotate around Y-axis.
             //Players can't fall
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
             Owner.Physics.AddConstraint(upright);

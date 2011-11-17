@@ -5,7 +5,6 @@ using DuckEngine.Interfaces;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using DuckEngine.Maps;
 
 namespace DuckGame.Players
 {
@@ -36,6 +35,7 @@ namespace DuckGame.Players
                 movement *= MOVEMENT_SPEED * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
+            //TODO: Fix the jumping code, you can get stuck on the ground.
             //You can't move if you are in the air
             if (!IsJumping)
             {
