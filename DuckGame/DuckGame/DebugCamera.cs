@@ -116,10 +116,8 @@ namespace DuckGame
             }
 
             //Constraints
-            if (angles.X > 1.4) angles.X = 1.4f;
-            if (angles.X < -1.4) angles.X = -1.4f;
-            if (angles.Y > Math.PI) angles.Y -= 2 * (float)Math.PI;
-            if (angles.Y < -Math.PI) angles.Y += 2 * (float)Math.PI;
+            angles.X = MathHelper.Clamp(angles.X, -1.4f, 1.4f);
+            angles.Y = MathHelper.WrapAngle(angles.Y);
         }
     }
 }

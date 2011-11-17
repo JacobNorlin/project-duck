@@ -37,7 +37,7 @@ namespace DuckGame.Maps
             Pickup pickup1 = new Pickup(Owner, new Vector3(-3f, 3f, -3f));
 
             //Map
-            Terrain terrain = new Terrain(Owner, "heightmap3");
+            Terrain terrain = new Terrain(Owner, "heightmap");
         }
 
         public void Input(GameTime gameTime, DuckEngine.Input.InputManager input)
