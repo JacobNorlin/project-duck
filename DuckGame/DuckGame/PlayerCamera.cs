@@ -107,10 +107,7 @@ namespace DuckEngine
 
             //Constraints
             angles.X = MathHelper.Clamp(angles.X, .4f, 1f);
-            angles.Y = MathHelper.Clamp(angles.Y, -MathHelper.TwoPi, MathHelper.TwoPi);
-
-            while (angles.Y > Math.PI) angles.Y -= MathHelper.TwoPi;
-            while (angles.Y < -Math.PI) angles.Y += MathHelper.TwoPi;
+            angles.Y = MathHelper.WrapAngle(angles.Y);
         }
     }
 }
