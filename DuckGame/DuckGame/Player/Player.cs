@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DuckEngine.Interfaces;
-using Microsoft.Xna.Framework;
-using DuckEngine.Input;
-using Microsoft.Xna.Framework.Input;
-using Jitter.Dynamics;
-using Jitter.Collision.Shapes;
-using Jitter.LinearMath;
-using Jitter.Dynamics.Constraints;
+﻿using System.Collections.Generic;
 using DuckEngine;
-using DuckGame.Weapons;
 using DuckEngine.Helpers;
+using DuckEngine.Interfaces;
+using DuckGame.Weapons;
+using Jitter.Collision.Shapes;
+using Jitter.Dynamics;
+using Jitter.Dynamics.Constraints;
+using Jitter.LinearMath;
+using Microsoft.Xna.Framework;
 
 namespace DuckGame.Players
 {

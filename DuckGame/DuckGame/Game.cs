@@ -1,14 +1,8 @@
-﻿using System;
-using Jitter.LinearMath;
-using Jitter.Dynamics;
-using DuckEngine;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using DuckEngine.Helpers;
-using DuckEngine.Interfaces;
+﻿using DuckEngine;
 using DuckEngine.Input;
+using DuckEngine.Interfaces;
 using DuckGame.Maps;
-using DuckEngine;
+using Microsoft.Xna.Framework;
 
 namespace DuckGame
 {

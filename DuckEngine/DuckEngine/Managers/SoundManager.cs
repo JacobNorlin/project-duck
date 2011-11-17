@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DuckEngine.Sound
+﻿namespace DuckEngine.Sound
 {
     /// <summary>
     /// A class which handles playback of sounds.

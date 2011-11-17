@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
 using Jitter.Collision.Shapes;
 using Jitter.Dynamics;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using DuckEngine.Helpers;
 using Jitter.LinearMath;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckEngine.Maps
 {

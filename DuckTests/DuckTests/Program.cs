@@ -1,4 +1,3 @@
-using System;
 using DuckEngine;
 using DuckGame;
 

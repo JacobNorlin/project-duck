@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Jitter.LinearMath;
+
 namespace DuckEngine.Helpers
 {
 

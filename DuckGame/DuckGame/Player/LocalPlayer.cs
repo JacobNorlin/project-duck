@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DuckEngine.Interfaces;
-using Microsoft.Xna.Framework;
-using DuckEngine.Input;
-using Microsoft.Xna.Framework.Input;
-using Jitter.LinearMath;
+﻿using DuckEngine;
 using DuckEngine.Helpers;
-using DuckEngine;
+using DuckEngine.Input;
+using DuckEngine.Interfaces;
+using Jitter.LinearMath;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckGame.Players
 {

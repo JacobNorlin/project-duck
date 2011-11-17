@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna;
+﻿using DuckEngine;
 using DuckEngine.Interfaces;
 using Microsoft.Xna.Framework;
-using DuckEngine;
 
 namespace DuckGame.Weapons
 {

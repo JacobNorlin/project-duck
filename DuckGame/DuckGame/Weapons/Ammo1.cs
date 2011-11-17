@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DuckEngine;
 using Microsoft.Xna.Framework;
-using DuckEngine;
 
 namespace DuckGame.Weapons
 {

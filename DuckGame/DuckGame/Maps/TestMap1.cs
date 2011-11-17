@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DuckEngine;
+using DuckEngine.Helpers;
+using DuckEngine.Interfaces;
+using DuckEngine.Maps;
+using DuckGame.Pickups;
+using DuckGame.Players;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
-using DuckEngine.Helpers;
-using DuckEngine;
-using DuckEngine.Interfaces;
 using Microsoft.Xna.Framework.Input;
-using DuckGame.Players;
-using DuckGame.Pickups;
-using DuckEngine.Maps;
 
 namespace DuckGame.Maps
 {

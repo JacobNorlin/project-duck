@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Jitter;
 using DuckEngine.Helpers;
-using Jitter.Collision;
 using DuckEngine.Input;
+using DuckEngine.Interfaces;
 using DuckEngine.Network;
 using DuckEngine.Sound;
 using DuckEngine.Storage;
-using DuckEngine.Interfaces;
+using Jitter;
+using Jitter.Collision;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
-using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckEngine
 {
