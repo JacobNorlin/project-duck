@@ -50,7 +50,7 @@ namespace DuckEngine.Maps
             body = new RigidBody(terrainShape);
             body.IsStatic = true;
             body.Position = new JVector(-terrainWidth / 2, 0f, -terrainHeight / 2);
-            Owner.World.AddBody(body);
+            Owner.Physics.AddBody(body);
 
             //Create vertices and indices for rendering
             SetUpVertices();

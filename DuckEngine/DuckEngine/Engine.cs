@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using Jitter;
 using DuckEngine.Helpers;
 using Jitter.Collision;
 using DuckEngine.Input;
 using DuckEngine.Network;
-using DuckEngine.Physics;
 using DuckEngine.Sound;
 using DuckEngine.Storage;
 using DuckEngine.Interfaces;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
+using Microsoft.Xna.Framework.Net;
 
 namespace DuckEngine
 {
@@ -31,20 +25,19 @@ namespace DuckEngine
         SpriteBatch spriteBatch;
         StartupObject startup;
 
-        #region Objects
+        #region Entities
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
         private List<IInput>  AllInput  = new List<IInput>();
         private List<ILogic>  AllLogic  = new List<ILogic>();
         #endregion
         
-
         DebugDrawer debugDrawer;
         public DebugDrawer DebugDrawer { get { return debugDrawer; } }
 
         //The physics world
-        World world;
-        public World World { get { return world; } }
+        World physics;
+        public World Physics { get { return physics; } }
 
         //Camera to handle view/projection matrices
         Camera camera;
@@ -59,9 +52,6 @@ namespace DuckEngine
 
         NetworkManager networkManager;
         public NetworkManager Network { get { return networkManager; } }
-
-        PhysicsManager physicsManager;
-        public PhysicsManager Physics { get { return physicsManager; } }
 
         SoundManager soundManager;
         public SoundManager Sound { get { return soundManager; } }
@@ -78,16 +68,15 @@ namespace DuckEngine
 
             startup = _startup;
 
-            world = new World(new CollisionSystemSAP());
-            world.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
-            world.CollisionSystem.PassedBroadphase += new PassedBroadphaseHandler(PassedBroadphase);
+            physics = new World(new CollisionSystemSAP());
+            physics.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
+            physics.CollisionSystem.PassedBroadphase += new PassedBroadphaseHandler(PassedBroadphase);
             graphics = new GraphicsDeviceManager(this);
             debugDrawer = new DebugDrawer(this);
             helper3D = new Helper3D(this);
 
             inputManager = new InputManager();
             networkManager = new NetworkManager();
-            physicsManager = new PhysicsManager();
             soundManager = new SoundManager();
             storageManager = new StorageManager();
 
@@ -157,7 +146,7 @@ namespace DuckEngine
 
             float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (step > 0.01f) step = 0.01f;
-            world.Step(step, multithread);
+            physics.Step(step, multithread);
 
             base.Update(gameTime);
         }
@@ -179,11 +168,11 @@ namespace DuckEngine
             {
                 entity.Draw2D(spriteBatch);
             }
-            
-            base.Draw(gameTime);
 
+            base.Draw(gameTime);
         }
 
+        #region Physics
         void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, float penetration)
         {
             if (body1.Tag != null && body2.Tag != null)
@@ -226,6 +215,7 @@ namespace DuckEngine
 
             return true;
         }
+        #endregion
 
         #region Add & remove objects
         /// <summary>

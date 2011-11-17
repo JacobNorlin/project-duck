@@ -41,18 +41,18 @@ namespace DuckGame.Players
             body.Position = Conversion.ToJitterVector(position);
             body.AllowDeactivation = false;
             body.Tag = this;
-            Owner.World.AddBody(body);
+            Owner.Physics.AddBody(body);
 
             //Players can't fall
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
-            Owner.World.AddConstraint(upright);
+            Owner.Physics.AddConstraint(upright);
         }
 
         ~Player()
         {
             //Remove from engine
             Owner.removeDraw3D(this);
-            Owner.World.RemoveBody(body);
+            Owner.Physics.RemoveBody(body);
         }
 
         public void Update(GameTime gameTime)

@@ -23,13 +23,13 @@ namespace DuckGame
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
             body.Tag = this;
-            Owner.World.AddBody(body);
+            Owner.Physics.AddBody(body);
         }
 
         ~Box()
         {
             Owner.removeDraw3D(this);
-            Owner.World.RemoveBody(body);
+            Owner.Physics.RemoveBody(body);
         }
 
         public void Draw3D(GameTime gameTime)

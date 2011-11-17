@@ -29,13 +29,13 @@ namespace DuckGame.Pickups
             body.Position = Conversion.ToJitterVector(position);
             body.Tag = this;
             
-            Owner.World.AddBody(body);
+            Owner.Physics.AddBody(body);
         }
 
         ~Pickup()
         {
             Owner.removeDraw3D(this);
-            Owner.World.RemoveBody(body);
+            Owner.Physics.RemoveBody(body);
         }
 
         public void Draw3D(GameTime gameTime)
@@ -48,7 +48,7 @@ namespace DuckGame.Pickups
             if (other is Player)
             {
                 Owner.removeDraw3D(this);
-                Owner.World.RemoveBody(body);
+                Owner.Physics.RemoveBody(body);
             }
         }
 

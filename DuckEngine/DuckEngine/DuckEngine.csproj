@@ -103,7 +103,6 @@
     <Compile Include="Interfaces\IDraw3D.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
-    <Compile Include="Managers\PhysicsManager.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Entity.cs" />

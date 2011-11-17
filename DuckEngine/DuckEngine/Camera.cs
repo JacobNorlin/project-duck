@@ -14,6 +14,8 @@ namespace DuckEngine
     /// </summary>
     public class Camera : Entity, ILogic, IInput
     {
+        const float MOVE_SPEED = 20f;
+
         private Matrix view;
         private Matrix projection;
 
@@ -138,13 +140,18 @@ namespace DuckEngine
             if (moveEnabled) {
                 //Move camera
                 if (input.Keyboard_IsKeyDown(Keys.D) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadRight))
-                    moveVector.X += 5f * movementFactor;
+                    moveVector.X += 1f;
                 if (input.Keyboard_IsKeyDown(Keys.A) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadLeft))
-                    moveVector.X -= 5f * movementFactor;
+                    moveVector.X -= 1f;
                 if (input.Keyboard_IsKeyDown(Keys.S) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadDown))
-                    moveVector.Z += 5f * movementFactor;
+                    moveVector.Z += 1f;
                 if (input.Keyboard_IsKeyDown(Keys.W) || input.CurrentGamePadStates[0].IsButtonDown(Buttons.DPadUp))
-                    moveVector.Z -= 5f * movementFactor;
+                    moveVector.Z -= 1f;
+                if (moveVector.Length() > 0)
+                {
+                    moveVector.Normalize();
+                    moveVector *= MOVE_SPEED * movementFactor;
+                }
             }
             //Rotate camera
             angles.Y -= input.CurrentGamePadStates[0].ThumbSticks.Right.X * movementFactor * 1f;
