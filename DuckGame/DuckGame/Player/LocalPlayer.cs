@@ -16,7 +16,6 @@ namespace DuckGame.Players
         public LocalPlayer(Engine _owner, Vector3 position)
             : base(_owner, position)
         {
-            Owner.addInput(this);
         }
 
         public void Input(GameTime gameTime, InputManager input)
@@ -53,7 +52,7 @@ namespace DuckGame.Players
 
         ~LocalPlayer()
         {
-            Owner.removeInput(this);
+            Owner.removeAll(this);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace DuckGame
         public Box(Engine _owner, JVector size)
             : base(_owner)
         {
-            Owner.addDraw3D(this);
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
             body.Tag = this;
@@ -24,7 +23,7 @@ namespace DuckGame
 
         ~Box()
         {
-            Owner.removeDraw3D(this);
+            Owner.removeAll(this);
             Owner.Physics.RemoveBody(body);
         }
 

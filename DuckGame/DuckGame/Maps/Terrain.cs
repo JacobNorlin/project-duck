@@ -22,7 +22,6 @@ namespace DuckEngine.Maps
         public Terrain(Engine _owner, string terrainFile)
             : base(_owner)
         {
-            Owner.addDraw3D(this);
             //Load heightmap
             Texture2D heightmap = Owner.Content.Load<Texture2D>("Terrain/" + terrainFile);
             terrainWidth = (short)heightmap.Width;

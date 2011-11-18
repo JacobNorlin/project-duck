@@ -17,8 +17,6 @@ namespace DuckGame.Pickups
         public Pickup(Engine _owner, Vector3 position)
             : base(_owner)
         {
-            Owner.addDraw3D(this);
-            Owner.addLogic(this);
             Shape boxShape = new BoxShape(1f, .5f, .5f);
             body = new RigidBody(boxShape);
             body.AffectedByGravity = false;
@@ -30,7 +28,7 @@ namespace DuckGame.Pickups
 
         ~Pickup()
         {
-            Owner.removeDraw3D(this);
+            Owner.removeAll(this);
             Owner.Physics.RemoveBody(body);
         }
 
@@ -43,7 +41,7 @@ namespace DuckGame.Pickups
         {
             if (other is Player)
             {
-                Owner.removeDraw3D(this);
+                Owner.removeAll(this);
                 Owner.Physics.RemoveBody(body);
             }
         }

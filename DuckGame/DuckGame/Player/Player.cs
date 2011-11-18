@@ -36,10 +36,6 @@ namespace DuckGame.Players
         public Player(Engine _owner, Vector3 position)
             : base(_owner)
         {
-            //Add to engine
-            Owner.addDraw3D(this);
-            Owner.addLogic(this);
-            
             //Create body and add to physics engine
             Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
@@ -58,9 +54,8 @@ namespace DuckGame.Players
         ~Player()
         {
             //Remove from engine
-            Owner.removeDraw3D(this);
+            Owner.removeAll(this);
             Owner.Physics.RemoveBody(body);
-            Owner.removeLogic(this);
         }
 
         public void Update(GameTime gameTime)

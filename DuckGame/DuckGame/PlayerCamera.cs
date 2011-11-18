@@ -24,12 +24,13 @@ namespace DuckEngine
         public PlayerCamera(Engine _owner, Player _player = null)
             : base(_owner)
         {
-            Owner.addInput(this);
             player = _player;
+            position = new Vector3();
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (!active) return;
             //Linear algebra, woho!
             Vector3 playerPosition = player.Position;
             Matrix cameraRotation = Matrix.CreateRotationX(angles.X) * Matrix.CreateRotationY(angles.Y);
@@ -44,20 +45,19 @@ namespace DuckEngine
 
             //TODO: Maybe add a smooth transition between distances.
             //If we didin't hit anything
-            Vector3 cameraPosition;
             if (body == null)
             {
                 //Set camera att default position
-                cameraPosition = playerPosition + 20f * cameraDirection;
+                position = playerPosition + 20f * cameraDirection;
             }
             else
             {
                 //Else, set camera right before the object we hit
-                cameraPosition = playerPosition + fraction * cameraDirection;
+                position = playerPosition + fraction * cameraDirection;
             }
 
             //Create view
-            view = Matrix.CreateLookAt(cameraPosition, playerPosition, upVector);
+            view = Matrix.CreateLookAt(position, playerPosition, upVector);
         }
 
         private bool RaycastCallback(RigidBody body, JVector normal, float fraction)
@@ -79,6 +79,7 @@ namespace DuckEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Input(GameTime gameTime, InputManager input)
         {
+            if (!active) return;
             float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //Rotate camera

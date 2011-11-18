@@ -11,10 +11,9 @@ namespace DuckGame
     {
         const float MOVE_SPEED = 20f;
 
-        private Vector3 position;
         private Vector2 angles = Vector2.Zero;
 
-        private bool moveEnabled;
+        private bool moveEnabled = true;
 
         /// <summary>
         /// Initializes new camera component.
@@ -24,7 +23,6 @@ namespace DuckGame
             : base(_owner)
         {
             position = _position;
-            Owner.addInput(this);
             UpdateProjection();
             CenterMouse();
         }
@@ -42,7 +40,7 @@ namespace DuckGame
             }
             set
             {
-                Vector3 forward = Vector3.Normalize(position - value);
+                Vector3 forward = Vector3.Normalize(value - position);
                 Vector3 right = Vector3.Normalize(Vector3.Cross(forward, Vector3.Up));
                 Vector3 up = Vector3.Normalize(Vector3.Cross(right, forward));
 
@@ -58,6 +56,7 @@ namespace DuckGame
 
         public override void Update(GameTime gameTime)
         {
+            if (!active) return;
             //Update view
             Matrix cameraRotation = Matrix.CreateRotationX(angles.X) * Matrix.CreateRotationY(angles.Y);
             Vector3 targetPos = position + Vector3.Transform(Vector3.Forward, cameraRotation);
@@ -73,6 +72,7 @@ namespace DuckGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Input(GameTime gameTime, InputManager input)
         {
+            if (!active) return;
             float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector3 moveVector = new Vector3();
 

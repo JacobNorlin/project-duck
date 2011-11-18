@@ -8,9 +8,6 @@ namespace DuckEngine
 {
     public abstract class Camera : Entity, ILogic
     {
-        protected Matrix view;
-        protected Matrix projection;
-
         private int widthOver2;
         public int WidthOver2 { get { return widthOver2; } }
         private int heightOver2;
@@ -21,20 +18,37 @@ namespace DuckEngine
         private float nearPlaneDistance = 0.01f;
         private float farPlaneDistance = 1000.0f;
 
-        public Matrix View
+        protected Matrix view;
+        public Matrix View { get { return view; } }
+
+        protected Matrix projection;
+        public Matrix Projection { get { return projection; } }
+
+        protected Vector3 position;
+        public Vector3 Position
         {
-            get { return view; }
+            get { return position; }
+            set { position = value; }
         }
 
-        public Matrix Projection
+        protected bool active = false;
+        public bool Active
         {
-            get { return projection; }
+            get { return active; }
+            set
+            {
+                if (!active && value)
+                {
+                    WindowSizeChanged();
+                }
+                active = value;
+            }
         }
 
         public Camera(Engine _owner)
             : base(_owner)
         {
-            Owner.addLogic(this);
+            
         }
 
         /// <summary>

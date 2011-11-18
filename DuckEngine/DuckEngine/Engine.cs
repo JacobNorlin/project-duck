@@ -12,6 +12,7 @@ using Jitter.Dynamics;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DuckEngine.Managers;
 
 namespace DuckEngine
 {
@@ -27,8 +28,9 @@ namespace DuckEngine
         #region Entities
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
-        private List<IInput>  AllInput  = new List<IInput>();
-        private List<ILogic>  AllLogic  = new List<ILogic>();
+        private List<IInitialize> AllInitialize = new List<IInitialize>();
+        private List<IInput> AllInput = new List<IInput>();
+        private List<ILogic> AllLogic = new List<ILogic>();
         #endregion
         
         DebugDrawer debugDrawer;
@@ -40,7 +42,25 @@ namespace DuckEngine
 
         //Camera to handle view/projection matrices
         Camera camera;
-        public Camera Camera { get { return camera; } set { camera = value; } }
+        public Camera Camera
+        {
+            get { return camera; }
+            set
+            {
+                if (camera != value)
+                {
+                    if (camera != null)
+                    {
+                        camera.Active = false;
+                    }
+                    if (value != null)
+                    {
+                        value.Active = true;
+                    }
+                    camera = value;
+                }
+            }
+        }
 
         Helper3D helper3D;
         public Helper3D Helper3D { get { return helper3D; } }
@@ -48,6 +68,9 @@ namespace DuckEngine
         #region Managers
         InputManager inputManager;
         public InputManager Input { get { return inputManager; } }
+
+        MouseEventManager mouseEventManager;
+        public MouseEventManager MouseEventManager { get { return mouseEventManager; } }
 
         NetworkManager networkManager;
         public NetworkManager Network { get { return networkManager; } }
@@ -60,6 +83,7 @@ namespace DuckEngine
         #endregion
 
         public bool multithread = true;
+        private bool initialized = false;
         
         public Engine(StartupObject _startup)
         {
@@ -75,6 +99,7 @@ namespace DuckEngine
             //Managers
             graphics = new GraphicsDeviceManager(this);
             inputManager = new InputManager();
+            mouseEventManager = new MouseEventManager(this);
             networkManager = new NetworkManager();
             soundManager = new SoundManager();
             storageManager = new StorageManager();
@@ -101,7 +126,12 @@ namespace DuckEngine
         protected override void Initialize()
         {
             startup.Initialize(this);
-            camera.WindowSizeChanged();
+            foreach (IInitialize e in AllInitialize)
+            {
+                e.Initialize();
+            }
+            AllInitialize = null;
+            initialized = true;
             base.Initialize();
         }
 
@@ -149,6 +179,8 @@ namespace DuckEngine
             float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (step > 0.01f) step = 0.01f;
             physics.Step(step, multithread);
+
+            mouseEventManager.ExecuteMouseEvents(gameTime, Input);
 
             base.Update(gameTime);
         }
@@ -220,6 +252,51 @@ namespace DuckEngine
         #endregion
 
         #region Add & remove objects
+        /// <summary>
+        /// Checks which of the interfaces IDraw2D, IDraw3D
+        /// ILogic and IInput the given object implements,
+        /// and adds it to the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
+        public void addAll(Object e)
+        {
+            //Feel free to rename method if you come up
+            //with something better :P //Björn
+            if (e is IDraw2D) addDraw2D((IDraw2D)e);
+            if (e is IDraw3D) addDraw3D((IDraw3D)e);
+            if (e is IInitialize) addInitialize((IInitialize)e);
+            if (e is ILogic) addLogic((ILogic)e);
+            if (e is IInput) addInput((IInput)e);
+            //IMouseEvent3D doesn't need to be added to any list.
+        }
+
+        private void addInitialize(IInitialize e)
+        {
+            if (initialized)
+            {
+                e.Initialize();
+            }
+            else
+            {
+                AllInitialize.Add(e);
+            }
+        }
+
+        /// <summary>
+        /// Checks which of the interfaces IDraw2D, IDraw3D
+        /// ILogic and IInput the given object implements,
+        /// and removes it from the engine.
+        /// </summary>
+        /// <param name="e">The object to be added</param>
+        public void removeAll(Object e)
+        {
+            if (e is IDraw2D) removeDraw2D((IDraw2D)e);
+            if (e is IDraw3D) removeDraw3D((IDraw3D)e);
+            if (e is ILogic) removeLogic((ILogic)e);
+            if (e is IInput) removeInput((IInput)e);
+            //IMouseEvent3D isn't in any list.
+        }
+
         /// <summary>
         /// Add an object of type IDraw2D to the engine.
         /// </summary>

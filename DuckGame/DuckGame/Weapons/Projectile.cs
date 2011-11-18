@@ -24,8 +24,6 @@ namespace DuckGame.Weapons
         public Projectile(Engine _owner)
             : base(_owner)
         {
-            Owner.addLogic(this);
-            Owner.addDraw3D(this);
         }
 
         //public void Move() { } //Unecessary, use physics engine instead.
