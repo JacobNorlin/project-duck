@@ -24,7 +24,7 @@ namespace DuckEngine.Managers
             OnMouseOver = DefaultOnMouseOver;
         }
 
-        internal void DefaultOnMouseOver(GameTime gameTime, InputManager input,
+        public void DefaultOnMouseOver(GameTime gameTime, InputManager input,
             RigidBody hitBody, JVector hitNormal, float hitFraction)
         {
             if (hitBody != mouseOver3D)

@@ -8,12 +8,58 @@ namespace DuckEngine.Input
     /// </summary>
     public class InputManager
     {
+        public enum MouseButton { Left, Middle, Right };
+
         PlayerIndex activePlayer;
 
         MouseState currentMouseState;
         public MouseState CurrentMouseState { get { return currentMouseState; } }
         MouseState lastMouseState;
         public MouseState LastMouseState { get { return lastMouseState; } }
+        #region Mouse getters
+        public bool Mouse_IsButtonDown(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.Left:
+                    return currentMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+                case MouseButton.Right:
+                    return currentMouseState.RightButton == ButtonState.Pressed;
+            }
+            return false;
+        }
+        public bool Mouse_WasButtonDown(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.Left:
+                    return lastMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    return lastMouseState.MiddleButton == ButtonState.Pressed;
+                case MouseButton.Right:
+                    return lastMouseState.RightButton == ButtonState.Pressed;
+            }
+            return false;
+        }
+        public bool Mouse_WasButtonPressed(MouseButton mouseButton)
+        {
+            return Mouse_IsButtonDown(mouseButton) &&
+                !Mouse_WasButtonDown(mouseButton);
+        }
+        public bool Mouse_WasButtonReleased(MouseButton mouseButton)
+        {
+            return !Mouse_IsButtonDown(mouseButton) &&
+                Mouse_WasButtonDown(mouseButton);
+        }
+        public Point Mouse_Movement()
+        {
+            return new Point(
+                currentMouseState.X - lastMouseState.X,
+                currentMouseState.Y - lastMouseState.Y);
+        }
+        #endregion
 
         KeyboardState lastKeyboardState;
         KeyboardState currentKeyboardState;
