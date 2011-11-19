@@ -32,24 +32,28 @@ namespace DuckGame
 
         public void Input(GameTime gameTime, InputManager input)
         {
-            if (input.Keyboard_IsKeyDown(Keys.D8))
+            if (input.Keyboard_IsKeyDown(Keys.D8) && gameState != GameState.Playing)
             {
                 gameState = GameState.Playing;
                 Owner.Camera = playerCamera;
                 Owner.MouseEventManager.OnMouseOver = Owner.MouseEventManager.DefaultOnMouseOver;
             }
-            if (input.Keyboard_IsKeyDown(Keys.D9))
+
+            if (input.Keyboard_IsKeyDown(Keys.D9) && gameState != GameState.Editing)
             {
-                if (gameState != GameState.Editing)
-                {
-                    gameState = GameState.Editing;
-                    debugCamera.Position = playerCamera.Position + Vector3.Up;
-                    //+Vector3.Up only so you notice you've changed camera mode
-                    debugCamera.Target = playerCamera.Player.Position;
-                    Owner.Camera = debugCamera;
-                    Owner.MouseEventManager.OnMouseOver = lol;
-                }
+                gameState = GameState.Editing;
+                debugCamera.Position = playerCamera.Position + Vector3.Up;
+                //+Vector3.Up only so you notice you've changed camera mode
+                debugCamera.Target = playerCamera.Player.Position;
+                Owner.Camera = debugCamera;
+                Owner.MouseEventManager.OnMouseOver = lol;
             }
+
+            if (input.Keyboard_WasKeyReleased(Keys.Escape))
+            {
+                Owner.Exit();
+            }
+
             editorMouseHandling(gameTime, input);
         }
 

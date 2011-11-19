@@ -113,6 +113,7 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <None Include="Keybinds.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DuckEngine\DuckEngine\DuckEngine.csproj">
