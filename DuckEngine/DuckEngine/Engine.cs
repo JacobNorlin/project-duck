@@ -28,7 +28,6 @@ namespace DuckEngine
         #region Entities
         private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
-        private List<IInitialize> AllInitialize = new List<IInitialize>();
         private List<IInput> AllInput = new List<IInput>();
         private List<ILogic> AllLogic = new List<ILogic>();
         #endregion
@@ -83,7 +82,6 @@ namespace DuckEngine
         #endregion
 
         public bool multithread = true;
-        private bool initialized = false;
         
         public Engine(StartupObject _startup)
         {
@@ -126,12 +124,6 @@ namespace DuckEngine
         protected override void Initialize()
         {
             startup.Initialize(this);
-            foreach (IInitialize e in AllInitialize)
-            {
-                e.Initialize();
-            }
-            AllInitialize = null;
-            initialized = true;
             base.Initialize();
         }
 
@@ -264,22 +256,9 @@ namespace DuckEngine
             //with something better :P //Björn
             if (e is IDraw2D) addDraw2D((IDraw2D)e);
             if (e is IDraw3D) addDraw3D((IDraw3D)e);
-            if (e is IInitialize) addInitialize((IInitialize)e);
             if (e is ILogic) addLogic((ILogic)e);
             if (e is IInput) addInput((IInput)e);
             //IMouseEvent3D doesn't need to be added to any list.
-        }
-
-        private void addInitialize(IInitialize e)
-        {
-            if (initialized)
-            {
-                e.Initialize();
-            }
-            else
-            {
-                AllInitialize.Add(e);
-            }
         }
 
         /// <summary>

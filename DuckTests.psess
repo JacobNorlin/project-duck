@@ -77,11 +77,6 @@
       <ProjName>DuckTests</ProjName>
     </ProjBinary>
   </Binaries>
-  <Reports>
-    <Report>
-      <Path>D:\Programming\Projects\Development\project-duck\DuckTests111117.vsp</Path>
-    </Report>
-  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{6C7C0C48-8A65-40BC-B5AC-35BDE2B44E15}|DuckTests\DuckTests\DuckTests.csproj</Path>

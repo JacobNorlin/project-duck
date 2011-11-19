@@ -11,7 +11,7 @@ namespace DuckTests
         /// </summary>
         static void Main(string[] args)
         {
-            using (Engine engine = new Engine(new Game()))
+            using (Engine engine = new Engine(new GameStartup()))
             {
                 engine.Run();
             }
