@@ -1,4 +1,8 @@
 ﻿using DuckEngine;
+using Jitter.LinearMath;
+using DuckEngine.Helpers;
+using Jitter.Dynamics;
+using Microsoft.Xna.Framework;
 using DuckEngine.Helpers;
 using DuckEngine.Input;
 using DuckEngine.Interfaces;
@@ -16,6 +20,12 @@ namespace DuckGame.Players
         public LocalPlayer(Engine _owner, Vector3 position)
             : base(_owner, position)
         {
+        }
+
+        //Temporary raycastcallback for testing, might have to filter some things later on.
+        private bool RaycastCallback(RigidBody body, JVector normal, float fraction)
+        {
+            return true;
         }
 
         public void Input(GameTime gameTime, InputManager input)
@@ -46,6 +56,31 @@ namespace DuckGame.Players
                 {
                     body.ApplyImpulse(JVector.Up * JUMP_SPEED);
                     isJumping = true;
+                }
+            }
+
+            //Fire if button is down
+            if (input.CurrentMouseState.LeftButton == ButtonState.Pressed) {
+                //Convert the mouse coordinates to a place in the room
+                int x = input.CurrentMouseState.X;
+                int y = input.CurrentMouseState.Y;
+                if (x >= 0 && y >= 0)
+                {
+                    JVector rayOrigin = Conversion.ToJitterVector(Owner.Camera.Position);
+                    JVector rayDirection = Conversion.ToJitterVector(Owner.MouseEventManager.RayTo(x, y));
+                    RigidBody hitBody;
+                    JVector hitNormal;
+                    float hitFraction;
+
+                    bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
+                                              null, out hitBody, out hitNormal, out hitFraction);
+                    if(result){
+                        rayDirection.Normalize();
+                        Vector3 targetPoint = Conversion.ToXNAVector(rayDirection * hitFraction);
+                        Vector3 target = targetPoint - this.Position;
+                        target.Z += 1;
+                        currentWeapon.Fire(target);
+                    }
                 }
             }
         }

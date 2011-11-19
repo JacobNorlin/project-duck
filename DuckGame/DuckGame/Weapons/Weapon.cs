@@ -20,17 +20,20 @@ namespace DuckGame.Weapons
         protected float reloadTime;
         public float ReloadTime { get { return reloadTime; } }
 
-        public Weapon(Engine _owner)
+        public Weapon(Engine _owner, Player _holder)
             : base(_owner)
         {
-
+            holder = _holder;
         }
 
         /// <summary>
         /// Will fire the weapon towards the given coordinates Vector3.
         /// </summary>
         /// <param name="target">Target</param>
-        public virtual void Fire(Vector3 target) { }
+        public virtual void Fire(Vector3 target)
+        {
+
+        }
 
         /// <summary>
         /// Reloads the weapon.
@@ -40,7 +43,7 @@ namespace DuckGame.Weapons
 
         public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

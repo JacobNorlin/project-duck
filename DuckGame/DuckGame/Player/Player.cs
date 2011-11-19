@@ -33,6 +33,8 @@ namespace DuckGame.Players
 
         public Vector3 Position { get { return Conversion.ToXNAVector(Body.Position); } }
 
+        public Weapon currentWeapon;
+
         public Player(Engine _owner, Vector3 position)
             : base(_owner)
         {
@@ -49,6 +51,9 @@ namespace DuckGame.Players
             //Players can't fall
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
             Owner.Physics.AddConstraint(upright);
+
+            //TEMPORARY
+            currentWeapon = new Pistol1(_owner, this, "", 1);
         }
 
         ~Player()

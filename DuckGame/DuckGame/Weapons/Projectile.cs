@@ -1,13 +1,21 @@
-﻿using DuckEngine;
+﻿using System.Collections.Generic;
+using DuckEngine;
+using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
+using DuckGame.Weapons;
+using Jitter.Collision.Shapes;
+using Jitter.Dynamics;
+using Jitter.Dynamics.Constraints;
+using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
+using DuckEngine.Maps;
 
 namespace DuckGame.Weapons
 {
-    abstract class Projectile : Entity, ILogic, IDraw3D
+    abstract class Projectile : Entity, ILogic, IDraw3D, ICollide
     {
-        protected Vector3 position;
-        public Vector3 Position { get { return position; } }
+
+        private static JVector size = new JVector(0.5f, 0.5f, 0.5f);
 
         protected float damage;
         public float Damage { get { return damage; } }
@@ -21,9 +29,28 @@ namespace DuckGame.Weapons
         protected float collisionSize;
         public float CollisionSize { get { return collisionSize; } }
 
-        public Projectile(Engine _owner)
+        protected RigidBody body;
+        public RigidBody Body { get { return body; } }
+
+        public Projectile(Engine _owner, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
             : base(_owner)
         {
+            Owner.addLogic(this);
+            Owner.addDraw3D(this);
+            damage = _damage;
+            speed = _speed;
+            target = _target;
+            collisionSize = _collisionSize;
+
+            //Create body and add to physics engine
+            Shape boxShape = new BoxShape(size);
+            body = new RigidBody(boxShape);
+            body.Mass = 1f;
+            body.Position = Conversion.ToJitterVector(_position);
+            body.AllowDeactivation = false;
+            body.AffectedByGravity = false;
+            body.Tag = this;
+            Owner.Physics.AddBody(body);
         }
 
         //public void Move() { } //Unecessary, use physics engine instead.
@@ -33,5 +60,20 @@ namespace DuckGame.Weapons
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw3D(GameTime gameTime);
+
+        public void Collide(Entity other)
+        {
+            OnHit();
+        }
+
+        public bool BroadPhaseFilter(Entity other)
+        {
+            if (other is Projectile)
+            {
+                return false;
+            }
+
+            return false;
+        }
     }
 }

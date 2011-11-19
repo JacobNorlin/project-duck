@@ -18,7 +18,7 @@ namespace DuckGame.Maps
             : base(_owner)
         {
             //Ground
-            RigidBody ground = new Box(Owner, new JVector(10, 4, 10)).Body;
+            RigidBody ground = new Box(Owner, new JVector(100, 4, 100)).Body;
             ground.IsStatic = true;
 
             //Falling box

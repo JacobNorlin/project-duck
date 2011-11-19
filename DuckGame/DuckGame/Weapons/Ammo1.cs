@@ -1,24 +1,30 @@
 ﻿using DuckEngine;
 using Microsoft.Xna.Framework;
+using DuckEngine.Helpers;
 
 namespace DuckGame.Weapons
 {
     class Ammo1 : Projectile
     {
-        public Ammo1(Engine _owner, Vector3 _position)
-            : base(_owner)
+        public Ammo1(Engine _owner, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
+            : base(_owner, _position, _damage, _speed, _target, _collisionSize)
         {
-            position = _position;
+            body.LinearVelocity = Conversion.ToJitterVector(target * 1 * speed);
         }
 
         public override void Update(GameTime gameTime)
         {
-            //throw new NotImplementedException();
         }
 
         public override void Draw3D(GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            Owner.Helper3D.DrawBoxBody(Body, Color.Blue);
+        }
+
+        public override void OnHit()
+        {
+            Owner.removeDraw3D(this);
+            Owner.Physics.RemoveBody(body);
         }
     }
 }

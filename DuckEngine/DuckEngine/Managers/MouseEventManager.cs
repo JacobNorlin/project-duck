@@ -72,7 +72,7 @@ namespace DuckEngine.Managers
         }
 
         // Helper method to get the 3d ray
-        private Vector3 RayTo(int x, int y)
+        public Vector3 RayTo(int x, int y)
         {
             Vector3 nearSource = new Vector3(x, y, 0);
             Vector3 farSource = new Vector3(x, y, 1);
