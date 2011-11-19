@@ -75,11 +75,12 @@ namespace DuckGame.Players
                     bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                                               null, out hitBody, out hitNormal, out hitFraction);
                     if(result){
-                        rayDirection.Normalize();
                         Vector3 targetPoint = Conversion.ToXNAVector(rayDirection * hitFraction);
+                        
                         Vector3 target = targetPoint - this.Position;
-                        target.Z += 1;
-                        currentWeapon.Fire(target);
+                        System.Console.WriteLine(target);
+                        targetPoint.Z += 1;
+                        currentWeapon.Fire(targetPoint);
                     }
                 }
             }
