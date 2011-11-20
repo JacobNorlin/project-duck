@@ -16,8 +16,7 @@ namespace DuckGame
         private GameState gameState = GameState.Playing;
         PlayerCamera playerCamera;
         DebugCamera debugCamera;
-        private  RigidBody moving;
-        private JVector along;
+        MapEditor mapEditor;
 
         public GameController(Engine _owner, Player player)
             : base(_owner)
@@ -25,20 +24,14 @@ namespace DuckGame
             Owner.addInput(this);
             playerCamera = new PlayerCamera(Owner);
             debugCamera = new DebugCamera(Owner, Vector3.Zero);
-            _owner.Camera = playerCamera;
+            mapEditor = new MapEditor(this);
+            Owner.Camera = playerCamera;
             playerCamera.Player = player;
            
         }
 
         public void Input(GameTime gameTime, InputManager input)
         {
-            if (input.Keyboard_IsKeyDown(Keys.D8) && gameState != GameState.Playing)
-            {
-                gameState = GameState.Playing;
-                Owner.Camera = playerCamera;
-                Owner.MouseEventManager.OnMouseOver = Owner.MouseEventManager.DefaultOnMouseOver;
-            }
-
             if (input.Keyboard_IsKeyDown(Keys.D9) && gameState != GameState.Editing)
             {
                 gameState = GameState.Editing;
@@ -46,42 +39,18 @@ namespace DuckGame
                 //+Vector3.Up only so you notice you've changed camera mode
                 debugCamera.Target = playerCamera.Player.Position;
                 Owner.Camera = debugCamera;
-                Owner.MouseEventManager.OnMouseOver = lol;
+                mapEditor.Activate();
             }
-
+            if (input.Keyboard_IsKeyDown(Keys.D8) && gameState != GameState.Playing)
+            {
+                gameState = GameState.Playing;
+                Owner.Camera = playerCamera;
+                mapEditor.Deactivate();
+            }
+            
             if (input.Keyboard_WasKeyReleased(Keys.Escape))
             {
                 Owner.Exit();
-            }
-
-            editorMouseHandling(gameTime, input);
-        }
-
-        public void lol(GameTime gameTime, InputManager input,
-            RigidBody hitBody, JVector hitNormal, float hitFraction)
-        {
-            if (input.Mouse_WasButtonPressed(InputManager.MouseButton.Left))
-            {
-                moving = hitBody;
-                moving.IsActive = false;
-                along = hitNormal;
-            }
-        }
-
-        private void editorMouseHandling(GameTime gameTime, InputManager input)
-        {
-            if (moving != null) {
-                moving.IsActive = false;
-                if (input.Mouse_IsButtonDown(InputManager.MouseButton.Left))
-                {
-                    Point movement = input.Mouse_Movement();
-                    moving.Position += along * movement.Y * 0.05f;
-                }
-                else
-                {
-                    moving.IsActive = true;
-                    moving = null;
-                }
             }
         }
     }

@@ -16,15 +16,20 @@ namespace DuckEngine.Managers
         private RigidBody mouseOver3D;
         public delegate void MouseOverHandler(GameTime gameTime, InputManager input,
             RigidBody hitBody, JVector hitNormal, float hitFraction);
-        public MouseOverHandler OnMouseOver;
+
+        /// <summary>
+        /// method to be called while the mouse is hovering over
+        /// a body.
+        /// </summary>
+        public MouseOverHandler WhileMouseOver;
 
         public MouseEventManager(Engine _owner)
             : base(_owner)
         {
-            OnMouseOver = DefaultOnMouseOver;
+            WhileMouseOver = DefaultWhileMouseOver;
         }
 
-        public void DefaultOnMouseOver(GameTime gameTime, InputManager input,
+        public void DefaultWhileMouseOver(GameTime gameTime, InputManager input,
             RigidBody hitBody, JVector hitNormal, float hitFraction)
         {
             if (hitBody != mouseOver3D)
@@ -51,42 +56,23 @@ namespace DuckEngine.Managers
         
         private void d3(GameTime gameTime, InputManager input)
         {
-            int x = input.CurrentMouseState.X;
-            int y = input.CurrentMouseState.Y;
-            if (x >= 0 && y >= 0)
+            Ray mouseRay = input.MouseRay;
+            if (mouseRay != null)
             {
-                JVector rayOrigin = Conversion.ToJitterVector(Owner.Camera.Position);
-                JVector rayDirection = Conversion.ToJitterVector(RayTo(x, y));
+                JVector rayOrigin = Conversion.ToJitterVector(mouseRay.Position);
+                JVector rayDirection = Conversion.ToJitterVector(mouseRay.Direction);
                 RigidBody hitBody;
                 JVector hitNormal;
                 float hitFraction;
-
+                
                 bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                     null, out hitBody, out hitNormal, out hitFraction);
-                if (result && OnMouseOver != null)
+                if (result && WhileMouseOver != null)
                 {
-                    OnMouseOver(gameTime, input, hitBody, hitNormal, hitFraction);
+                    WhileMouseOver(gameTime, input, hitBody, hitNormal, hitFraction);
                 }
                 mouseOver3D = hitBody;
             }
-        }
-
-        // Helper method to get the 3d ray
-        public Vector3 RayTo(int x, int y)
-        {
-            Vector3 nearSource = new Vector3(x, y, 0);
-            Vector3 farSource = new Vector3(x, y, 1);
-
-            Matrix world = Matrix.CreateTranslation(0, 0, 0);
-            Vector3 nearPoint = Owner.GraphicsDevice.Viewport.Unproject(nearSource,
-                Owner.Camera.Projection, Owner.Camera.View, world);
-            Vector3 farPoint = Owner.GraphicsDevice.Viewport.Unproject(farSource,
-                Owner.Camera.Projection, Owner.Camera.View, world);
-
-            Vector3 direction = farPoint - nearPoint;
-            direction.Normalize();
-
-            return direction;
         }
     }
 }

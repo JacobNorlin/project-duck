@@ -96,7 +96,7 @@ namespace DuckEngine
 
             //Managers
             graphics = new GraphicsDeviceManager(this);
-            inputManager = new InputManager();
+            inputManager = new InputManager(this);
             mouseEventManager = new MouseEventManager(this);
             networkManager = new NetworkManager();
             soundManager = new SoundManager();

@@ -18,7 +18,7 @@ namespace DuckEngine
         private float nearPlaneDistance = 0.01f;
         private float farPlaneDistance = 1000.0f;
 
-        protected Matrix view;
+        protected Matrix view = Matrix.Identity;
         public Matrix View { get { return view; } }
 
         protected Matrix projection;
@@ -69,11 +69,6 @@ namespace DuckEngine
         protected void UpdateProjection()
         {
             projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance);
-        }
-
-        protected void CenterMouse()
-        {
-            Mouse.SetPosition(WidthOver2, HeightOver2);
         }
     }
 }

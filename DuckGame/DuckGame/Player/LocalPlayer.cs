@@ -3,11 +3,8 @@ using Jitter.LinearMath;
 using DuckEngine.Helpers;
 using Jitter.Dynamics;
 using Microsoft.Xna.Framework;
-using DuckEngine.Helpers;
 using DuckEngine.Input;
 using DuckEngine.Interfaces;
-using Jitter.LinearMath;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace DuckGame.Players
@@ -66,8 +63,8 @@ namespace DuckGame.Players
                 int y = input.CurrentMouseState.Y;
                 if (x >= 0 && y >= 0)
                 {
-                    JVector rayOrigin = Conversion.ToJitterVector(Owner.Camera.Position);
-                    JVector rayDirection = Conversion.ToJitterVector(Owner.MouseEventManager.RayTo(x, y));
+                    JVector rayOrigin = Conversion.ToJitterVector(input.MouseRay.Position);
+                    JVector rayDirection = Conversion.ToJitterVector(input.MouseRay.Direction);
                     RigidBody hitBody;
                     JVector hitNormal;
                     float hitFraction;
@@ -78,7 +75,6 @@ namespace DuckGame.Players
                         Vector3 targetPoint = Conversion.ToXNAVector(rayDirection * hitFraction);
                         
                         Vector3 target = targetPoint - this.Position;
-                        System.Console.WriteLine(target);
                         targetPoint.Z += 1;
                         currentWeapon.Fire(targetPoint);
                     }
