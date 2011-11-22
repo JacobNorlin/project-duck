@@ -9,20 +9,44 @@ namespace DuckEngine.Helpers
     /// <summary>
     /// Draw axis aligned bounding boxes, points and lines.
     /// </summary>
-    public class DebugDrawer : DrawableGameComponent, Jitter.IDebugDrawer
+    public class DebugDrawer : Jitter.IDebugDrawer
     {
         BasicEffect basicEffect;
 
-        public DebugDrawer(Game game)
-            : base(game)
+        public VertexPositionColor[] TriangleList = new VertexPositionColor[99];
+        public VertexPositionColor[] LineList = new VertexPositionColor[50];
+
+        private int lineIndex = 0;
+        private int triangleIndex = 0;
+        private Engine Owner;
+
+        public DebugDrawer(Engine _owner)
         {
+            Owner = _owner;
         }
 
-        public override void Initialize()
+        internal void Initialize()
         {
-            base.Initialize();
-            basicEffect = new BasicEffect(this.GraphicsDevice);
+            basicEffect = new BasicEffect(Owner.GraphicsDevice);
             basicEffect.VertexColorEnabled = true;
+        }
+
+        public void DrawLine(Vector3 v0, Vector3 v1, Color c0, Color c1)
+        {
+            lineIndex += 2;
+
+            if (lineIndex == LineList.Length)
+            {
+                VertexPositionColor[] temp = new VertexPositionColor[LineList.Length + 50];
+                LineList.CopyTo(temp, 0);
+                LineList = temp;
+            }
+
+            LineList[lineIndex - 2].Color = c0;
+            LineList[lineIndex - 2].Position = v0;
+
+            LineList[lineIndex - 1].Color = c1;
+            LineList[lineIndex - 1].Position = v1;
         }
 
         public void DrawLine(JVector p0, JVector p1, Color color)
@@ -116,19 +140,10 @@ namespace DuckEngine.Helpers
             }
         }
 
-        public VertexPositionColor[] TriangleList = new VertexPositionColor[99];
-        public VertexPositionColor[] LineList = new VertexPositionColor[50];
-
-        private int lineIndex = 0;
-        private int triangleIndex = 0;
-
-        public override void Draw(GameTime gameTime)
+        public void Draw()
         {
-            Engine demo = Game as Engine;
-
-            basicEffect.View = demo.Camera.View;
-            basicEffect.Projection = demo.Camera.Projection;
-
+            basicEffect.View = Owner.Camera.View;
+            basicEffect.Projection = Owner.Camera.Projection;
 
 
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
@@ -136,18 +151,16 @@ namespace DuckEngine.Helpers
                 pass.Apply();
 
                 if (lineIndex > 0)
-                    GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    Owner.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                         PrimitiveType.LineList, LineList, 0, lineIndex / 2);
 
                 if (triangleIndex > 0)
-                    GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    Owner.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                         PrimitiveType.TriangleList, TriangleList, 0, triangleIndex / 3);
             }
 
             lineIndex = 0;
             triangleIndex = 0;
-
-            base.Draw(gameTime);
         }
 
 

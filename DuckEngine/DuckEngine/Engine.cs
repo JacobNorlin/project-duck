@@ -123,6 +123,8 @@ namespace DuckEngine
         /// </summary>
         protected override void Initialize()
         {
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            debugDrawer.Initialize();
             startup.Initialize(this);
             base.Initialize();
         }
@@ -194,6 +196,8 @@ namespace DuckEngine
             {
                 entity.Draw2D(spriteBatch);
             }
+
+            debugDrawer.Draw();
 
             base.Draw(gameTime);
         }
