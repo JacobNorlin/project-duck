@@ -14,14 +14,14 @@ namespace DuckEngine.Managers
     public class MouseEventManager : Entity
     {
         private RigidBody mouseOver3D;
-        public delegate void MouseOverHandler(GameTime gameTime, InputManager input,
-            RigidBody hitBody, JVector hitNormal, float hitFraction);
+        public delegate void WhileMouseOverHandler(GameTime gameTime, InputManager input,
+            RigidBody hitBody, Ray hitNormalRay, float hitFraction);
 
         /// <summary>
         /// method to be called while the mouse is hovering over
         /// a body.
         /// </summary>
-        public MouseOverHandler WhileMouseOver;
+        public WhileMouseOverHandler WhileMouseOver;
 
         public MouseEventManager(Engine _owner)
             : base(_owner)
@@ -30,7 +30,7 @@ namespace DuckEngine.Managers
         }
 
         public void DefaultWhileMouseOver(GameTime gameTime, InputManager input,
-            RigidBody hitBody, JVector hitNormal, float hitFraction)
+            RigidBody hitBody, Ray hitNormalRay, float hitFraction)
         {
             if (hitBody != mouseOver3D)
             {
@@ -69,7 +69,10 @@ namespace DuckEngine.Managers
                     null, out hitBody, out hitNormal, out hitFraction);
                 if (result && WhileMouseOver != null)
                 {
-                    WhileMouseOver(gameTime, input, hitBody, hitNormal, hitFraction);
+                    Ray hitNormalRay;
+                    hitNormalRay.Direction = Conversion.ToXNAVector(hitNormal);
+                    hitNormalRay.Position = mouseRay.Position + mouseRay.Direction * hitFraction;
+                    WhileMouseOver(gameTime, input, hitBody, hitNormalRay, hitFraction);
                 }
                 mouseOver3D = hitBody;
             }
