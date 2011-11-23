@@ -82,7 +82,21 @@ namespace DuckEngine
         #endregion
 
         public bool multithread = true;
-        
+        private bool physicsEnabled = true;
+        public bool PhysicsEnabled
+        {
+            get { return physicsEnabled; }
+            set
+            {
+                if (value && !physicsEnabled)
+                {
+                    physicsEnabled = true;
+                    ActivateAllPhysicalBodies();
+                }
+                physicsEnabled = value;
+            }
+        }
+
         public Engine(StartupObject _startup)
         {
             this.IsMouseVisible = true;
@@ -93,6 +107,7 @@ namespace DuckEngine
             physics = new World(new CollisionSystemSAP());
             physics.CollisionSystem.CollisionDetected += new CollisionDetectedHandler(CollisionDetected);
             physics.CollisionSystem.PassedBroadphase += new PassedBroadphaseHandler(PassedBroadphase);
+            physics.AllowDeactivation = true;
 
             //Managers
             graphics = new GraphicsDeviceManager(this);
@@ -169,10 +184,13 @@ namespace DuckEngine
                 entity.Update(gameTime);
             }
 
-            //Physics
-            float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (step > 0.01f) step = 0.01f;
-            physics.Step(step, multithread);
+            //Physics if enabled
+            if (physicsEnabled)
+            {
+                float step = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (step > 0.01f) step = 0.01f;
+                physics.Step(step, multithread);
+            }
 
             mouseEventManager.ExecuteMouseEvents(gameTime, Input);
 
@@ -352,5 +370,18 @@ namespace DuckEngine
             AllInput.Remove(e);
         }
         #endregion
+
+        private void ActivateAllPhysicalBodies()
+        {
+            foreach (RigidBody body in Physics.RigidBodies)
+            {
+                body.IsActive = true;
+            }
+            //How do I activate a softbody? problem for future me //Björn
+            //foreach (SoftBody body in Physics.SoftBodies)
+            //{
+            //    body.IsActive = true;
+            //}
+        }
     }
 }

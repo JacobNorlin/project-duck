@@ -52,10 +52,23 @@ namespace DuckGame
 
         private enum MoveMode { None, CameraRelative, PlaneRelative, LineRelative };
         private MoveMode moveMode;
-        private float hitFraction;
+        private float hitDistance;
         private MyPlane plane;
         private Vector3 moveOffset;
         private float planeSize;
+        private float lineLength;
+
+        private bool physicsWereEnabledLastTime = false;
+        private bool physicsEnabled
+        {
+            get { return physicsWereEnabledLastTime; }
+            set
+            {
+                game.Owner.Physics.AllowDeactivation = value;
+                physicsWereEnabledLastTime = value;
+                game.Owner.PhysicsEnabled = value;
+            }
+        }
 
         public MapEditor(GameController _gameController)
         {
@@ -66,6 +79,7 @@ namespace DuckGame
         internal void Activate()
         {
             active = true;
+            physicsEnabled = physicsWereEnabledLastTime;
             game.Owner.Physics.AllowDeactivation = false;
             game.Owner.MouseEventManager.WhileMouseOver = whileMouseOver;
         }
@@ -73,7 +87,7 @@ namespace DuckGame
         internal void Deactivate()
         {
             active = false;
-            game.Owner.Physics.AllowDeactivation = true;
+            physicsEnabled = true;
             game.Owner.MouseEventManager.WhileMouseOver = game.Owner.MouseEventManager.DefaultWhileMouseOver;
         }
 
@@ -81,7 +95,10 @@ namespace DuckGame
         {
             if (!active)
                 return;
-
+            if (input.Keyboard_WasKeyPressed(Keys.Space))
+            {
+                physicsEnabled = !physicsEnabled;
+            }
             if (moveMode == MoveMode.None)
                 return;
 
@@ -101,32 +118,32 @@ namespace DuckGame
             switch (moveMode)
             {
                 case MoveMode.CameraRelative:
+                    hitDistance += input.MouseScroll * 0.01f;
                     hitBody.Position = Conversion.ToJitterVector(
                         input.MouseRay.Position -
                         moveOffset +
-                        input.MouseRay.Direction * hitFraction
-                        
+                        input.MouseRay.Direction * hitDistance
                         );
                     break;
                 case MoveMode.LineRelative:
                     break;
                 case MoveMode.PlaneRelative:
-                    float? _f = input.MouseRay.Intersects(plane.Plane);
-                    if (!_f.HasValue || _f.Value > 500)
+                    float? _mouseRayPlaneIntersectionDistance = input.MouseRay.Intersects(plane.Plane);
+                    if (!_mouseRayPlaneIntersectionDistance.HasValue || _mouseRayPlaneIntersectionDistance.Value > 500)
                     {
-                        _f = 500;
+                        _mouseRayPlaneIntersectionDistance = 500;
                     }
-                    float f = (float)_f;
+                    float mouseRayPlaneIntersectionDistance = (float)_mouseRayPlaneIntersectionDistance;
                     hitBody.Position = Conversion.ToJitterVector(
                         input.MouseRay.Position -
                         moveOffset +
-                        input.MouseRay.Direction * f);
+                        input.MouseRay.Direction * mouseRayPlaneIntersectionDistance);
                     break;
             }
         }
 
         public void whileMouseOver(GameTime gameTime, InputManager input,
-            RigidBody _hitBody, Ray _hitNormal, float _hitFraction)
+            RigidBody _hitBody, Ray _hitNormal, float _hitDistance)
         {
             bool leftPressed =
                  input.Mouse_WasButtonPressed(InputManager.MouseButton.Left) &&
@@ -134,32 +151,36 @@ namespace DuckGame
             bool rightPressed =
                  input.Mouse_WasButtonPressed(InputManager.MouseButton.Right) &&
                 !input.Mouse_IsButtonDown(InputManager.MouseButton.Left);
+            bool shiftDown = input.Keyboard_IsKeyDown(Keys.LeftShift);
 
-            if (leftPressed || rightPressed) {
-                hitBody = _hitBody;
-                hitBody.IsActive = false;
 
-                if (leftPressed)
-                {
-                    moveMode = MoveMode.CameraRelative;
-                    hitFraction = _hitFraction;
-                }
-                else
-                {
-                    if (input.Keyboard_IsKeyDown(Keys.LeftShift))
-                    {
-                        moveMode = MoveMode.LineRelative;
-                        hitNormal = _hitNormal;
-                    }
-                    else
-                    {
-                        Console.WriteLine(_hitNormal);
-                        moveMode = MoveMode.PlaneRelative;
-                        planeSize = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
-                        plane = new MyPlane(_hitNormal);
-                        moveOffset = _hitNormal.Position - Conversion.ToXNAVector(hitBody.Position);
-                    }
-                }
+            if      (leftPressed  && !shiftDown)    moveMode = MoveMode.CameraRelative;
+            else if (rightPressed &&  shiftDown)    moveMode = MoveMode.LineRelative;
+            else if (rightPressed && !shiftDown)    moveMode = MoveMode.PlaneRelative;
+            else                                    return;
+
+            if (input.Keyboard_IsKeyDown(Keys.LeftControl) &&
+                _hitBody.Tag is PhysicalEntity)
+            {
+                _hitBody = ((PhysicalEntity)_hitBody.Tag).Clone().Body;
+            }
+            hitBody = _hitBody;
+            hitBody.IsActive = false;
+            moveOffset = _hitNormal.Position - Conversion.ToXNAVector(hitBody.Position);
+
+            switch (moveMode)
+            {
+                case MoveMode.CameraRelative:
+                    hitDistance = _hitDistance;
+                    break;
+                case MoveMode.LineRelative:
+                    hitNormal = _hitNormal;
+                    lineLength = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
+                    break;
+                case MoveMode.PlaneRelative:
+                    plane = new MyPlane(_hitNormal);
+                    planeSize = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
+                    break;
             }
         }
 

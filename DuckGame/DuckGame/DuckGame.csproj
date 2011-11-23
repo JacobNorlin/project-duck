@@ -101,6 +101,7 @@
     <Compile Include="GameStartup.cs" />
     <Compile Include="MapEditor.cs" />
     <Compile Include="Maps\Terrain.cs" />
+    <Compile Include="PhysicalEntity.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="Weapons\Ammo1.cs" />
     <Compile Include="Maps\Map.cs" />

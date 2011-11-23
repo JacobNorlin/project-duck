@@ -7,15 +7,16 @@ using Microsoft.Xna.Framework;
 
 namespace DuckGame
 {
-    class Box : Entity, IDraw3D
+    class Box : PhysicalEntity, IDraw3D
     {
-        private RigidBody body;
-        public RigidBody Body { get { return body; } }
-
         public Box(Engine _owner, JVector size)
+            : this(_owner, new BoxShape(size))
+        {
+        }
+
+        public Box(Engine _owner, Shape boxShape)
             : base(_owner)
         {
-            Shape boxShape = new BoxShape(size);
             body = new RigidBody(boxShape);
             body.Tag = this;
             Owner.Physics.AddBody(body);
@@ -30,6 +31,14 @@ namespace DuckGame
         public void Draw3D(GameTime gameTime)
         {
             Owner.Helper3D.DrawBoxBody(Body, Color.Green);
+        }
+
+        public override PhysicalEntity Clone()
+        {
+            Box newBox = new Box(Owner, body.Shape);
+            newBox.body.Position = body.Position;
+            newBox.body.Orientation = body.Orientation;
+            return newBox;
         }
     }
 }

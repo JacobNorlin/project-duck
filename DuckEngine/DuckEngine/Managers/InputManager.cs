@@ -67,6 +67,9 @@ namespace DuckEngine.Input
         private Ray mouseRay = new Ray();
         public Ray MouseRay { get { return mouseRay; } }
 
+        private int mouseScrollChange = 0;
+        public int MouseScroll { get { return mouseScrollChange; } }
+
         private Point mouseFrozenAt;
         private bool mouseFrozen;
         public bool MouseFrozen
@@ -132,9 +135,11 @@ namespace DuckEngine.Input
                 Mouse.SetPosition(mouseFrozenAt.X, mouseFrozenAt.Y);
                 currentMouseState = Mouse.GetState(); //refresh mouse state
             }
+
+            mouseScrollChange = currentMouseState.ScrollWheelValue - lastMouseState.ScrollWheelValue;
+
             mouseRay.Position = Owner.Camera.Position;
             mouseRay.Direction = RayTo(currentMouseState.X, currentMouseState.Y);
-
 
             lastKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
