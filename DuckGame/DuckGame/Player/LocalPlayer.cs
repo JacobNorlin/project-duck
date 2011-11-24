@@ -72,11 +72,11 @@ namespace DuckGame.Players
                     bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                                               null, out hitBody, out hitNormal, out hitFraction);
                     if(result){
-                        Vector3 targetPoint = Conversion.ToXNAVector(rayDirection * hitFraction);
-                        
-                        Vector3 target = targetPoint - this.Position;
-                        targetPoint.Z += 1;
-                        currentWeapon.Fire(targetPoint);
+                        Vector3 targetPoint = Conversion.ToXNAVector((rayDirection * hitFraction) + rayOrigin); //Get the vector in relation to the origin and put it at the position of the camera
+                        //Get the position at which have the mouse       //We have to correct for when the player is moving
+                        Vector3 target = (targetPoint - this.Position);// +Conversion.ToXNAVector(Body.LinearVelocity) / 2;
+                       // target.Y = 1;
+                        currentWeapon.Fire(target);
                     }
                 }
             }

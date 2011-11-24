@@ -9,6 +9,7 @@ namespace DuckGame.Weapons
         public Ammo1(Engine _owner, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
             : base(_owner, _position, _damage, _speed, _target, _collisionSize)
         {
+            target.Normalize();
             body.LinearVelocity = Conversion.ToJitterVector(target * speed);
         }
 

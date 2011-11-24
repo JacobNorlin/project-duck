@@ -17,7 +17,7 @@ namespace DuckGame.Weapons
             Vector3 origin = Conversion.ToXNAVector(holder.Body.Position);
             origin.Z += 1;
             //Projectile(Owner, Holder, Damage, Speed, Target, CollisionSize)
-            Projectile p = new Ammo1(Owner,origin, 1, 0.5f, target, 1);
+            Projectile p = new Ammo1(Owner,origin, 1, 25f, target, 1);
         }
     }
 }
