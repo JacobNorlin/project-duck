@@ -38,6 +38,7 @@ namespace DuckGame
             Box newBox = new Box(Owner, body.Shape);
             newBox.body.Position = body.Position;
             newBox.body.Orientation = body.Orientation;
+            newBox.body.IsStatic = body.IsStatic;
             return newBox;
         }
     }

@@ -118,14 +118,25 @@ namespace DuckGame
             switch (moveMode)
             {
                 case MoveMode.CameraRelative:
-                    hitDistance += input.MouseScroll * 0.01f;
+                    hitDistance += input.MouseScroll * 0.02f;
                     hitBody.Position = Conversion.ToJitterVector(
                         input.MouseRay.Position -
                         moveOffset +
                         input.MouseRay.Direction * hitDistance
                         );
                     break;
-                case MoveMode.LineRelative:
+                case MoveMode.LineRelative: //The point on hitNormal closest to the mouseRay
+                    //Guard against parallel or almost paralell lines.
+                    if (Vector3.Dot(Vector3.Normalize(input.MouseRay.Direction),
+                                    Vector3.Normalize(hitNormal.Direction)) > 0.99f)
+                    {
+                        break;
+                    }
+                    Vector3 between = input.MouseRay.Position - hitNormal.Position;
+                    Vector3 normal = Vector3.Cross(input.MouseRay.Direction, hitNormal.Direction);
+                    Vector3 R = Vector3.Divide(Vector3.Cross(between, normal), normal.LengthSquared());
+                    Vector3 P = hitNormal.Position + hitNormal.Direction * Vector3.Dot(R, input.MouseRay.Direction);
+                    hitBody.Position = Conversion.ToJitterVector(P - moveOffset);
                     break;
                 case MoveMode.PlaneRelative:
                     float? _mouseRayPlaneIntersectionDistance = input.MouseRay.Intersects(plane.Plane);
@@ -175,7 +186,7 @@ namespace DuckGame
                     break;
                 case MoveMode.LineRelative:
                     hitNormal = _hitNormal;
-                    lineLength = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
+                    planeSize = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
                     break;
                 case MoveMode.PlaneRelative:
                     plane = new MyPlane(_hitNormal);
@@ -197,6 +208,9 @@ namespace DuckGame
             {
                 case MoveMode.PlaneRelative:
                     drawPlane(center, plane, planeSize);
+                    break;
+                case MoveMode.LineRelative:
+                    drawLine(center, hitNormal.Direction, planeSize);
                     break;
             }
         }
@@ -228,6 +242,21 @@ namespace DuckGame
                     Color.Transparent,
                     middleColor);
             }
+        }
+
+        private void drawLine(Vector3 center, Vector3 direction, float lineLength)
+        {
+            lineLength = lineLength * 1.5f + 3;
+            game.Owner.DebugDrawer.DrawLine(
+                center + direction * lineLength,
+                center,
+                Color.Transparent,
+                Color.Black);
+            game.Owner.DebugDrawer.DrawLine(
+                center - direction * lineLength,
+                center,
+                Color.Transparent,
+                Color.Black);
         }
     }
 }
