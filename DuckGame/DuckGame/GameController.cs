@@ -7,6 +7,7 @@ using DuckGame.Players;
 using DuckEngine.Managers;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
+using DuckGame.MapEdit;
 
 namespace DuckGame
 {

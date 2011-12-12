@@ -99,7 +99,8 @@
     <Compile Include="DebugCamera.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameStartup.cs" />
-    <Compile Include="MapEditor.cs" />
+    <Compile Include="MapEditor\SavedState.cs" />
+    <Compile Include="MapEditor\MapEditor.cs" />
     <Compile Include="Maps\Terrain.cs" />
     <Compile Include="PhysicalEntity.cs" />
     <Compile Include="PlayerCamera.cs" />
