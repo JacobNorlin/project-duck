@@ -76,7 +76,7 @@ namespace DuckGame.Players
                         
                         Vector3 target = targetPoint - this.Position;
                         targetPoint.Z += 1;
-                        currentWeapon.Fire(targetPoint);
+                        //currentWeapon.Fire(targetPoint);
                     }
                 }
             }

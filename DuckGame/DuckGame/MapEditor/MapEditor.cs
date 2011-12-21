@@ -11,11 +11,11 @@ using Microsoft.Xna.Framework.Input;
 using DuckEngine.Interfaces;
 using DuckEngine.Helpers;
 using DuckEngine.MapEditor;
+using DuckEngine.MapEditor.SaveStates;
 
 namespace DuckGame.MapEdit
 {
-    #region struct for Plane constructible from ray
-    struct MyPlane
+    struct MyPlane //struct for Plane constructible from ray
     {
         public readonly Plane Plane;
         public readonly Vector3 up;
@@ -42,32 +42,68 @@ namespace DuckGame.MapEdit
                 normalRay.Position + right);
         }
     }
-    #endregion
 
     class MapEditor : IInput, IDraw3D
     {
-        private RigidBody hitBody;
+        public IEnumerable<RigidBody> AllBodies { get { return game.Owner.Physics.RigidBodies; } }
+
         private Ray hitNormal = new Ray();
         private GameController game;
-        private bool active;
-        private SavedState savedState = new SavedState();
+        private StateChange stateInChange;
+        private SaveStateManager states = new SaveStateManager();
+        private Selection selected = new Selection();
+        private Selection copied = null;
 
         private enum MoveMode { None, CameraRelative, PlaneRelative, LineRelative };
         private MoveMode moveMode;
         private float hitDistance;
         private MyPlane plane;
         private Vector3 moveOffset;
-        private float planeSize;
-        
-        private bool physicsWereEnabledLastTime = false;
-        private bool physicsEnabled
+
+        private bool paused = false;
+        private bool Paused
         {
-            get { return physicsWereEnabledLastTime; }
+            get { return paused; }
             set
             {
-                game.Owner.Physics.AllowDeactivation = value;
-                physicsWereEnabledLastTime = value;
-                game.Owner.PhysicsEnabled = value;
+                if (!value && paused) //on play
+                {
+                    if (moveMode != MoveMode.None)
+                    {
+                        finishStateChange(selected); //in case of pressing pause while dragging objects
+                    }
+                    startStateChange(AllBodies);
+                }
+                else if (value && !paused) //on pause
+                {
+                    finishStateChange(AllBodies);
+                }
+                game.Owner.PhysicsEnabled = !value;
+                paused = value;
+            }
+        }
+
+        private bool active = false;
+        private bool mouseOverRanSinceLastLeftMousePress;
+        private Selection selectedButNotMoving;
+        public bool Active
+        {
+            get { return active; }
+            set
+            {
+                if (value && !active)
+                {
+                    Paused = true;
+                    game.Owner.Physics.AllowDeactivation = false; //maybe?
+                    game.Owner.MouseEventManager.WhileMouseOver = whileMouseOver;
+                }
+                else if (!value && active)
+                {
+                    Paused = false;
+                    game.Owner.Physics.AllowDeactivation = true; //maybe?
+                    game.Owner.MouseEventManager.WhileMouseOver = game.Owner.MouseEventManager.DefaultWhileMouseOver;
+                }
+                active = value;
             }
         }
 
@@ -77,33 +113,31 @@ namespace DuckGame.MapEdit
             game.Owner.addAll(this);
         }
 
-        internal void Activate()
-        {
-            active = true;
-            physicsEnabled = physicsWereEnabledLastTime;
-            game.Owner.Physics.AllowDeactivation = false;
-            game.Owner.MouseEventManager.WhileMouseOver = whileMouseOver;
-            saveState();
-        }
-
-        internal void Deactivate()
-        {
-            active = false;
-            physicsEnabled = true;
-            game.Owner.MouseEventManager.WhileMouseOver = game.Owner.MouseEventManager.DefaultWhileMouseOver;
-        }
-
         public void Input(GameTime gameTime, InputManager input)
         {
-            if (!active)
+            if (!Active)
                 return;
             if (input.Keyboard_WasKeyPressed(Keys.Space))
             {
-                if (physicsEnabled)
-                {
-                    saveState();
-                }
-                physicsEnabled = !physicsEnabled;
+                Paused = !Paused;
+            }
+            if (input.Keyboard_WasKeyPressed(Keys.Delete))
+            {
+                startStateChange(selected);
+                finishStateChange(null);
+                selected.Clear();
+                selected.Active = false;
+            }
+
+            if (input.Mouse_WasButtonPressed(MouseButton.Left))
+            {
+                mouseOverRanSinceLastLeftMousePress = false;
+            }
+            if (!mouseOverRanSinceLastLeftMousePress &&
+                input.Mouse_WasButtonReleased(MouseButton.Left))
+            {
+                mouseOverRanSinceLastLeftMousePress = true;
+                selected.Clear();
             }
 
             bool shift = input.Keyboard_IsKeyDown(Keys.LeftShift);
@@ -114,26 +148,31 @@ namespace DuckGame.MapEdit
             {
                 if (keyY || keyZ && shift)  redo();
                 else if (keyZ)              undo();
+                if (input.Keyboard_WasKeyPressed(Keys.C))
+                {
+                    //copy, don't set :: moveMode = MoveMode.None;
+                }
+                if (input.Keyboard_WasKeyPressed(Keys.Delete))
+                {
+                    moveMode = MoveMode.None;
+                }
+                if (input.Keyboard_WasKeyPressed(Keys.V))
+                {
+                    //paste, don't set :: moveMode = MoveMode.None;
+                }
             }
 
             if (moveMode == MoveMode.None)
                 return;
 
             //if mouse buttons were released
-            if (input.Mouse_WasButtonReleased(InputManager.MouseButton.Left) &&
-                !input.Mouse_IsButtonDown(InputManager.MouseButton.Right) ||
-                input.Mouse_WasButtonReleased(InputManager.MouseButton.Right) &&
-                !input.Mouse_IsButtonDown(InputManager.MouseButton.Left))
+            if (input.Mouse_WasButtonReleased(MouseButton.Left) &&
+                !input.Mouse_IsButtonDown(MouseButton.Right) ||
+                input.Mouse_WasButtonReleased(MouseButton.Right) &&
+                !input.Mouse_IsButtonDown(MouseButton.Left))
             {
-                moveMode = MoveMode.None;
-                hitBody.IsActive = true;
-                hitBody = null;
-                saveState();
+                finishStateChange(selected);
                 return;
-            }
-            else
-            {
-                hitBody.IsActive = false;
             }
 
             //Update the body's position
@@ -141,11 +180,9 @@ namespace DuckGame.MapEdit
             {
                 case MoveMode.CameraRelative:
                     hitDistance += input.MouseScroll * 0.02f;
-                    hitBody.Position = Conversion.ToJitterVector(
-                        input.MouseRay.Position -
+                    selected.Position = input.MouseRay.Position -
                         moveOffset +
-                        input.MouseRay.Direction * hitDistance
-                        );
+                        input.MouseRay.Direction * hitDistance;
                     break;
                 case MoveMode.LineRelative: //The point on hitNormal closest to the mouseRay
                     //Guard against parallel or almost paralell lines.
@@ -158,7 +195,7 @@ namespace DuckGame.MapEdit
                     Vector3 normal = Vector3.Cross(input.MouseRay.Direction, hitNormal.Direction);
                     Vector3 R = Vector3.Divide(Vector3.Cross(between, normal), normal.LengthSquared());
                     Vector3 P = hitNormal.Position + hitNormal.Direction * Vector3.Dot(R, input.MouseRay.Direction);
-                    hitBody.Position = Conversion.ToJitterVector(P - moveOffset);
+                    selected.Position = P - moveOffset;
                     break;
                 case MoveMode.PlaneRelative:
                     float? _mouseRayPlaneIntersectionDistance = input.MouseRay.Intersects(plane.Plane);
@@ -167,72 +204,139 @@ namespace DuckGame.MapEdit
                         _mouseRayPlaneIntersectionDistance = 500;
                     }
                     float mouseRayPlaneIntersectionDistance = (float)_mouseRayPlaneIntersectionDistance;
-                    hitBody.Position = Conversion.ToJitterVector(
-                        input.MouseRay.Position -
+                    selected.Position = input.MouseRay.Position -
                         moveOffset +
-                        input.MouseRay.Direction * mouseRayPlaneIntersectionDistance);
+                        input.MouseRay.Direction * mouseRayPlaneIntersectionDistance;
                     break;
+            }
+        }
+
+        private void startStateChange(IEnumerable<RigidBody> bodies)
+        {
+            //if (bodies == null)
+            //    Console.WriteLine("start with body count:    null");
+            //else
+            //    Console.WriteLine("start with body count:    " + bodies.Count());
+            
+            stateInChange = new StateChange(bodies);
+        }
+
+        private void finishStateChange(IEnumerable<RigidBody> bodies)
+        {
+            moveMode = MoveMode.None;
+            if (stateInChange != null)
+            {
+                stateInChange.After = bodies;
+                states.saveState(stateInChange);
+                stateInChange = null;
+            }
+            if (selectedButNotMoving != null)
+            {
+                selected.Add(selectedButNotMoving);
+                selectedButNotMoving = null;
             }
         }
 
         private void undo()
         {
-            physicsEnabled = false;
-            moveMode = MoveMode.None;
-            savedState.undo();
+            if (moveMode != MoveMode.None)
+            {
+                finishStateChange(selected); //in case of dragging
+            }
+            Paused = true;
+            selected.Clear();
+            stateInChange = states.undo();
         }
 
         private void redo()
         {
-            physicsEnabled = false;
-            moveMode = MoveMode.None;
-            savedState.redo();
-        }
-
-        private void saveState()
-        {
-            savedState.saveState(game.Owner.Physics.RigidBodies);
+            if (moveMode != MoveMode.None)
+            {
+                finishStateChange(selected); //in case of dragging
+            }
+            Paused = true;
+            selected.Clear();
+            stateInChange = states.redo();
         }
 
         public void whileMouseOver(GameTime gameTime, InputManager input,
             RigidBody _hitBody, Ray _hitNormal, float _hitDistance)
         {
+            mouseOverRanSinceLastLeftMousePress = true;
             bool leftPressed =
-                 input.Mouse_WasButtonPressed(InputManager.MouseButton.Left) &&
-                !input.Mouse_IsButtonDown(InputManager.MouseButton.Right);
+                 input.Mouse_WasButtonPressed(MouseButton.Left) &&
+                !input.Mouse_IsButtonDown(MouseButton.Right);
             bool rightPressed =
-                 input.Mouse_WasButtonPressed(InputManager.MouseButton.Right) &&
-                !input.Mouse_IsButtonDown(InputManager.MouseButton.Left);
-            bool shiftDown = input.Keyboard_IsKeyDown(Keys.LeftShift);
+                 input.Mouse_WasButtonPressed(MouseButton.Right) &&
+                !input.Mouse_IsButtonDown(MouseButton.Left);
 
-
-            if      (leftPressed  && !shiftDown)    moveMode = MoveMode.CameraRelative;
-            else if (rightPressed &&  shiftDown)    moveMode = MoveMode.LineRelative;
-            else if (rightPressed && !shiftDown)    moveMode = MoveMode.PlaneRelative;
-            else                                    return;
-
-            if (input.Keyboard_IsKeyDown(Keys.LeftControl) &&
-                _hitBody.Tag is PhysicalEntity)
+            if (leftPressed || rightPressed)
             {
-                _hitBody = ((PhysicalEntity)_hitBody.Tag).Clone().Body;
-            }
-            hitBody = _hitBody;
-            hitBody.IsActive = false;
-            moveOffset = _hitNormal.Position - Conversion.ToXNAVector(hitBody.Position);
+                bool shiftDown = input.Keyboard_IsKeyDown(Keys.LeftShift);
+                bool ctrlDown = input.Keyboard_IsKeyDown(Keys.LeftControl);
+                bool altDown = input.Keyboard_IsKeyDown(Keys.LeftAlt);
 
-            switch (moveMode)
-            {
-                case MoveMode.CameraRelative:
-                    hitDistance = _hitDistance;
-                    break;
-                case MoveMode.LineRelative:
-                    hitNormal = _hitNormal;
-                    planeSize = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
-                    break;
-                case MoveMode.PlaneRelative:
-                    plane = new MyPlane(_hitNormal);
-                    planeSize = (hitBody.BoundingBox.Max - hitBody.BoundingBox.Min).Length() / 2;
-                    break;
+                Paused = true; //must be done before much, if not everything, else
+
+                if (leftPressed)
+                {
+                    if (ctrlDown) //expand (or reduce) selection
+                    {
+                        moveMode = MoveMode.None;
+                        selected.toggleSelection(_hitBody);
+                        return;
+                    }
+                    else
+                    {
+                        moveMode = MoveMode.CameraRelative;
+                    }
+                }
+                else //rightPressed
+                {
+                    if (shiftDown)
+                    {
+                        moveMode = MoveMode.LineRelative;
+                    }
+                    else
+                    {
+                        moveMode = MoveMode.PlaneRelative;
+                    }
+                }
+
+                if (!selected.Contains(_hitBody))
+                {
+                    selected.Clear();
+                }
+                selected.Add(_hitBody);
+
+                if (altDown) //copy and move
+                {
+                    if (ctrlDown)
+                    {
+                        selectedButNotMoving = selected;
+                    }
+                    selected = selected.copy(true);
+                    startStateChange(null);
+                }
+                else //just move
+                {
+                    startStateChange(selected);
+                }
+
+                moveOffset = _hitNormal.Position - selected.Position;
+
+                switch (moveMode)
+                {
+                    case MoveMode.CameraRelative:
+                        hitDistance = _hitDistance;
+                        break;
+                    case MoveMode.LineRelative:
+                        hitNormal = _hitNormal;
+                        break;
+                    case MoveMode.PlaneRelative:
+                        plane = new MyPlane(_hitNormal);
+                        break;
+                }
             }
         }
 
@@ -242,16 +346,18 @@ namespace DuckGame.MapEdit
                 return;
             if (moveMode == MoveMode.None)
                 return;
+            if (selected.Highlighted == null)
+                return;
 
-            Vector3 center = Conversion.ToXNAVector(hitBody.Position);
+            Vector3 center = selected.Highlighted.Position.ToXNAVector();
 
             switch (moveMode)
             {
                 case MoveMode.PlaneRelative:
-                    drawPlane(center, plane, planeSize);
+                    drawPlane(center, plane, selected.BoundingBoxSize);
                     break;
                 case MoveMode.LineRelative:
-                    drawLine(center, hitNormal.Direction, planeSize);
+                    drawLine(center, hitNormal.Direction, selected.BoundingBoxSize);
                     break;
             }
         }

@@ -99,10 +99,12 @@
     <Compile Include="DebugCamera.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameStartup.cs" />
-    <Compile Include="MapEditor\SavedState.cs" />
+    <Compile Include="MapEditor\SaveStates\StateChange.cs" />
+    <Compile Include="MapEditor\SaveStates\BodyPosition.cs" />
+    <Compile Include="MapEditor\SaveStateManager.cs" />
     <Compile Include="MapEditor\MapEditor.cs" />
+    <Compile Include="MapEditor\Selection.cs" />
     <Compile Include="Maps\Terrain.cs" />
-    <Compile Include="PhysicalEntity.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="Weapons\Ammo1.cs" />
     <Compile Include="Maps\Map.cs" />

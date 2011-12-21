@@ -89,16 +89,16 @@ namespace DuckEngine
             Matrix cameraRotation = Matrix.CreateRotationX(angles.X) * Matrix.CreateRotationY(angles.Y);
 
             //Drag camera look at
-            if (input.Mouse_WasButtonPressed(InputManager.MouseButton.Right))
+            if (input.Mouse_WasButtonPressed(MouseButton.Right))
             {
                 input.MouseFrozen = true;
                 Owner.IsMouseVisible = false;
             }
-            else if (input.Mouse_IsButtonDown(InputManager.MouseButton.Right))
+            else if (input.Mouse_IsButtonDown(MouseButton.Right))
             {
                 angles.X -= movementFactor * 0.05f * input.MouseMovement.Y;
             }
-            else if (input.Mouse_WasButtonReleased(InputManager.MouseButton.Right))
+            else if (input.Mouse_WasButtonReleased(MouseButton.Right))
             {
                 input.MouseFrozen = false;
                 Owner.IsMouseVisible = true;

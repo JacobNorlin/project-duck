@@ -90,7 +90,6 @@ namespace DuckEngine
             {
                 if (value && !physicsEnabled)
                 {
-                    physicsEnabled = true;
                     ActivateAllPhysicalBodies();
                 }
                 physicsEnabled = value;

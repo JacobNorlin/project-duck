@@ -15,17 +15,8 @@ namespace DuckGame
         }
 
         public Box(Engine _owner, Shape boxShape)
-            : base(_owner)
+            : base(_owner, new RigidBody(boxShape))
         {
-            body = new RigidBody(boxShape);
-            body.Tag = this;
-            Owner.Physics.AddBody(body);
-        }
-
-        ~Box()
-        {
-            Owner.removeAll(this);
-            Owner.Physics.RemoveBody(body);
         }
 
         public void Draw3D(GameTime gameTime)
@@ -35,10 +26,10 @@ namespace DuckGame
 
         public override PhysicalEntity Clone()
         {
-            Box newBox = new Box(Owner, body.Shape);
-            newBox.body.Position = body.Position;
-            newBox.body.Orientation = body.Orientation;
-            newBox.body.IsStatic = body.IsStatic;
+            Box newBox = new Box(Owner, Body.Shape);
+            newBox.Body.Position = Body.Position;
+            newBox.Body.Orientation = Body.Orientation;
+            newBox.Body.IsStatic = Body.IsStatic;
             return newBox;
         }
     }

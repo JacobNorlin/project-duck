@@ -4,12 +4,12 @@ using System;
 
 namespace DuckEngine.Input
 {
+    public enum MouseButton { Left, Middle, Right };
     /// <summary>
     /// A class which holds current and recent input data.
     /// </summary>
     public class InputManager : Entity
     {
-        public enum MouseButton { Left, Middle, Right };
 
         PlayerIndex activePlayer;
 
