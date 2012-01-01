@@ -7,6 +7,7 @@ using DuckGame.Players;
 using DuckEngine.Managers;
 using Jitter.Dynamics;
 using Jitter.LinearMath;
+using DuckGame.MapEdit;
 
 namespace DuckGame
 {
@@ -39,13 +40,13 @@ namespace DuckGame
                 //+Vector3.Up only so you notice you've changed camera mode
                 debugCamera.Target = playerCamera.Player.Position;
                 Owner.Camera = debugCamera;
-                mapEditor.Activate();
+                mapEditor.Active = true;
             }
             if (input.Keyboard_IsKeyDown(Keys.D8) && gameState != GameState.Playing)
             {
                 gameState = GameState.Playing;
                 Owner.Camera = playerCamera;
-                mapEditor.Deactivate();
+                mapEditor.Active = false;
             }
             
             if (input.Keyboard_WasKeyReleased(Keys.Escape))

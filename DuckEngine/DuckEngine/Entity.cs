@@ -13,9 +13,28 @@ namespace DuckEngine
     public abstract class Entity
     {
         readonly Engine owner;
-        public Engine Owner
+        public Engine Owner { get { return owner; } }
+        private bool enableInterfaceCalls = false;
+        protected bool EnableInterfaceCalls
         {
-            get { return owner; }
+            get { return enableInterfaceCalls; }
+            set
+            {
+                if (value && !enableInterfaceCalls)
+                {
+                    Owner.addAll(this);
+                }
+                else if (!value && enableInterfaceCalls)
+                {
+                    Owner.removeAll(this);
+                }
+                enableInterfaceCalls = value;
+            }
+        }
+        public bool Active
+        {
+            get { return EnableInterfaceCalls; }
+            set { EnableInterfaceCalls = value; }
         }
 
         /// <summary>
@@ -25,7 +44,7 @@ namespace DuckEngine
         public Entity(Engine _owner)
         {
             owner = _owner;
-            Owner.addAll(this);
+            Active = true;
         }
     }
 }
