@@ -52,8 +52,8 @@ namespace DuckGame.Players
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
             Owner.Physics.AddConstraint(upright);
 
-            //TEMPORARY
-            currentWeapon = new Pistol1(_owner, this, "", 1);
+            //TEMPORARY FOR VIDYAJUEGOS
+            currentWeapon = new Pistol1(_owner, this, "", 1, 1000);
         }
 
         ~Player()

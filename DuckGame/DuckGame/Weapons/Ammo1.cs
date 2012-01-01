@@ -26,6 +26,7 @@ namespace DuckGame.Weapons
         {
             Owner.removeDraw3D(this);
             Owner.Physics.RemoveBody(body);
+            
         }
     }
 }

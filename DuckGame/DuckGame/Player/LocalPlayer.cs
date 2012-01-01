@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using DuckEngine.Input;
 using DuckEngine.Interfaces;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame.Players
 {
@@ -57,7 +58,8 @@ namespace DuckGame.Players
             }
 
             //Fire if button is down
-            if (input.CurrentMouseState.LeftButton == ButtonState.Pressed) {
+            if (input.CurrentMouseState.LeftButton == ButtonState.Pressed)
+            {
                 //Convert the mouse coordinates to a place in the room
                 int x = input.CurrentMouseState.X;
                 int y = input.CurrentMouseState.Y;
@@ -71,12 +73,20 @@ namespace DuckGame.Players
 
                     bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                                               null, out hitBody, out hitNormal, out hitFraction);
-                    if(result){
+                    if (result)
+                    {
+                        /*
+                         * All i can say it works at the moment, if you move about and hold the cursor
+                         * on a target you will continuosly hit the target. Correcting for movement
+                         * would mess with that, but it should be easy to implement if necessary.
+                        */
                         Vector3 targetPoint = Conversion.ToXNAVector((rayDirection * hitFraction) + rayOrigin); //Get the vector in relation to the origin and put it at the position of the camera
-                        //Get the position at which have the mouse       //We have to correct for when the player is moving
-                        Vector3 target = (targetPoint - this.Position);// +Conversion.ToXNAVector(Body.LinearVelocity) / 2;
-                       // target.Y = 1;
+                        //Get the position at which have the mouse      
+                        Vector3 target = (targetPoint - this.Position);
+                        //ADJUST SO THAT BOOLITS DONT HIT GROUND CUZ OF TARGET VECTAR
                         currentWeapon.Fire(target);
+
+
                     }
                 }
             }
