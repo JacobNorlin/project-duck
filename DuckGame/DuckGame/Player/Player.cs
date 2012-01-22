@@ -9,6 +9,8 @@ using Jitter.Dynamics;
 using Jitter.Dynamics.Constraints;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace DuckGame.Players
 {
@@ -34,13 +36,15 @@ namespace DuckGame.Players
         public Vector3 Position { get { return Conversion.ToXNAVector(Body.Position); } }
 
         public Weapon currentWeapon;
+        private Model model;
 
-        public Player(Engine _owner, Vector3 position)
+        public Player(Engine _owner, Vector3 position, Model _model)
             : base(_owner)
         {
+            model = _model;
             //Create body and add to physics engine
-            Shape boxShape = new BoxShape(size);
-            body = new RigidBody(boxShape);
+            Shape capsuleShape = new CapsuleShape(1, 0.5f);
+            body = new RigidBody(capsuleShape);
             body.Mass = 2f;
             body.Position = Conversion.ToJitterVector(position);
             body.AllowDeactivation = false;
@@ -72,7 +76,12 @@ namespace DuckGame.Players
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body, Color.Blue);
+            Owner.Helper3D.DrawModel(model, body, Matrix.CreateScale(0.1f));
+            Owner.Helper3D.BasicEffect.Alpha = 0.3f;
+            Owner.Helper3D.DrawBody(Body, Color.White, false, false);
+            Owner.Helper3D.BasicEffect.Alpha = 0.2f;
+            Owner.Helper3D.DrawBody(Body, Color.White, true, false);
+            Owner.Helper3D.BasicEffect.Alpha = 1;
         }
 
         public void Collide(Entity other)

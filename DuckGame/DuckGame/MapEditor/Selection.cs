@@ -11,6 +11,8 @@ namespace DuckEngine.MapEditor
 {
     class Selection : ICollection<RigidBody>, IEnumerable<RigidBody>
     {
+        public static readonly Selection Empty = new Selection();
+
         private HashSet<RigidBody> selected = new HashSet<RigidBody>();
         private RigidBody highlighted;
         public RigidBody Highlighted { get { return highlighted; } }
@@ -53,6 +55,7 @@ namespace DuckEngine.MapEditor
         public Selection copy(bool active)
         {
             Selection copy = new Selection();
+            RigidBody copyHighlighted = null;
             foreach (RigidBody body in selected)
             {
                 if (body.Tag is PhysicalEntity)
@@ -60,11 +63,12 @@ namespace DuckEngine.MapEditor
                     PhysicalEntity newEntity = ((PhysicalEntity)body.Tag).Clone();
                     if (highlighted == body)
                     {
-                        highlighted = newEntity.Body;
+                        copyHighlighted = newEntity.Body;
                     }
                     copy.Add(newEntity.Body);
                 }
             }
+            copy.highlighted = copyHighlighted;
             copy.Active = active;
             return copy;
         }
@@ -80,7 +84,6 @@ namespace DuckEngine.MapEditor
             highlighted = body;
             if (selected.Remove(body))
             {
-                //body.IsActive = true;
                 return true;
             }
             else
@@ -114,7 +117,6 @@ namespace DuckEngine.MapEditor
             highlighted = body;
             if (selected.Add(body))
             {
-                //body.IsActive = false;
                 reconstructBox();
             }
         }
@@ -129,10 +131,6 @@ namespace DuckEngine.MapEditor
 
         public void Clear()
         {
-            //foreach (RigidBody body in selected)
-            //{
-            //    body.IsActive = true;
-            //}
             selected.Clear();
         }
 

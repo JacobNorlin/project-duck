@@ -34,7 +34,7 @@ namespace DuckGame.Pickups
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body, Color.Red);
+            Owner.Helper3D.DrawBody(Body, Color.Red, true, true);
         }
 
         public void Collide(Entity other)

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using DuckGame.Players;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckGame
 {
@@ -19,7 +20,8 @@ namespace DuckGame
         public override void LoadContent(Engine _owner)
         {
             new TestMap1(_owner);
-            Player player = new LocalPlayer(_owner, new Vector3(3f, 5f, 3f));
+            Model playerModel = _owner.Content.Load<Model>("Models/milk");
+            Player player = new LocalPlayer(_owner, new Vector3(3f, 5f, 3f), playerModel);
             GameController controller = new GameController(_owner, player);
         }
     }

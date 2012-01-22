@@ -21,7 +21,7 @@ namespace DuckGame
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body, Color.Green);
+            Owner.Helper3D.DrawBody(Body, Color.Green, true, true);
         }
 
         public override PhysicalEntity Clone()

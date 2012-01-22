@@ -52,6 +52,7 @@ namespace DuckGame.MapEdit
         private StateChange stateInChange;
         private SaveStateManager states = new SaveStateManager();
         private Selection selected = new Selection();
+        private Selection selectedButNotMoving = Selection.Empty;
         private Selection copied = null;
 
         private enum MoveMode { None, CameraRelative, PlaneRelative, LineRelative };
@@ -85,7 +86,6 @@ namespace DuckGame.MapEdit
 
         private bool active = false;
         private bool mouseOverRanSinceLastLeftMousePress;
-        private Selection selectedButNotMoving;
         public bool Active
         {
             get { return active; }
@@ -230,10 +230,10 @@ namespace DuckGame.MapEdit
                 states.saveState(stateInChange);
                 stateInChange = null;
             }
-            if (selectedButNotMoving != null)
+            if (selectedButNotMoving.Count != 0)
             {
                 selected.Add(selectedButNotMoving);
-                selectedButNotMoving = null;
+                selectedButNotMoving = Selection.Empty;
             }
         }
 
@@ -344,9 +344,23 @@ namespace DuckGame.MapEdit
         {
             if (!active)
                 return;
-            if (moveMode == MoveMode.None)
-                return;
+            
+            foreach (RigidBody body in selected)
+            {
+                game.Owner.Helper3D.DrawBody(body, Color.Black, false, false);
+            }
+            foreach (RigidBody body in selectedButNotMoving)
+            {
+                game.Owner.Helper3D.DrawBody(body, Color.Black, false, false);
+            }
             if (selected.Highlighted == null)
+                return;
+
+            game.Owner.Helper3D.BasicEffect.Alpha = 0.3f;
+            game.Owner.Helper3D.DrawBody(selected.Highlighted, Color.AliceBlue, true, false);
+            game.Owner.Helper3D.BasicEffect.Alpha = 1;
+
+            if (moveMode == MoveMode.None)
                 return;
 
             Vector3 center = selected.Highlighted.Position.ToXNAVector();

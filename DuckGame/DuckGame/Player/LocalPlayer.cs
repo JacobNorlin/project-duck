@@ -15,8 +15,8 @@ namespace DuckGame.Players
         const float MOVEMENT_SPEED = 500f;
         const float JUMP_SPEED = 8f;
 
-        public LocalPlayer(Engine _owner, Vector3 position)
-            : base(_owner, position)
+        public LocalPlayer(Engine _owner, Vector3 position, Model model)
+            : base(_owner, position, model)
         {
         }
 

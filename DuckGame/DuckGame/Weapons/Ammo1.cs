@@ -19,7 +19,7 @@ namespace DuckGame.Weapons
 
         public override void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBoxBody(Body, Color.Blue);
+            Owner.Helper3D.DrawBody(Body, Color.Gray, true, true);
         }
 
         public override void OnHit()

@@ -1,5 +1,6 @@
 ﻿using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
+using Jitter.Dynamics;
 
 namespace DuckEngine.Helpers
 {
@@ -8,6 +9,21 @@ namespace DuckEngine.Helpers
     /// </summary>
     public static class Conversion
     {
+        /// <summary>
+        /// Get the world matrix of the body, based on the
+        /// orientation matrix and position vector
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns>World matrix</returns>
+        public static Matrix GetWorldMatrix(this RigidBody body)
+        {
+            //Maybe this should be moved to a new class, such as
+            //"GeneralExtensions" or something... :)
+            Matrix worldMatrix = body.Orientation.ToXNAMatrix();
+            worldMatrix.Translation = body.Position.ToXNAVector();
+            return worldMatrix;
+        }
+
         /// <summary>
         /// Converts a XNA Vector3 to a Jitter Jvector
         /// </summary>

@@ -203,6 +203,8 @@ namespace DuckEngine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            Helper3D.BasicEffect.View = Camera.View;
+            Helper3D.BasicEffect.Projection = Camera.Projection;
 
             foreach (IDraw3D entity in AllDraw3D)
             {
@@ -215,7 +217,10 @@ namespace DuckEngine
             }
 
             debugDrawer.Draw();
-
+            //foreach (RigidBody body in physics.RigidBodies)
+            //{
+            //    Helper3D.DrawBody(body, Color.SandyBrown, true);
+            //}
             base.Draw(gameTime);
         }
 

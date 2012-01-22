@@ -112,6 +112,15 @@
     <Compile Include="Interfaces\ILogic.cs" />
     <Compile Include="Managers\MouseEventManager.cs" />
     <Compile Include="PhysicalEntity.cs" />
+    <Compile Include="Primitives3D\BoxPrimitive.cs" />
+    <Compile Include="Primitives3D\CapsulePrimitive.cs" />
+    <Compile Include="Primitives3D\ConePrimitive.cs" />
+    <Compile Include="Primitives3D\ConvexHullPrimitive.cs" />
+    <Compile Include="Primitives3D\CylinderPrimitive.cs" />
+    <Compile Include="Primitives3D\GeometricPrimitive.cs" />
+    <Compile Include="Primitives3D\SpherePrimitive.cs" />
+    <Compile Include="Primitives3D\TerrainPrimitive.cs" />
+    <Compile Include="Primitives3D\VertexPositionNormal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Managers\StorageManager.cs" />
