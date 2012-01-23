@@ -157,7 +157,7 @@ namespace DuckEngine.Helpers
                 {
                     //effect.DiffuseColor = color.ToVector3();
                     effect.EnableDefaultLighting();
-                    effect.World = scale*body.GetWorldMatrix();
+                    effect.World = mesh.ParentBone.Transform*scale*body.GetWorldMatrix();
 
                     effect.View = engine.Camera.View;
                     effect.Projection = engine.Camera.Projection;

@@ -76,7 +76,7 @@ namespace DuckGame.Players
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawModel(model, body, Matrix.CreateScale(0.1f));
+            Owner.Helper3D.DrawModel(model, body, Matrix.CreateScale(0.03f));
             Owner.Helper3D.BasicEffect.Alpha = 0.3f;
             Owner.Helper3D.DrawBody(Body, Color.White, false, false);
             Owner.Helper3D.BasicEffect.Alpha = 0.2f;
