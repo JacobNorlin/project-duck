@@ -31,15 +31,15 @@ namespace DuckEngine.Primitives3D
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
-        List<VertexPositionNormal> vertices = new List<VertexPositionNormal>();
-        List<ushort> indices = new List<ushort>();
+        protected List<VertexPositionNormal> vertices = new List<VertexPositionNormal>();
+        protected List<ushort> indices = new List<ushort>();
 
 
         // Once all the geometry has been specified, the InitializePrimitive
         // method copies the vertex and index data into these buffers, which
         // store it on the GPU ready for efficient rendering.
-        VertexBuffer vertexBuffer;
-        IndexBuffer indexBuffer;
+        protected VertexBuffer vertexBuffer;
+        protected IndexBuffer indexBuffer;
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace DuckEngine.Primitives3D
         /// </summary>
         public void DrawSolid(BasicEffect effect)
         {
-            Draw(effect, Helper3D.CullCounterClockwiseFace);
+            Draw(effect, RasterizerState.CullCounterClockwise);
         }
         /// <summary>
         /// Draws the primitive model, using the specified effect and rasterizer state.
@@ -161,13 +161,11 @@ namespace DuckEngine.Primitives3D
         private void Draw(BasicEffect effect, RasterizerState rasterizerState)
         {
             GraphicsDevice graphicsDevice = effect.GraphicsDevice;
-            RasterizerState oldState = graphicsDevice.RasterizerState;
             graphicsDevice.RasterizerState = rasterizerState;
 
             graphicsDevice.SetVertexBuffer(vertexBuffer);
             graphicsDevice.Indices = indexBuffer;
 
-            effect.VertexColorEnabled = false;
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
@@ -175,7 +173,6 @@ namespace DuckEngine.Primitives3D
                     0, 0, vertices.Count, 0, indices.Count / 3);
             }
 
-            graphicsDevice.RasterizerState = oldState;
         }
 
         #endregion

@@ -24,6 +24,13 @@ namespace DuckEngine.Helpers
             return worldMatrix;
         }
 
+        public static Matrix GetBoundingBoxWorldMatrix(this RigidBody body)
+        {
+            Matrix worldMatrix = Matrix.CreateScale((body.Shape.BoundingBox.Max - body.Shape.BoundingBox.Min).ToXNAVector());
+            worldMatrix *= GetWorldMatrix(body);
+            return worldMatrix;
+        }
+
         /// <summary>
         /// Converts a XNA Vector3 to a Jitter Jvector
         /// </summary>

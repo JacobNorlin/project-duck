@@ -14,7 +14,7 @@ namespace DuckEngine.Helpers
         public readonly ConePrimitive Cone;
         public readonly CylinderPrimitive Cylinder;
         public readonly SpherePrimitive Sphere;
-
+        
         public GeometricPrimitives(GraphicsDevice graphicsDevice)
         {
             Box = new BoxPrimitive(graphicsDevice);
@@ -28,12 +28,11 @@ namespace DuckEngine.Helpers
     public class Helper3D
     {
         public static readonly RasterizerState WireFrame;
-        public static readonly RasterizerState CullClockwiseFace;
-        public static readonly RasterizerState CullCounterClockwiseFace;
         public GeometricPrimitives Primitives;
 
         private Engine engine;
         public BasicEffect BasicEffect;
+        private Matrix scaleBoundingBox = Matrix.CreateScale(1.01f);
 
         /// <summary>
         /// static constructor for initializing static variables
@@ -41,13 +40,8 @@ namespace DuckEngine.Helpers
         static Helper3D()
         {
             WireFrame = new RasterizerState();
-            CullClockwiseFace = new RasterizerState();
-            CullCounterClockwiseFace = new RasterizerState();
-
             WireFrame.FillMode = FillMode.WireFrame;
             WireFrame.CullMode = CullMode.None;
-            CullClockwiseFace.CullMode = CullMode.CullClockwiseFace;
-            CullCounterClockwiseFace.CullMode = CullMode.CullCounterClockwiseFace;
         }
 
         public Helper3D(Engine _engine)
@@ -61,6 +55,22 @@ namespace DuckEngine.Helpers
             BasicEffect.EnableDefaultLighting();
             BasicEffect.PreferPerPixelLighting = true;
             Primitives = new GeometricPrimitives(engine.GraphicsDevice);
+        }
+
+        public void DrawBoundingBox(RigidBody body, Color color, bool drawSolid, float alpha)
+        {
+            BasicEffect.Alpha = alpha;
+            BasicEffect.DiffuseColor = color.ToVector3();
+            BasicEffect.World = scaleBoundingBox * body.GetBoundingBoxWorldMatrix();
+            if (drawSolid)
+            {
+                Primitives.Box.DrawSolid(BasicEffect);
+            }
+            else
+            {
+                Primitives.Box.DrawWireFrame(BasicEffect);
+            }
+            BasicEffect.Alpha = 1;
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace DuckEngine.Helpers
 
         public void DrawVertices(VertexBuffer vertexBuffer, IndexBuffer indexBuffer, Matrix worldMatrix)
         {
-            engine.GraphicsDevice.RasterizerState = CullClockwiseFace;
+            engine.GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
 
             BasicEffect.World = worldMatrix;
 
@@ -150,7 +160,7 @@ namespace DuckEngine.Helpers
         }
         public void DrawModel(Model model, RigidBody body, Matrix scale)
         {
-            engine.GraphicsDevice.RasterizerState = CullCounterClockwiseFace;
+            engine.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)

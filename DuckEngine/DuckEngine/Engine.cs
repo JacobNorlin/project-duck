@@ -137,7 +137,15 @@ namespace DuckEngine
         /// </summary>
         protected override void Initialize()
         {
+            //BlendState blendState = new BlendState();
+            //blendState.ColorBlendFunction = BlendFunction.Add;
+            //blendState.AlphaBlendFunction = BlendFunction.Add;
+            //blendState.ColorSourceBlend = Blend.SourceAlpha;
+            //blendState.AlphaSourceBlend = Blend.SourceAlpha;
+            //blendState.ColorDestinationBlend = Blend.InverseSourceAlpha;
+            //blendState.AlphaDestinationBlend = Blend.InverseSourceAlpha;
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //GraphicsDevice.BlendState.
             debugDrawer.Initialize();
             startup.Initialize(this);
             base.Initialize();

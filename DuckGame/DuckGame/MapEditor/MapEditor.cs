@@ -52,7 +52,7 @@ namespace DuckGame.MapEdit
         private StateChange stateInChange;
         private SaveStateManager states = new SaveStateManager();
         private Selection selected = new Selection();
-        private Selection selectedButNotMoving = Selection.Empty;
+        //private Selection selectedButNotMoving = Selection.Empty;
         private Selection copied = null;
 
         private enum MoveMode { None, CameraRelative, PlaneRelative, LineRelative };
@@ -230,11 +230,11 @@ namespace DuckGame.MapEdit
                 states.saveState(stateInChange);
                 stateInChange = null;
             }
-            if (selectedButNotMoving.Count != 0)
-            {
-                selected.Add(selectedButNotMoving);
-                selectedButNotMoving = Selection.Empty;
-            }
+            //if (selectedButNotMoving.Count != 0)
+            //{
+            //    selected.Add(selectedButNotMoving);
+            //    selectedButNotMoving = Selection.Empty;
+            //}
         }
 
         private void undo()
@@ -311,10 +311,10 @@ namespace DuckGame.MapEdit
 
                 if (altDown) //copy and move
                 {
-                    if (ctrlDown)
-                    {
-                        selectedButNotMoving = selected;
-                    }
+                    //if (ctrlDown)
+                    //{
+                    //    selectedButNotMoving = selected;
+                    //}
                     selected = selected.copy(true);
                     startStateChange(null);
                 }
@@ -344,25 +344,24 @@ namespace DuckGame.MapEdit
         {
             if (!active)
                 return;
-            
+
             foreach (RigidBody body in selected)
             {
-                game.Owner.Helper3D.DrawBody(body, Color.Black, false, false);
+                game.Owner.Helper3D.DrawBoundingBox(body, Color.Black, false, 1);
             }
-            foreach (RigidBody body in selectedButNotMoving)
-            {
-                game.Owner.Helper3D.DrawBody(body, Color.Black, false, false);
-            }
+            //foreach (RigidBody body in selectedButNotMoving)
+            //{
+            //    game.Owner.Helper3D.DrawBoundingBox(body, Color.Green, true, 0.5f);
+            //}
             if (selected.Highlighted == null)
                 return;
 
-            game.Owner.Helper3D.BasicEffect.Alpha = 0.3f;
-            game.Owner.Helper3D.DrawBody(selected.Highlighted, Color.AliceBlue, true, false);
-            game.Owner.Helper3D.BasicEffect.Alpha = 1;
+            game.Owner.Helper3D.DrawBoundingBox(selected.Highlighted, Color.Green, true, 0.4f);
 
             if (moveMode == MoveMode.None)
                 return;
-
+            
+            //draw lines and planes below
             Vector3 center = selected.Highlighted.Position.ToXNAVector();
 
             switch (moveMode)

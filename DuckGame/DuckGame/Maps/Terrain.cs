@@ -60,6 +60,7 @@ namespace DuckEngine.Maps
             Owner.Helper3D.BasicEffect.LightingEnabled = false;
             Owner.Helper3D.BasicEffect.DiffuseColor = Color.Khaki.ToVector3();
             Owner.Helper3D.DrawVertices(vertexBuffer, indexBuffer, Matrix.CreateTranslation(Conversion.ToXNAVector(body.Position)));
+            Owner.Helper3D.BasicEffect.VertexColorEnabled = false;
         }
 
         private void SetUpVertices()
