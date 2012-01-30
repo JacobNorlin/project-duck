@@ -1,6 +1,9 @@
-﻿using Jitter.LinearMath;
+﻿using System.Linq;
+using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Jitter.Dynamics;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace DuckEngine.Helpers
 {
@@ -9,6 +12,27 @@ namespace DuckEngine.Helpers
     /// </summary>
     public static class Conversion
     {
+        public static RigidBody Clone(this RigidBody body)
+        {
+            RigidBody newBody = new RigidBody(body.Shape);
+            newBody.Position = body.Position;
+            newBody.Orientation = body.Orientation;
+            newBody.IsStatic = body.IsStatic;
+            newBody.Mass = body.Mass;
+            return newBody;
+        }
+
+        public static IEnumerable<RigidBody> Bodies(this IEnumerable<PhysicalEntity> es)
+        {
+            RigidBody[] bs = new RigidBody[es.Count()];
+            int i = 0;
+            foreach (PhysicalEntity e in es)
+            {
+                bs[i++] = e.Body;
+            }
+            return bs;
+        }
+
         /// <summary>
         /// Get the world matrix of the body, based on the
         /// orientation matrix and position vector

@@ -23,7 +23,6 @@ namespace DuckEngine.Helpers
             Cylinder = new CylinderPrimitive(graphicsDevice);
             Sphere = new SpherePrimitive(graphicsDevice);
         }
-
     }
     public class Helper3D
     {

@@ -12,6 +12,7 @@ using DuckEngine.Interfaces;
 using DuckEngine.Helpers;
 using DuckEngine.MapEditor;
 using DuckEngine.MapEditor.SaveStates;
+using DuckEngine.Storage;
 
 namespace DuckGame.MapEdit
 {
@@ -117,6 +118,18 @@ namespace DuckGame.MapEdit
         {
             if (!Active)
                 return;
+            if (input.Keyboard_WasKeyPressed(Keys.S) &&
+                input.Keyboard_IsKeyDown(Keys.LeftControl))
+            {
+                StorageManager.Save(game.Owner);
+            }
+            if (input.Keyboard_WasKeyPressed(Keys.O) &&
+                input.Keyboard_IsKeyDown(Keys.LeftControl))
+            {
+                startStateChange(null);
+                IEnumerable<PhysicalEntity> loaded = StorageManager.Load(game.Owner).OfType<PhysicalEntity>();
+                finishStateChange(loaded.Bodies());
+            }
             if (input.Keyboard_WasKeyPressed(Keys.Space))
             {
                 Paused = !Paused;

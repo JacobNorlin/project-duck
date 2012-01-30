@@ -100,9 +100,11 @@
     <Compile Include="Helpers\DebugDrawer.cs" />
     <Compile Include="Helpers\Conversion.cs" />
     <Compile Include="Helpers\Helper3D.cs" />
+    <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IMouseEvent3D.cs" />
     <Compile Include="Interfaces\ICollide.cs" />
     <Compile Include="Interfaces\IDraw3D.cs" />
+    <Compile Include="Interfaces\ISave.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Camera.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\ILogic.cs" />
     <Compile Include="Managers\MouseEventManager.cs" />
+    <Compile Include="Managers\StorageExtensions.cs" />
     <Compile Include="PhysicalEntity.cs" />
     <Compile Include="Primitives3D\BoxPrimitive.cs" />
     <Compile Include="Primitives3D\CapsulePrimitive.cs" />

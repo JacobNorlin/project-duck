@@ -30,6 +30,8 @@ namespace DuckEngine
         private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
         private List<IInput> AllInput = new List<IInput>();
         private List<ILogic> AllLogic = new List<ILogic>();
+        private List<ISave> AllSave = new List<ISave>();
+        public List<ISave> Saveables {get {return AllSave;} }
         #endregion
         
         DebugDrawer debugDrawer;
@@ -292,6 +294,7 @@ namespace DuckEngine
             if (e is IDraw3D) addDraw3D((IDraw3D)e);
             if (e is ILogic) addLogic((ILogic)e);
             if (e is IInput) addInput((IInput)e);
+            if (e is ISave) addSave((ISave)e);
             //IMouseEvent3D doesn't need to be added to any list.
         }
 
@@ -307,6 +310,7 @@ namespace DuckEngine
             if (e is IDraw3D) removeDraw3D((IDraw3D)e);
             if (e is ILogic) removeLogic((ILogic)e);
             if (e is IInput) removeInput((IInput)e);
+            if (e is ISave) removeSave((ISave)e);
             //IMouseEvent3D isn't in any list.
         }
 
@@ -381,6 +385,25 @@ namespace DuckEngine
         {
             AllInput.Remove(e);
         }
+
+        /// <summary>
+        /// Keep track of this object, in case the user wants to save it.
+        /// </summary>
+        /// <param name="e"></param>
+        public void addSave(ISave e)
+        {
+            AllSave.Add(e);
+        }
+
+        /// <summary>
+        /// Stop keeping track of this object, it will no
+        /// longer be listed as a saveable item.
+        /// </summary>
+        /// <param name="e"></param>
+        public void removeSave(ISave e)
+        {
+            AllSave.Remove(e);
+        }
         #endregion
 
         private void ActivateAllPhysicalBodies()
@@ -394,6 +417,18 @@ namespace DuckEngine
             //{
             //    body.IsActive = true;
             //}
+        }
+        
+        /// <summary>
+        /// Stop calling all interfaces implementing
+        /// </summary>
+        public void DisposeAll()
+        {
+            AllDraw2D.Clear();
+            AllDraw3D.Clear();
+            AllInput.Clear();
+            AllLogic.Clear();
+            AllSave.Clear();
         }
     }
 }

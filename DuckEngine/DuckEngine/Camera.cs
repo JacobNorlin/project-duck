@@ -32,7 +32,7 @@ namespace DuckEngine
         }
 
         protected bool active = false;
-        public bool Active
+        new public bool Active
         {
             get { return active; }
             set

@@ -27,7 +27,7 @@ namespace DuckEngine
             }
             get { return inPhysicsEngine; }
         }
-        public bool Active
+        new public bool Active
         {
             get { return EnableInterfaceCalls && InPhysicsEngine; }
             set { EnableInterfaceCalls = InPhysicsEngine = value; }
