@@ -10,8 +10,8 @@ namespace DuckGame.Weapons
     {
         
 
-        public Pistol1(Engine _owner, Player _holder, string _description, float _reloadTime, float _cooldown)
-            : base(_owner, _holder, _reloadTime, _description, _cooldown)
+        public Pistol1(Engine _engine, Tracker _tracker, Player _holder, string _description, float _reloadTime, float _cooldown)
+            : base(_engine, _tracker, _holder, _reloadTime, _description, _cooldown)
         {
         }
 
@@ -24,8 +24,8 @@ namespace DuckGame.Weapons
             {
                 Vector3 origin = Conversion.ToXNAVector(holder.Body.Position);
                 origin.Z += 1;
-                //Projectile(Owner, Holder, Damage, Speed, Target, CollisionSize)
-                Projectile p = new Ammo1(Owner, origin, 1, 25f, target, 1);
+                //Projectile(Engine, Holder, Damage, Speed, Target, CollisionSize)
+                Projectile p = new Ammo1(Engine, Tracker, origin, 1, 25f, target, 1);
                 //reset the cooldown.
                 tempCooldown = 0;
             }

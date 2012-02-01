@@ -30,8 +30,8 @@ namespace DuckGame.Weapons
         //Variable to keep track of how much time has passed in between shots.
         protected float tempCooldown;
         public float TempCooldown { get { return tempCooldown; } }
-        public Weapon(Engine _owner, Player _holder, float _reloadTime, String _description, float _cooldown)
-            : base(_owner)
+        public Weapon(Engine _engine, Tracker _tracker, Player _holder, float _reloadTime, String _description, float _cooldown)
+            : base(_engine, _tracker)
         {
             holder = _holder;
             reloadTime = _reloadTime;

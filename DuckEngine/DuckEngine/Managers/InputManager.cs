@@ -8,9 +8,9 @@ namespace DuckEngine.Input
     /// <summary>
     /// A class which holds current and recent input data.
     /// </summary>
-    public class InputManager : Entity
+    public class InputManager
     {
-
+        private Engine Engine;
         PlayerIndex activePlayer;
 
         MouseState currentMouseState;
@@ -58,7 +58,7 @@ namespace DuckEngine.Input
         public Point MouseMovement { get { return mouseMovement; } }
         public bool Mouse_IsOnScreen()
         {
-            return Owner.Window.ClientBounds.Contains(
+            return Engine.Window.ClientBounds.Contains(
                 currentMouseState.X, currentMouseState.Y);
         }
         public Point Mouse_Coords() {
@@ -116,15 +116,15 @@ namespace DuckEngine.Input
         GamePadState[] currentGamePadStates = new GamePadState[4];
         public GamePadState[] CurrentGamePadStates  { get { return currentGamePadStates; } }
 
-        public InputManager(Engine _owner)
-            : base(_owner)
+        public InputManager(Engine _engine)
         {
+            Engine = _engine;
         }
 
         /// <summary>
         /// Updates the input manager to hold the latest input information.
         /// </summary>
-        public void Update()
+        public void UpdateInput()
         {
             lastMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
@@ -138,7 +138,7 @@ namespace DuckEngine.Input
 
             mouseScrollChange = currentMouseState.ScrollWheelValue - lastMouseState.ScrollWheelValue;
 
-            mouseRay.Position = Owner.Camera.Position;
+            mouseRay.Position = Engine.Camera.Position;
             mouseRay.Direction = RayTo(currentMouseState.X, currentMouseState.Y);
 
             lastKeyboardState = currentKeyboardState;
@@ -158,10 +158,10 @@ namespace DuckEngine.Input
             Vector3 farSource = new Vector3(x, y, 1);
 
             Matrix world = Matrix.CreateTranslation(0, 0, 0);
-            Vector3 nearPoint = Owner.GraphicsDevice.Viewport.Unproject(nearSource,
-                Owner.Camera.Projection, Owner.Camera.View, world);
-            Vector3 farPoint = Owner.GraphicsDevice.Viewport.Unproject(farSource,
-                Owner.Camera.Projection, Owner.Camera.View, world);
+            Vector3 nearPoint = Engine.GraphicsDevice.Viewport.Unproject(nearSource,
+                Engine.Camera.Projection, Engine.Camera.View, world);
+            Vector3 farPoint = Engine.GraphicsDevice.Viewport.Unproject(farSource,
+                Engine.Camera.Projection, Engine.Camera.View, world);
 
             Vector3 direction = farPoint - nearPoint;
             direction.Normalize();

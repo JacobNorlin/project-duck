@@ -104,10 +104,10 @@
     <Compile Include="MapEditor\SaveStateManager.cs" />
     <Compile Include="MapEditor\MapEditor.cs" />
     <Compile Include="MapEditor\Selection.cs" />
-    <Compile Include="Maps\Terrain.cs" />
+    <Compile Include="Maps\LoadedMap.cs" />
+    <Compile Include="Terrain.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="Weapons\Ammo1.cs" />
-    <Compile Include="Maps\Map.cs" />
     <Compile Include="Pickups\Pickup.cs" />
     <Compile Include="Weapons\Pistol1.cs" />
     <Compile Include="Player\LocalPlayer.cs" />

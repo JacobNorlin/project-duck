@@ -42,7 +42,7 @@ namespace DuckEngine.MapEditor
                     if (body.Tag is Entity)
                     {
                         Entity entity = (Entity)body.Tag;
-                        entity.Active = value;
+                        entity.EnableInterfaceCalls = value;
                     }
                 }
             }
@@ -60,7 +60,11 @@ namespace DuckEngine.MapEditor
             {
                 if (body.Tag is PhysicalEntity)
                 {
-                    PhysicalEntity newEntity = ((PhysicalEntity)body.Tag).Clone();
+                    PhysicalEntity newEntity = ((PhysicalEntity)body.Tag).Clone(active);
+                    if (newEntity == null)
+                    {
+                        continue;
+                    }
                     if (highlighted == body)
                     {
                         copyHighlighted = newEntity.Body;
@@ -69,7 +73,7 @@ namespace DuckEngine.MapEditor
                 }
             }
             copy.highlighted = copyHighlighted;
-            copy.Active = active;
+            //copy.Active = active;
             return copy;
         }
 

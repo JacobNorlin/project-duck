@@ -15,8 +15,8 @@ namespace DuckGame.Players
         const float MOVEMENT_SPEED = 500f;
         const float JUMP_SPEED = 8f;
 
-        public LocalPlayer(Engine _owner, Vector3 position, Model model)
-            : base(_owner, position, model)
+        public LocalPlayer(Engine _engine, Tracker _tracker, Vector3 position, Model model)
+            : base(_engine, _tracker, position, model)
         {
         }
 
@@ -71,7 +71,7 @@ namespace DuckGame.Players
                     JVector hitNormal;
                     float hitFraction;
 
-                    bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
+                    bool result = Engine.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                                               null, out hitBody, out hitNormal, out hitFraction);
                     if (result)
                     {
@@ -88,14 +88,6 @@ namespace DuckGame.Players
                     }
                 }
             }
-        }
-
-
- 
-
-        ~LocalPlayer()
-        {
-            Owner.removeAll(this);
         }
     }
 }

@@ -6,8 +6,8 @@ namespace DuckGame.Weapons
 {
     class Ammo1 : Projectile
     {
-        public Ammo1(Engine _owner, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
-            : base(_owner, _position, _damage, _speed, _target, _collisionSize)
+        public Ammo1(Engine _engine, Tracker _tracker, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
+            : base(_engine, _tracker, _position, _damage, _speed, _target, _collisionSize)
         {
             target.Normalize();
             body.LinearVelocity = Conversion.ToJitterVector(target * speed);
@@ -19,14 +19,12 @@ namespace DuckGame.Weapons
 
         public override void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBody(Body, Color.Gray, true, true);
+            Engine.Helper3D.DrawBody(Body, Color.Gray, true, true);
         }
 
         public override void OnHit()
         {
-            Owner.removeDraw3D(this);
-            Owner.Physics.RemoveBody(body);
-            
+            Tracker.Untrack(this);
         }
     }
 }

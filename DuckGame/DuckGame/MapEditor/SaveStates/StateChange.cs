@@ -107,7 +107,7 @@ namespace DuckEngine.MapEditor
         {
             foreach (PhysicalEntity entity in created)
             {
-                entity.Active = true;
+                entity.EnableInterfaceCalls = true;
             }
         }
 
@@ -115,7 +115,7 @@ namespace DuckEngine.MapEditor
         {
             foreach (PhysicalEntity entity in deleted)
             {
-                entity.Active = false;
+                entity.EnableInterfaceCalls = false;
             }
         }
 

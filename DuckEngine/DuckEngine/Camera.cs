@@ -32,7 +32,7 @@ namespace DuckEngine
         }
 
         protected bool active = false;
-        new public bool Active
+        public bool Active
         {
             get { return active; }
             set
@@ -45,10 +45,9 @@ namespace DuckEngine
             }
         }
 
-        public Camera(Engine _owner)
-            : base(_owner)
+        public Camera(Engine _engine, Tracker _tracker)
+            : base(_engine, _tracker)
         {
-            
         }
 
         /// <summary>
@@ -59,9 +58,9 @@ namespace DuckEngine
 
         internal void WindowSizeChanged()
         {
-            widthOver2 = Owner.Window.ClientBounds.Width / 2;
-            heightOver2 = Owner.Window.ClientBounds.Height / 2;
-            aspectRatio = (float)Owner.Window.ClientBounds.Width / (float)Owner.Window.ClientBounds.Height;
+            widthOver2 = Engine.Window.ClientBounds.Width / 2;
+            heightOver2 = Engine.Window.ClientBounds.Height / 2;
+            aspectRatio = (float)Engine.Window.ClientBounds.Width / (float)Engine.Window.ClientBounds.Height;
 
             UpdateProjection();
         }

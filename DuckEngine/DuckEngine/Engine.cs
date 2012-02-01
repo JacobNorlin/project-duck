@@ -25,14 +25,7 @@ namespace DuckEngine
         SpriteBatch spriteBatch;
         StartupObject startup;
 
-        #region Entities
-        private List<IDraw2D> AllDraw2D = new List<IDraw2D>();
-        private List<IDraw3D> AllDraw3D = new List<IDraw3D>();
-        private List<IInput> AllInput = new List<IInput>();
-        private List<ILogic> AllLogic = new List<ILogic>();
-        private List<ISave> AllSave = new List<ISave>();
-        public List<ISave> Saveables {get {return AllSave;} }
-        #endregion
+        internal readonly Tracker Tracker;
         
         DebugDrawer debugDrawer;
         public DebugDrawer DebugDrawer { get { return debugDrawer; } }
@@ -63,6 +56,28 @@ namespace DuckEngine
             }
         }
 
+        private Map map = null;
+        public Map Map
+        {
+            get
+            {
+                return map;
+            }
+            set
+            {
+                if (map != null)
+                {
+                    Tracker.Untrack(map.Tracker);
+                    map.Dispose();
+                }
+                if (value != null)
+                {
+                    Tracker.Track(value.Tracker);
+                }
+                map = value;
+            }
+        }
+
         Helper3D helper3D;
         public Helper3D Helper3D { get { return helper3D; } }
 
@@ -79,8 +94,8 @@ namespace DuckEngine
         SoundManager soundManager;
         public SoundManager Sound { get { return soundManager; } }
 
-        StorageManager storageManager;
-        public StorageManager Storage { get { return storageManager; } }
+        //StorageManager storageManager;
+        //public StorageManager Storage { get { return storageManager; } }
         #endregion
 
         public bool multithread = true;
@@ -111,12 +126,13 @@ namespace DuckEngine
             physics.AllowDeactivation = true;
 
             //Managers
+            Tracker = new Tracker(this);
             graphics = new GraphicsDeviceManager(this);
             inputManager = new InputManager(this);
             mouseEventManager = new MouseEventManager(this);
             networkManager = new NetworkManager();
             soundManager = new SoundManager();
-            storageManager = new StorageManager();
+            //storageManager = new StorageManager();
 
             //Helpers
             debugDrawer = new DebugDrawer(this);
@@ -180,18 +196,9 @@ namespace DuckEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //Input
-            Input.Update();
-            foreach (IInput entity in AllInput)
-            {
-                entity.Input(gameTime, Input);
-            }
-
-            //Update
-            foreach (ILogic entity in AllLogic)
-            {
-                entity.Update(gameTime);
-            }
+            Input.UpdateInput();
+            Tracker.Input(gameTime, Input);
+            Tracker.Update(gameTime);
 
             //Physics if enabled
             if (physicsEnabled)
@@ -216,15 +223,9 @@ namespace DuckEngine
             Helper3D.BasicEffect.View = Camera.View;
             Helper3D.BasicEffect.Projection = Camera.Projection;
 
-            foreach (IDraw3D entity in AllDraw3D)
-            {
-                entity.Draw3D(gameTime);
-            }
+            Tracker.Draw3D(gameTime);
 
-            foreach (IDraw2D entity in AllDraw2D)
-            {
-                entity.Draw2D(spriteBatch);
-            }
+            Tracker.Draw2D(spriteBatch);
 
             debugDrawer.Draw();
             //foreach (RigidBody body in physics.RigidBodies)
@@ -239,14 +240,14 @@ namespace DuckEngine
         {
             if (body1.Tag != null && body2.Tag != null)
             {
-                if (body1.Tag is ICollide)
+                if (body1.Tag is ICollideEvent)
                 {
-                    ((ICollide)body1.Tag).Collide((Entity)body2.Tag);
+                    ((ICollideEvent)body1.Tag).Collide((Entity)body2.Tag);
                 }
 
-                if (body2.Tag is ICollide)
+                if (body2.Tag is ICollideEvent)
                 {
-                    ((ICollide)body2.Tag).Collide((Entity)body1.Tag);
+                    ((ICollideEvent)body2.Tag).Collide((Entity)body1.Tag);
                 }
             }
         }
@@ -261,14 +262,14 @@ namespace DuckEngine
                 {
                     bool filter1 = true;
                     bool filter2 = true;
-                    if (body1.Tag is ICollide)
+                    if (body1.Tag is ICollideEvent)
                     {
-                        filter1 = ((ICollide)body1.Tag).BroadPhaseFilter((Entity)body2.Tag);
+                        filter1 = ((ICollideEvent)body1.Tag).BroadPhaseFilter((Entity)body2.Tag);
                     }
 
-                    if (body2.Tag is ICollide)
+                    if (body2.Tag is ICollideEvent)
                     {
-                        filter2 = ((ICollide)body2.Tag).BroadPhaseFilter((Entity)body1.Tag);
+                        filter2 = ((ICollideEvent)body2.Tag).BroadPhaseFilter((Entity)body1.Tag);
                     }
 
                     return (filter1 && filter2);
@@ -276,133 +277,6 @@ namespace DuckEngine
             }
 
             return true;
-        }
-        #endregion
-
-        #region Add & remove objects
-        /// <summary>
-        /// Checks which of the interfaces IDraw2D, IDraw3D
-        /// ILogic and IInput the given object implements,
-        /// and adds it to the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void addAll(Object e)
-        {
-            //Feel free to rename method if you come up
-            //with something better :P //Björn
-            if (e is IDraw2D) addDraw2D((IDraw2D)e);
-            if (e is IDraw3D) addDraw3D((IDraw3D)e);
-            if (e is ILogic) addLogic((ILogic)e);
-            if (e is IInput) addInput((IInput)e);
-            if (e is ISave) addSave((ISave)e);
-            //IMouseEvent3D doesn't need to be added to any list.
-        }
-
-        /// <summary>
-        /// Checks which of the interfaces IDraw2D, IDraw3D
-        /// ILogic and IInput the given object implements,
-        /// and removes it from the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void removeAll(Object e)
-        {
-            if (e is IDraw2D) removeDraw2D((IDraw2D)e);
-            if (e is IDraw3D) removeDraw3D((IDraw3D)e);
-            if (e is ILogic) removeLogic((ILogic)e);
-            if (e is IInput) removeInput((IInput)e);
-            if (e is ISave) removeSave((ISave)e);
-            //IMouseEvent3D isn't in any list.
-        }
-
-        /// <summary>
-        /// Add an object of type IDraw2D to the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void addDraw2D(IDraw2D e)
-        {
-            AllDraw2D.Add(e);
-        }
-
-        /// <summary>
-        /// Remove an object of type IDraw2D to the engine.
-        /// </summary>
-        /// <param name="e">The object to be removed</param>
-        public void removeDraw2D(IDraw2D e)
-        {
-            AllDraw2D.Remove(e);
-        }
-
-        /// <summary>
-        /// Add an object of type IDraw3D to the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void addDraw3D(IDraw3D e)
-        {
-            AllDraw3D.Add(e);
-        }
-
-        /// <summary>
-        /// Remove an object of type IDraw3D to the engine.
-        /// </summary>
-        /// <param name="e">The object to be removed</param>
-        public void removeDraw3D(IDraw3D e)
-        {
-            AllDraw3D.Remove(e);
-        }
-
-        /// <summary>
-        /// Add an object of type ILogic to the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void addLogic(ILogic e)
-        {
-            AllLogic.Add(e);
-        }
-
-        /// <summary>
-        /// Remove an object of type ILogic to the engine.
-        /// </summary>
-        /// <param name="e">The object to be removed</param>
-        public void removeLogic(ILogic e)
-        {
-            AllLogic.Remove(e);
-        }
-
-        /// <summary>
-        /// Add an object of type IInput to the engine.
-        /// </summary>
-        /// <param name="e">The object to be added</param>
-        public void addInput(IInput e)
-        {
-            AllInput.Add(e);
-        }
-
-        /// <summary>
-        /// Remove an object of type IInput to the engine.
-        /// </summary>
-        /// <param name="e">The object to be removed</param>
-        public void removeInput(IInput e)
-        {
-            AllInput.Remove(e);
-        }
-
-        /// <summary>
-        /// Keep track of this object, in case the user wants to save it.
-        /// </summary>
-        /// <param name="e"></param>
-        public void addSave(ISave e)
-        {
-            AllSave.Add(e);
-        }
-
-        /// <summary>
-        /// Stop keeping track of this object, it will no
-        /// longer be listed as a saveable item.
-        /// </summary>
-        /// <param name="e"></param>
-        public void removeSave(ISave e)
-        {
-            AllSave.Remove(e);
         }
         #endregion
 
@@ -417,18 +291,6 @@ namespace DuckEngine
             //{
             //    body.IsActive = true;
             //}
-        }
-        
-        /// <summary>
-        /// Stop calling all interfaces implementing
-        /// </summary>
-        public void DisposeAll()
-        {
-            AllDraw2D.Clear();
-            AllDraw3D.Clear();
-            AllInput.Clear();
-            AllLogic.Clear();
-            AllSave.Clear();
         }
     }
 }

@@ -11,8 +11,9 @@ using DuckEngine.Helpers;
 
 namespace DuckEngine.Managers
 {
-    public class MouseEventManager : Entity
+    public class MouseEventManager
     {
+        private Engine Engine;
         private RigidBody mouseOver3D;
         public delegate void WhileMouseOverHandler(GameTime gameTime, InputManager input,
             RigidBody hitBody, Ray hitNormalRay, float hitFraction);
@@ -23,9 +24,9 @@ namespace DuckEngine.Managers
         /// </summary>
         public WhileMouseOverHandler WhileMouseOver;
 
-        public MouseEventManager(Engine _owner)
-            : base(_owner)
+        public MouseEventManager(Engine _engine)
         {
+            Engine = _engine;
             WhileMouseOver = DefaultWhileMouseOver;
         }
 
@@ -57,20 +58,20 @@ namespace DuckEngine.Managers
         private void d3(GameTime gameTime, InputManager input)
         {
             Ray mouseRay = input.MouseRay;
-            if (mouseRay != null)
+            if (mouseRay != null) //TODO: is this check really needed? //Björn
             {
-                JVector rayOrigin = Conversion.ToJitterVector(mouseRay.Position);
-                JVector rayDirection = Conversion.ToJitterVector(mouseRay.Direction);
+                JVector rayOrigin = mouseRay.Position.ToJitterVector();
+                JVector rayDirection = mouseRay.Direction.ToJitterVector();
                 RigidBody hitBody;
                 JVector hitNormal;
                 float hitFraction;
                 
-                bool result = Owner.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
+                bool result = Engine.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                     null, out hitBody, out hitNormal, out hitFraction);
                 if (result && WhileMouseOver != null)
                 {
                     Ray hitNormalRay;
-                    hitNormalRay.Direction = Conversion.ToXNAVector(hitNormal);
+                    hitNormalRay.Direction = hitNormal.ToXNAVector();
                     hitNormalRay.Position = mouseRay.Position + mouseRay.Direction * hitFraction;
                     WhileMouseOver(gameTime, input, hitBody, hitNormalRay, hitFraction);
                 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Jitter.Dynamics;
 using DuckEngine.Interfaces;
+using DuckEngine.Helpers;
 using System.Xml;
 using Jitter.LinearMath;
 using System.Reflection;
@@ -11,15 +13,18 @@ namespace DuckEngine.Storage
     /// <summary>
     /// A class which handles reading and writing of files to save and load data.
     /// </summary>
-    public class StorageManager
+    public static class StorageManager
     {
-        public static void Save(Engine engine)
+        public static void Save(Map map)
         {
-            String path = engine.Content.RootDirectory+"/save0.xml";
+            String path = "Content/save0.xml";
 
             XmlDocument doc = new XmlDocument();
             XmlElement root = doc.CreateElement("root");
             doc.AppendChild(root);
+            XmlElement mapNode = doc.CreateElement("map");
+            mapNode.SetAttribute("aq", map.GetType().AssemblyQualifiedName);
+            root.AppendChild(mapNode);
             XmlElement lookup = doc.CreateElement("lookup");
             root.AppendChild(lookup);
             XmlElement saved = doc.CreateElement("saved");
@@ -27,12 +32,18 @@ namespace DuckEngine.Storage
 
             //a list would do..
             Dictionary<string, string> classNameToAqName = new Dictionary<string, string>();
-            foreach (ISave saveable in engine.Saveables)
+            foreach (ISave saveable in map.Tracker.Saveables)
             {
                 String className = saveable.GetType().Name;
+                String aqName = saveable.GetType().AssemblyQualifiedName;
                 if (!classNameToAqName.ContainsKey(className))
                 {
-                    String aqName = saveable.GetType().AssemblyQualifiedName;
+                    if (classNameToAqName.ContainsValue(aqName))
+                    {
+                        string otherAqName;
+                        classNameToAqName.TryGetValue(className, out otherAqName);
+                        throw new System.Exception("Name collision! The class " + aqName + " and " + otherAqName + " have the same local class name.");
+                    }
                     classNameToAqName.Add(className, aqName);
                     XmlElement lookupEntry = doc.CreateElement(className);
                     lookupEntry.SetAttribute("aq", aqName);
@@ -57,9 +68,9 @@ namespace DuckEngine.Storage
         //    }
         //}
 
-        public static IEnumerable<ISave> Load(Engine engine)
+        public static Map Load(Engine engine)
         {
-            String path = engine.Content.RootDirectory + "/save0.xml";
+            String path = "Content/save0.xml";
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
             XmlNode root = doc.SelectSingleNode("root");
@@ -73,8 +84,12 @@ namespace DuckEngine.Storage
                 classNameToAqName.Add(className, aqName);
             }
 
+            XmlNode mapNode = root.SelectSingleNode("map");
+            Type mapType = Type.GetType(mapNode.Attributes.GetNamedItem("aq").InnerText);
+            MethodInfo mapLoadMethod = mapType.GetMethod("Load");
+            Map map = (Map)mapLoadMethod.Invoke(null, new object[] { engine, path, mapNode });
+            
             XmlNode saved = root.SelectSingleNode("saved");
-            List<ISave> loadedObjects = new List<ISave>();
             foreach (XmlNode node in saved.ChildNodes)
             {
                 string className = node.LocalName;
@@ -83,8 +98,7 @@ namespace DuckEngine.Storage
                 {
                     Type type = Type.GetType(aqName);
                     MethodInfo loadMethod = type.GetMethod("Load");
-                    ISave loadedObject = (ISave)loadMethod.Invoke(null, new object[]{engine,node});
-                    loadedObjects.Add(loadedObject);
+                    ISave loadedObject = (ISave)loadMethod.Invoke(null, new object[] { map.Engine, map.Tracker, node });
                     Console.WriteLine("Loaded {0}.", className);
                 }
                 else
@@ -93,14 +107,8 @@ namespace DuckEngine.Storage
                 }
             }
 
-            engine.removeAll(engine.Saveables);
-            foreach (object o in loadedObjects)
-            {
-                engine.addAll(o);
-            }
-            
             Console.WriteLine("Loaded from: " + path);
-            return loadedObjects;
+            return map;
         }
     }
 }

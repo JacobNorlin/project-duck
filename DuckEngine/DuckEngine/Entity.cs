@@ -10,41 +10,52 @@ namespace DuckEngine
     /// Will automatically enable calls to the methods
     /// inherited from interfaces in the Interfaces folder.
     /// </summary>
-    public abstract class Entity
+    public abstract class Entity : IDisposable
     {
-        readonly Engine owner;
-        public Engine Owner { get { return owner; } }
+        public readonly Engine Engine;
+        public readonly Tracker Tracker; //TODO: should this be readonly?
         private bool enableInterfaceCalls = false;
-        protected bool EnableInterfaceCalls
+        public bool EnableInterfaceCalls
         {
             get { return enableInterfaceCalls; }
             set
             {
                 if (value && !enableInterfaceCalls)
                 {
-                    Owner.addAll(this);
+                    Tracker.Track(this);
                 }
                 else if (!value && enableInterfaceCalls)
                 {
-                    Owner.removeAll(this);
+                    Tracker.Untrack(this);
                 }
                 enableInterfaceCalls = value;
             }
         }
-        public bool Active
-        {
-            get { return EnableInterfaceCalls; }
-            set { EnableInterfaceCalls = value; }
-        }
 
         /// <summary>
-        /// The base constructor for all entites.
+        /// Same as Entity(_engine, _tracker, true)
         /// </summary>
-        /// <param name="_owner">The Engine which owns the current entity.</param>
-        public Entity(Engine _owner)
+        /// <param name="_engine">The Engine which owns the current entity.</param>
+        /// <param name="_tracker">The Tracker this entity should belong to.</param>
+        public Entity(Engine _engine, Tracker _tracker)
+            : this(_engine, _tracker, true) { }
+
+        /// <summary>
+        /// Base constructor for all entities, 
+        /// </summary>
+        /// <param name="_engine">The Engine which owns the current entity.</param>
+        /// <param name="_tracker">The Tracker this entity should belong to.</param>
+        /// <param name="_enableInterfaceCalls">Whether to enable interface calls in the constructor</param>
+        public Entity(Engine _engine, Tracker _tracker, bool _enableInterfaceCalls)
         {
-            owner = _owner;
-            Active = true;
+            Engine = _engine;
+            Tracker = _tracker;
+            EnableInterfaceCalls = _enableInterfaceCalls;
+        }
+
+        public void Dispose()
+        {
+            EnableInterfaceCalls = false;
         }
     }
 }

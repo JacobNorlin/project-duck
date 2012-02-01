@@ -96,13 +96,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EngineTrackedEntity.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Helpers\DebugDrawer.cs" />
     <Compile Include="Helpers\Conversion.cs" />
     <Compile Include="Helpers\Helper3D.cs" />
-    <Compile Include="Interfaces\IMap.cs" />
+    <Compile Include="Interfaces\IPhysical.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Interfaces\IMouseEvent3D.cs" />
-    <Compile Include="Interfaces\ICollide.cs" />
+    <Compile Include="Interfaces\ICollideEvent.cs" />
     <Compile Include="Interfaces\IDraw3D.cs" />
     <Compile Include="Interfaces\ISave.cs" />
     <Compile Include="Managers\InputManager.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Managers\StorageManager.cs" />
     <Compile Include="Sound\Sound.cs" />
     <Compile Include="StartupObject.cs" />
+    <Compile Include="Tracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DuckEngineContent\DuckEngineContent.contentproj">

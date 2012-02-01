@@ -18,9 +18,9 @@ namespace DuckGame
         /// <summary>
         /// Initializes new camera component.
         /// </summary>
-        /// <param name="owner">Game to which attach this camera.</param>
-        public DebugCamera(Engine _owner, Vector3 _position)
-            : base(_owner)
+        /// <param name="_tracker">Engine to which attach this camera.</param>
+        public DebugCamera(Engine _engine, Tracker _tracker, Vector3 _position)
+            : base(_engine, _tracker)
         {
             position = _position;
             UpdateProjection();
@@ -100,7 +100,7 @@ namespace DuckGame
             if (input.Mouse_WasButtonPressed(MouseButton.Right))
             {
                 input.MouseFrozen = true;
-                Owner.IsMouseVisible = false;
+                Engine.IsMouseVisible = false;
             }
             else if (input.Mouse_IsButtonDown(MouseButton.Right))
             {
@@ -110,7 +110,7 @@ namespace DuckGame
             else if (input.Mouse_WasButtonReleased(MouseButton.Right))
             {
                 input.MouseFrozen = false;
-                Owner.IsMouseVisible = true;
+                Engine.IsMouseVisible = true;
             }
 
             //Constraints

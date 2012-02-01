@@ -6,24 +6,24 @@ using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using DuckEngine;
 
-namespace DuckEngine.Maps
+namespace DuckGame
 {
-    class Terrain : Entity, IDraw3D, IDisposable
+    class Terrain : PhysicalEntity, IDraw3D
     {
         short terrainWidth;
         short terrainHeight;
         float[,] heightData;
 
-        RigidBody body;
         VertexBuffer vertexBuffer;
         IndexBuffer indexBuffer;
 
-        public Terrain(Engine _owner, string terrainFile)
-            : base(_owner)
+        public Terrain(Engine _engine, Tracker _tracker, string terrainFile)
+            : base(_engine, _tracker, null, false)
         {
             //Load heightmap
-            Texture2D heightmap = Owner.Content.Load<Texture2D>("Terrain/" + terrainFile);
+            Texture2D heightmap = Engine.Content.Load<Texture2D>("Terrain/" + terrainFile);
             terrainWidth = (short)heightmap.Width;
             terrainHeight = (short)heightmap.Height;
 
@@ -43,24 +43,23 @@ namespace DuckEngine.Maps
 
             //Create body & shape
             Shape terrainShape = new TerrainShape(heightData, 1f, 1f);
-            body = new RigidBody(terrainShape);
-            body.IsStatic = true;
-            body.Position = new JVector(-terrainWidth / 2, 0f, -terrainHeight / 2);
-            body.Tag = this;
-            Owner.Physics.AddBody(body);
+            Body = new RigidBody(terrainShape);
+            Body.IsStatic = true;
+            Body.Position = new JVector(-terrainWidth / 2, 0f, -terrainHeight / 2);
 
             //Create vertices and indices for rendering
             SetUpVertices();
             SetUpIndices();
+            EnableInterfaceCalls = true;
         }
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.BasicEffect.VertexColorEnabled = true;
-            Owner.Helper3D.BasicEffect.LightingEnabled = false;
-            Owner.Helper3D.BasicEffect.DiffuseColor = Color.Khaki.ToVector3();
-            Owner.Helper3D.DrawVertices(vertexBuffer, indexBuffer, Matrix.CreateTranslation(Conversion.ToXNAVector(body.Position)));
-            Owner.Helper3D.BasicEffect.VertexColorEnabled = false;
+            Engine.Helper3D.BasicEffect.VertexColorEnabled = true;
+            Engine.Helper3D.BasicEffect.LightingEnabled = false;
+            Engine.Helper3D.BasicEffect.DiffuseColor = Color.Khaki.ToVector3();
+            Engine.Helper3D.DrawVertices(vertexBuffer, indexBuffer, Matrix.CreateTranslation(Body.Position.ToXNAVector()));
+            Engine.Helper3D.BasicEffect.VertexColorEnabled = false;
         }
 
         private void SetUpVertices()
@@ -76,7 +75,7 @@ namespace DuckEngine.Maps
                 }
             }
 
-            vertexBuffer = new VertexBuffer(Owner.GraphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            vertexBuffer = new VertexBuffer(Engine.GraphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
             vertexBuffer.SetData<VertexPositionColor>(vertices);
         }
 
@@ -103,7 +102,7 @@ namespace DuckEngine.Maps
                 }
             }
 
-            indexBuffer = new IndexBuffer(Owner.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
+            indexBuffer = new IndexBuffer(Engine.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
             indexBuffer.SetData(indices);
         }
 
@@ -112,10 +111,16 @@ namespace DuckEngine.Maps
             Dispose();
         }
 
-        public void Dispose()
+        new public void Dispose()
         {
             vertexBuffer.Dispose();
             indexBuffer.Dispose();
+            base.Dispose();
+        }
+
+        public override PhysicalEntity Clone(bool _)
+        {
+            return null;
         }
     }
 }

@@ -21,8 +21,8 @@ namespace DuckEngine
 
         private Vector2 angles = new Vector2(MathHelper.PiOver4, 0);
 
-        public PlayerCamera(Engine _owner, Player _player = null)
-            : base(_owner)
+        public PlayerCamera(Engine _engine, Tracker _tracker, Player _player = null)
+            : base(_engine, _tracker)
         {
             player = _player;
             position = new Vector3();
@@ -41,7 +41,7 @@ namespace DuckEngine
             RigidBody body;
             JVector normal;
             float fraction;
-            Owner.Physics.CollisionSystem.Raycast(Conversion.ToJitterVector(playerPosition), Conversion.ToJitterVector(cameraDirection), new RaycastCallback(RaycastCallback), out body, out normal, out fraction);
+            Engine.Physics.CollisionSystem.Raycast(Conversion.ToJitterVector(playerPosition), Conversion.ToJitterVector(cameraDirection), new RaycastCallback(RaycastCallback), out body, out normal, out fraction);
 
             //TODO: Maybe add a smooth transition between distances.
             //If we didin't hit anything
@@ -92,7 +92,7 @@ namespace DuckEngine
             if (input.Mouse_WasButtonPressed(MouseButton.Right))
             {
                 input.MouseFrozen = true;
-                Owner.IsMouseVisible = false;
+                Engine.IsMouseVisible = false;
             }
             else if (input.Mouse_IsButtonDown(MouseButton.Right))
             {
@@ -101,7 +101,7 @@ namespace DuckEngine
             else if (input.Mouse_WasButtonReleased(MouseButton.Right))
             {
                 input.MouseFrozen = false;
-                Owner.IsMouseVisible = true;
+                Engine.IsMouseVisible = true;
             }
 
             //Constraints

@@ -12,17 +12,14 @@ namespace DuckGame
 {
     public class GameStartup : StartupObject
     {
-        public override void Initialize(Engine _owner)
+        public override void Initialize(Engine Engine)
         {
-            _owner.Window.AllowUserResizing = true;
+            Engine.Window.AllowUserResizing = true;
         }
 
-        public override void LoadContent(Engine _owner)
+        public override void LoadContent(Engine Engine)
         {
-            new TestMap1(_owner);
-            Model playerModel = _owner.Content.Load<Model>("Models/tire");
-            Player player = new LocalPlayer(_owner, new Vector3(3f, 5f, 3f), playerModel);
-            GameController controller = new GameController(_owner, player);
+            new GameController(Engine);
         }
     }
 }

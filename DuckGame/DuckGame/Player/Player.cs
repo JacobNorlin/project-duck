@@ -2,7 +2,6 @@
 using DuckEngine;
 using DuckEngine.Helpers;
 using DuckEngine.Interfaces;
-using DuckEngine.Maps;
 using DuckGame.Weapons;
 using Jitter.Collision.Shapes;
 using Jitter.Dynamics;
@@ -14,7 +13,7 @@ using System;
 
 namespace DuckGame.Players
 {
-    class Player : Entity, ILogic, IDraw3D, ICollide
+    class Player : Entity, IPhysical, ILogic, IDraw3D, ICollideEvent
     {
         private static JVector size = new JVector(1, 2, 1);
 
@@ -38,33 +37,26 @@ namespace DuckGame.Players
         public Weapon currentWeapon;
         private Model model;
 
-        public Player(Engine _owner, Vector3 position, Model _model)
-            : base(_owner)
+        public Player(Engine _engine, Tracker _tracker, Vector3 position, Model _model)
+            : base(_engine, _tracker, false)
         {
             model = _model;
             //Create body and add to physics engine
             Shape capsuleShape = new CapsuleShape(1, 0.5f);
             body = new RigidBody(capsuleShape);
             body.Mass = 2f;
-            body.Position = Conversion.ToJitterVector(position);
+            body.Position = position.ToJitterVector();
             body.AllowDeactivation = false;
             body.Tag = this;
-            Owner.Physics.AddBody(body);
+            EnableInterfaceCalls = true;
 
             //TODO: Fix so that players can rotate around Y-axis.
-            //Players can't fall
+            //Players can't tip over
             Constraint upright = new Jitter.Dynamics.Constraints.SingleBody.FixedAngle(body);
-            Owner.Physics.AddConstraint(upright);
+            Engine.Physics.AddConstraint(upright);
 
             //TEMPORARY FOR VIDYAJUEGOS
-            currentWeapon = new Pistol1(_owner, this, "", 1, 1000);
-        }
-
-        ~Player()
-        {
-            //Remove from engine
-            Owner.removeAll(this);
-            Owner.Physics.RemoveBody(body);
+            currentWeapon = new Pistol1(_engine, Tracker, this, "", 1, 1000);
         }
 
         public void Update(GameTime gameTime)
@@ -76,12 +68,12 @@ namespace DuckGame.Players
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawModel(model, body, Matrix.CreateScale(0.03f));
-            Owner.Helper3D.BasicEffect.Alpha = 0.3f;
-            Owner.Helper3D.DrawBody(Body, Color.White, false, false);
-            Owner.Helper3D.BasicEffect.Alpha = 0.2f;
-            Owner.Helper3D.DrawBody(Body, Color.White, true, false);
-            Owner.Helper3D.BasicEffect.Alpha = 1;
+            Engine.Helper3D.DrawModel(model, body, Matrix.CreateScale(0.03f));
+            Engine.Helper3D.BasicEffect.Alpha = 0.3f;
+            Engine.Helper3D.DrawBody(Body, Color.White, false, false);
+            Engine.Helper3D.BasicEffect.Alpha = 0.2f;
+            Engine.Helper3D.DrawBody(Body, Color.White, true, false);
+            Engine.Helper3D.BasicEffect.Alpha = 1;
         }
 
         public void Collide(Entity other)

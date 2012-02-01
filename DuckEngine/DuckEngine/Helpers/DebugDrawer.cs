@@ -2,6 +2,7 @@
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Jitter;
 
 namespace DuckEngine.Helpers
 {
@@ -9,7 +10,7 @@ namespace DuckEngine.Helpers
     /// <summary>
     /// Draw axis aligned bounding boxes, points and lines.
     /// </summary>
-    public class DebugDrawer : Jitter.IDebugDrawer
+    public class DebugDrawer : IDebugDrawer
     {
         BasicEffect basicEffect;
 
@@ -18,16 +19,16 @@ namespace DuckEngine.Helpers
 
         private int lineIndex = 0;
         private int triangleIndex = 0;
-        private Engine Owner;
+        private Engine Engine;
 
-        public DebugDrawer(Engine _owner)
+        public DebugDrawer(Engine _engine)
         {
-            Owner = _owner;
+            Engine = _engine;
         }
 
         internal void Initialize()
         {
-            basicEffect = new BasicEffect(Owner.GraphicsDevice);
+            basicEffect = new BasicEffect(Engine.GraphicsDevice);
             basicEffect.VertexColorEnabled = true;
         }
 
@@ -142,8 +143,8 @@ namespace DuckEngine.Helpers
 
         public void Draw()
         {
-            basicEffect.View = Owner.Camera.View;
-            basicEffect.Projection = Owner.Camera.Projection;
+            basicEffect.View = Engine.Camera.View;
+            basicEffect.Projection = Engine.Camera.Projection;
 
 
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
@@ -151,11 +152,11 @@ namespace DuckEngine.Helpers
                 pass.Apply();
 
                 if (lineIndex > 0)
-                    Owner.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    Engine.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                         PrimitiveType.LineList, LineList, 0, lineIndex / 2);
 
                 if (triangleIndex > 0)
-                    Owner.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    Engine.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                         PrimitiveType.TriangleList, TriangleList, 0, triangleIndex / 3);
             }
 

@@ -9,40 +9,32 @@ using Microsoft.Xna.Framework;
 
 namespace DuckGame.Pickups
 {
-    class Pickup : Entity, ILogic, IDraw3D, ICollide
+    class Pickup : Entity, IPhysical, ILogic, IDraw3D, ICollideEvent
     {
         private RigidBody body;
         public RigidBody Body { get { return body; } }
 
-        public Pickup(Engine _owner, Vector3 position)
-            : base(_owner)
+        public Pickup(Engine _engine, Tracker _tracker, Vector3 position)
+            : base(_engine, _tracker, false)
         {
             Shape boxShape = new BoxShape(1f, .5f, .5f);
             body = new RigidBody(boxShape);
             body.AffectedByGravity = false;
             body.Position = Conversion.ToJitterVector(position);
             body.Tag = this;
-            
-            Owner.Physics.AddBody(body);
-        }
-
-        ~Pickup()
-        {
-            Owner.removeAll(this);
-            Owner.Physics.RemoveBody(body);
+            EnableInterfaceCalls = true;
         }
 
         public void Draw3D(GameTime gameTime)
         {
-            Owner.Helper3D.DrawBody(Body, Color.Red, true, true);
+            Engine.Helper3D.DrawBody(Body, Color.Red, true, true);
         }
 
         public void Collide(Entity other)
         {
             if (other is Player)
             {
-                Owner.removeAll(this);
-                Owner.Physics.RemoveBody(body);
+                Tracker.Untrack(this);
             }
         }
 

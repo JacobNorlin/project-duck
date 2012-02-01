@@ -44,6 +44,10 @@ namespace DuckEngine.Storage
         public static void Save(this RigidBody body, XmlDocument doc, XmlElement node)
         {
             node.SetAttribute("mass", body.Mass.ToString());
+            if (body.IsStatic)
+            {
+                node.SetAttribute("static", null);
+            }
             XmlElement posNode = doc.CreateElement("pos");
             XmlElement oriNode = doc.CreateElement("ori");
             XmlElement shapeNode = doc.CreateElement("shape");
@@ -64,6 +68,13 @@ namespace DuckEngine.Storage
             RigidBody body = new RigidBody(shape);
             body.Position = LoadJVector(posNode);
             body.Orientation = LoadJMatrix(oriNode);
+            if (node.Attributes.GetNamedItem("static") != null)
+            {
+                body.IsStatic = true;
+            }
+            float mass;
+            float.TryParse(node.Attributes.GetNamedItem("mass").InnerText, out mass);
+            body.Mass = mass;
             return body;
         }
 

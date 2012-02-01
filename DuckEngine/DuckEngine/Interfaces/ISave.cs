@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Jitter.Dynamics;
 
 namespace DuckEngine.Interfaces
 {
@@ -22,6 +23,6 @@ namespace DuckEngine.Interfaces
         /// <param name="doc"></param>
         /// <param name="node"></param>
         void Save(XmlDocument doc, XmlElement currNode);
-        //static object Load(Engine engine, XmlNode node);
+        //static object Load(Engine engine, Tracker tracker, XmlNode node);
     }
 }

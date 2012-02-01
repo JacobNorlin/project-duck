@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Jitter.Dynamics;
 using System.Xml;
 using System.Collections.Generic;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine.Helpers
 {
@@ -22,15 +23,14 @@ namespace DuckEngine.Helpers
             return newBody;
         }
 
-        public static IEnumerable<RigidBody> Bodies(this IEnumerable<PhysicalEntity> es)
+        public static List<RigidBody> Bodies(this IEnumerable<IPhysical> physicals)
         {
-            RigidBody[] bs = new RigidBody[es.Count()];
-            int i = 0;
-            foreach (PhysicalEntity e in es)
+            List<RigidBody> bodies = new List<RigidBody>(physicals.Count());
+            foreach (IPhysical physical in physicals)
             {
-                bs[i++] = e.Body;
+                bodies.Add(physical.Body);
             }
-            return bs;
+            return bodies;
         }
 
         /// <summary>

@@ -3,48 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Jitter.Dynamics;
+using DuckEngine.Helpers;
+using DuckEngine.Interfaces;
 
 namespace DuckEngine
 {
-    abstract public class PhysicalEntity : Entity
+    public abstract class PhysicalEntity : Entity, IPhysical
     {
-        private readonly RigidBody body;
-        public RigidBody Body { get { return body; } }
-        private bool inPhysicsEngine = false;
-        protected bool InPhysicsEngine
+        private RigidBody body;
+        public RigidBody Body
         {
-            set
+            get { return body; }
+            protected set
             {
-                if (value && !inPhysicsEngine)
+                RigidBody oldBody = body;
+                //oldBody.Tag = null;
+                body = value;
+                if (body != null)
                 {
-                    Owner.Physics.AddBody(Body);
+                    body.Tag = this;
                 }
-                else if (!value && inPhysicsEngine)
-                {
-                    Owner.Physics.RemoveBody(Body);
-                }
-                inPhysicsEngine = value;
+                Tracker.UpdatePhysicalTrack(this, oldBody);
             }
-            get { return inPhysicsEngine; }
-        }
-        new public bool Active
-        {
-            get { return EnableInterfaceCalls && InPhysicsEngine; }
-            set { EnableInterfaceCalls = InPhysicsEngine = value; }
         }
 
-        public PhysicalEntity(Engine _owner, RigidBody _body)
-            : base(_owner)
+        public PhysicalEntity(Engine _engine, Tracker _tracker, RigidBody _body)
+            : this(_engine, _tracker, _body, true) {}
+
+        public PhysicalEntity(Engine _engine, Tracker _tracker, RigidBody _body, bool _enableInterfaceCalls)
+            : base(_engine, _tracker, false)
         {
-            body = _body;
-            Body.Tag = this;
-            InPhysicsEngine = true;
+            Body = _body;
+            EnableInterfaceCalls = _enableInterfaceCalls;
         }
 
         /// <summary>
-        /// 
+        /// Create a clone of this PhysicalEntity
         /// </summary>
-        /// <returns>A new Entity, copy of this one</returns>
-        abstract public PhysicalEntity Clone();
+        /// <param name="_enableInterfaceCalls">Enable interface calls on the new object upon creation</param>
+        /// <returns>The copy, or null if </returns>
+        public virtual PhysicalEntity Clone(bool _enableInterfaceCalls)
+        {
+            return null;
+        }
     }
 }

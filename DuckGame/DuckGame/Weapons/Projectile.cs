@@ -8,11 +8,10 @@ using Jitter.Dynamics;
 using Jitter.Dynamics.Constraints;
 using Jitter.LinearMath;
 using Microsoft.Xna.Framework;
-using DuckEngine.Maps;
 
 namespace DuckGame.Weapons
 {
-    abstract class Projectile : Entity, ILogic, IDraw3D, ICollide
+    abstract class Projectile : Entity, IPhysical, ILogic, IDraw3D, ICollideEvent
     {
 
         private static JVector size = new JVector(0.5f, 0.5f, 0.5f);
@@ -32,11 +31,9 @@ namespace DuckGame.Weapons
         protected RigidBody body;
         public RigidBody Body { get { return body; } }
 
-        public Projectile(Engine _owner, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
-            : base(_owner)
+        public Projectile(Engine _engine, Tracker _tracker, Vector3 _position, float _damage, float _speed, Vector3 _target, float _collisionSize)
+            : base(_engine, _tracker)
         {
-            Owner.addLogic(this);
-            Owner.addDraw3D(this);
             damage = _damage;
             speed = _speed;
             target = _target;
@@ -50,7 +47,7 @@ namespace DuckGame.Weapons
             body.AllowDeactivation = false;
             body.AffectedByGravity = false;
             body.Tag = this;
-            Owner.Physics.AddBody(body);
+            Engine.Physics.AddBody(body);
         }
 
         //public void Move() { } //Unecessary, use physics engine instead.

@@ -13,6 +13,7 @@ using DuckEngine.Helpers;
 using DuckEngine.MapEditor;
 using DuckEngine.MapEditor.SaveStates;
 using DuckEngine.Storage;
+using DuckGame.Maps;
 
 namespace DuckGame.MapEdit
 {
@@ -44,9 +45,9 @@ namespace DuckGame.MapEdit
         }
     }
 
-    class MapEditor : IInput, IDraw3D
+    class MapEditor : Entity, IInput, IDraw3D
     {
-        public IEnumerable<RigidBody> AllBodies { get { return game.Owner.Physics.RigidBodies; } }
+        private IEnumerable<RigidBody> AllBodies { get { return game.Engine.Physics.RigidBodies; } }
 
         private Ray hitNormal = new Ray();
         private GameController game;
@@ -80,7 +81,7 @@ namespace DuckGame.MapEdit
                 {
                     finishStateChange(AllBodies);
                 }
-                game.Owner.PhysicsEnabled = !value;
+                game.Engine.PhysicsEnabled = !value;
                 paused = value;
             }
         }
@@ -95,23 +96,23 @@ namespace DuckGame.MapEdit
                 if (value && !active)
                 {
                     Paused = true;
-                    game.Owner.Physics.AllowDeactivation = false; //maybe?
-                    game.Owner.MouseEventManager.WhileMouseOver = whileMouseOver;
+                    game.Engine.Physics.AllowDeactivation = false; //maybe?
+                    game.Engine.MouseEventManager.WhileMouseOver = whileMouseOver;
                 }
                 else if (!value && active)
                 {
                     Paused = false;
-                    game.Owner.Physics.AllowDeactivation = true; //maybe?
-                    game.Owner.MouseEventManager.WhileMouseOver = game.Owner.MouseEventManager.DefaultWhileMouseOver;
+                    game.Engine.Physics.AllowDeactivation = true; //maybe?
+                    game.Engine.MouseEventManager.WhileMouseOver = game.Engine.MouseEventManager.DefaultWhileMouseOver;
                 }
                 active = value;
             }
         }
 
-        public MapEditor(GameController _gameController)
+        public MapEditor(GameController _gameController, Tracker _tracker)
+            : base(_gameController.Engine, _tracker)
         {
             game = _gameController;
-            game.Owner.addAll(this);
         }
 
         public void Input(GameTime gameTime, InputManager input)
@@ -121,14 +122,15 @@ namespace DuckGame.MapEdit
             if (input.Keyboard_WasKeyPressed(Keys.S) &&
                 input.Keyboard_IsKeyDown(Keys.LeftControl))
             {
-                StorageManager.Save(game.Owner);
+                StorageManager.Save(Engine.Map);
             }
             if (input.Keyboard_WasKeyPressed(Keys.O) &&
                 input.Keyboard_IsKeyDown(Keys.LeftControl))
             {
                 startStateChange(null);
-                IEnumerable<PhysicalEntity> loaded = StorageManager.Load(game.Owner).OfType<PhysicalEntity>();
-                finishStateChange(loaded.Bodies());
+                Map newMap = StorageManager.Load(Engine);
+                Engine.Map = newMap;
+                finishStateChange(newMap.Bodies);
             }
             if (input.Keyboard_WasKeyPressed(Keys.Space))
             {
@@ -360,16 +362,16 @@ namespace DuckGame.MapEdit
 
             foreach (RigidBody body in selected)
             {
-                game.Owner.Helper3D.DrawBoundingBox(body, Color.Black, false, 1);
+                game.Engine.Helper3D.DrawBoundingBox(body, Color.Black, false, 1);
             }
             //foreach (RigidBody body in selectedButNotMoving)
             //{
-            //    game.Owner.Helper3D.DrawBoundingBox(body, Color.Green, true, 0.5f);
+            //    game.Engine.Helper3D.DrawBoundingBox(body, Color.Green, true, 0.5f);
             //}
             if (selected.Highlighted == null)
                 return;
 
-            game.Owner.Helper3D.DrawBoundingBox(selected.Highlighted, Color.Green, true, 0.4f);
+            game.Engine.Helper3D.DrawBoundingBox(selected.Highlighted, Color.Green, true, 0.4f);
 
             if (moveMode == MoveMode.None)
                 return;
@@ -394,22 +396,22 @@ namespace DuckGame.MapEdit
             for (float i = -1; i <= 1; i += 0.25f)
             {
                 Color middleColor = new Color(0, 0, 0, 1 - Math.Abs(i));
-                game.Owner.DebugDrawer.DrawLine(
+                game.Engine.DebugDrawer.DrawLine(
                     center + plane.up * planeSize * i - plane.right * planeSize,
                     center + plane.up * planeSize * i,
                     Color.Transparent,
                     middleColor);
-                game.Owner.DebugDrawer.DrawLine(
+                game.Engine.DebugDrawer.DrawLine(
                     center + plane.up * planeSize * i + plane.right * planeSize,
                     center + plane.up * planeSize * i,
                     Color.Transparent,
                     middleColor);
-                game.Owner.DebugDrawer.DrawLine(
+                game.Engine.DebugDrawer.DrawLine(
                     center + plane.right * planeSize * i - plane.up * planeSize,
                     center + plane.right * planeSize * i,
                     Color.Transparent,
                     middleColor);
-                game.Owner.DebugDrawer.DrawLine(
+                game.Engine.DebugDrawer.DrawLine(
                     center + plane.right * planeSize * i + plane.up * planeSize,
                     center + plane.right * planeSize * i,
                     Color.Transparent,
@@ -420,12 +422,12 @@ namespace DuckGame.MapEdit
         private void drawLine(Vector3 center, Vector3 direction, float lineLength)
         {
             lineLength = lineLength * 1.5f + 3;
-            game.Owner.DebugDrawer.DrawLine(
+            game.Engine.DebugDrawer.DrawLine(
                 center + direction * lineLength,
                 center,
                 Color.Transparent,
                 Color.Black);
-            game.Owner.DebugDrawer.DrawLine(
+            game.Engine.DebugDrawer.DrawLine(
                 center - direction * lineLength,
                 center,
                 Color.Transparent,
