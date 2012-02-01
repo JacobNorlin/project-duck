@@ -35,7 +35,7 @@ namespace DuckGame.Maps
             );
 
             //Pickup
-            Pickup pickup1 = new Pickup(Engine, Tracker, new Vector3(-3f, 3f, -3f));
+            Pickup pickup1 = new Pickup(Engine, Tracker, new JVector(-3f, 3f, -3f));
 
             //Map
             Terrain terrain = new Terrain(Engine, Tracker, "heightmap");

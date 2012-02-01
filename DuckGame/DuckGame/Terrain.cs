@@ -7,23 +7,27 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using DuckEngine;
+using System.Xml;
 
 namespace DuckGame
 {
-    class Terrain : PhysicalEntity, IDraw3D
+    class Terrain : PhysicalEntity, IDraw3D, ISave
     {
+        private static string terrainFolder = "Terrain/";
         short terrainWidth;
         short terrainHeight;
         float[,] heightData;
 
         VertexBuffer vertexBuffer;
         IndexBuffer indexBuffer;
+        private string terrainFile;
 
-        public Terrain(Engine _engine, Tracker _tracker, string terrainFile)
+        public Terrain(Engine _engine, Tracker _tracker, string _terrainFile)
             : base(_engine, _tracker, null, false)
         {
+            terrainFile = _terrainFile;
             //Load heightmap
-            Texture2D heightmap = Engine.Content.Load<Texture2D>("Terrain/" + terrainFile);
+            Texture2D heightmap = Engine.Content.Load<Texture2D>(terrainFolder + terrainFile);
             terrainWidth = (short)heightmap.Width;
             terrainHeight = (short)heightmap.Height;
 
@@ -121,6 +125,17 @@ namespace DuckGame
         public override PhysicalEntity Clone(bool _)
         {
             return null;
+        }
+
+        public void Save(XmlDocument doc, XmlElement currNode)
+        {
+            currNode.SetAttribute("file", terrainFile);
+        }
+
+        public static Terrain Load(Engine _engine, Tracker _tracker, XmlNode node)
+        {
+            string terrainFile = node.Attributes.GetNamedItem("file").InnerText;
+            return new Terrain(_engine, _tracker, terrainFile);
         }
     }
 }
