@@ -12,6 +12,7 @@ using DuckGame.Maps;
 using Microsoft.Xna.Framework.Graphics;
 using Jitter.Collision.Shapes;
 using DuckEngine.Storage;
+using System;
 
 namespace DuckGame
 {
@@ -22,6 +23,7 @@ namespace DuckGame
         PlayerCamera playerCamera;
         DebugCamera debugCamera;
         MapEditor mapEditor;
+        private LocalPlayer player;
 
         public GameController(Engine _engine)
             : base(_engine)
@@ -30,7 +32,7 @@ namespace DuckGame
             //Map map = new TestMap1(Engine, null);
             //Map map = new LoadedMap(Engine, null);
             Model playerModel = Engine.Content.Load<Model>("Models/tire");
-            Player player = new LocalPlayer(Engine, Tracker, new Vector3(3f, 5f, 3f), playerModel);
+            player = new LocalPlayer(Engine, Tracker, new Vector3(3f, 5f, 3f), playerModel);
             Engine.Map = map;
             
             playerCamera = new PlayerCamera(Engine, Tracker);

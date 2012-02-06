@@ -43,12 +43,13 @@ namespace DuckGame
                 Vector3 right = Vector3.Normalize(Vector3.Cross(forward, Vector3.Up));
                 Vector3 up = Vector3.Normalize(Vector3.Cross(right, forward));
 
-                Matrix test = Matrix.Identity;
-                test.Forward = forward;
-                test.Right = right;
-                test.Up = up;
-                angles.X = -(float)Math.Asin(test.M32);
-                angles.Y = -(float)Math.Asin(test.M13);
+                Matrix test = Matrix.CreateBillboard(value, position, Vector3.Up, null);
+                angles.X = (float)Math.Asin(test.M32);
+                angles.Y = (float)Math.Asin(test.M13);
+                if (test.M11 >= 0)
+                {
+                    angles.Y = (float)Math.PI - angles.Y;
+                }
             }
         }
         #endregion

@@ -49,21 +49,28 @@ namespace DuckGame
             Shape terrainShape = new TerrainShape(heightData, 1f, 1f);
             Body = new RigidBody(terrainShape);
             Body.IsStatic = true;
-            Body.Position = new JVector(-terrainWidth / 2, 0f, -terrainHeight / 2);
+            Body.Position = new JVector(-terrainWidth / 2, 0, -terrainHeight / 2);
 
             //Create vertices and indices for rendering
-            SetUpVertices();
+            SetUpVerticesWithNormals();
             SetUpIndices();
             EnableInterfaceCalls = true;
         }
 
         public void Draw3D(GameTime gameTime)
         {
-            Engine.Helper3D.BasicEffect.VertexColorEnabled = true;
-            Engine.Helper3D.BasicEffect.LightingEnabled = false;
+            //Body.IsStatic = false;
+            //Body.IsActive = false;
+            //Body.AffectedByGravity = false;
+            //Body.AngularVelocity = new JVector(0,0.2f,0);
+            Engine.Helper3D.BasicEffect.LightingEnabled = true;
             Engine.Helper3D.BasicEffect.DiffuseColor = Color.Khaki.ToVector3();
-            Engine.Helper3D.DrawVertices(vertexBuffer, indexBuffer, Matrix.CreateTranslation(Body.Position.ToXNAVector()));
-            Engine.Helper3D.BasicEffect.VertexColorEnabled = false;
+            Engine.Helper3D.DrawVertices(vertexBuffer, indexBuffer, Body.GetWorldMatrix());
+            //foreach (VertexPositionNormalTexture n in vertices)
+            //{
+            //    Vector3 p = n.Position + Body.Position.ToXNAVector();
+            //    Engine.DebugDrawer.DrawLine(p, p + n.Normal, Color.Black, Color.White);
+            //}
         }
 
         private void SetUpVertices()
@@ -81,6 +88,77 @@ namespace DuckGame
 
             vertexBuffer = new VertexBuffer(Engine.GraphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
             vertexBuffer.SetData<VertexPositionColor>(vertices);
+        }
+
+        private void SetUpVerticesWithNormals()
+        {
+            VertexPositionNormalTexture[] vertices = new VertexPositionNormalTexture[terrainWidth * terrainHeight];
+            for (int x = 0; x < terrainWidth; x++)
+            {
+                for (int y = 0; y < terrainHeight; y++)
+                {
+                    vertices[x + y * terrainWidth].Position = new Vector3(x, heightData[x, y], y);
+                }
+            }
+            for (int x = 0; x < terrainWidth; x++)
+            {
+                for (int y = 0; y < terrainHeight; y++)
+                {
+                    Vector3[] v = {
+                        getPoint(x, y,  0,  1, vertices),
+                        getPoint(x, y,  1,  1, vertices),
+                        getPoint(x, y,  1,  0, vertices),
+                        getPoint(x, y,  1, -1, vertices),
+                        getPoint(x, y,  0, -1, vertices),
+                        getPoint(x, y, -1, -1, vertices),
+                        getPoint(x, y, -1,  0, vertices),
+                        getPoint(x, y, -1,  1, vertices),
+                    };
+
+                    Vector3 normal = Vector3.Zero;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Vector3 n = Vector3.Cross(v[i], v[(i + 1) % 8]);
+                        n.Normalize();
+                        if (i%2 == 0)
+                        {
+                            n *= (float)Math.Sqrt(2);
+                        }
+                        normal += n;
+                    }
+                    normal.Normalize();
+                    vertices[x + y * terrainWidth].Normal = normal;
+                }
+            }
+
+            vertexBuffer = new VertexBuffer(Engine.GraphicsDevice, VertexPositionNormalTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
+        }
+
+        private Vector3 getPoint(int x, int y, int xo, int yo, VertexPositionNormalTexture[] vertices)
+        {
+            float negate = 1;
+            if (x == 0 && xo < 0)
+            {
+                xo = -xo;
+                negate = -1;
+            }
+            else if (x == terrainWidth - 1 && xo > 0)
+            {
+                xo = -xo;
+                negate = -1;
+            }
+            if (y == 0 && yo < 0)
+            {
+                yo = -yo;
+                negate = -1;
+            }
+            else if (y == terrainHeight - 1 && yo > 0)
+            {
+                yo = -yo;
+                negate = -1;
+            }
+            return negate * (vertices[x + xo + (y + yo) * terrainWidth].Position - vertices[x + y*terrainWidth].Position);
         }
 
         private void SetUpIndices()
@@ -137,5 +215,15 @@ namespace DuckGame
             string terrainFile = node.Attributes.GetNamedItem("file").InnerText;
             return new Terrain(_engine, _tracker, terrainFile);
         }
+
+        //public void Input(GameTime gameTime, DuckEngine.Input.InputManager input)
+        //{
+        //    if (input.Keyboard_WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.U))
+        //    {
+        //        a = (a + 1) % 3;
+        //        SetUpVerticesWithNormals();
+        //        Console.WriteLine("a=" + a);
+        //    }
+        //}
     }
 }

@@ -14,7 +14,7 @@ namespace DuckGame.Pickups
     class Pickup : Entity, IPhysical, ILogic, IDraw3D, ICollideEvent, ISave
     {
         private RigidBody body;
-        private JMatrix rotationMatrix = JMatrix.CreateRotationY(0.05f);
+        private JVector rotationVector = new JVector(0f, 3f, 0f);
         public RigidBody Body { get { return body; } }
 
         public Pickup(Engine _engine, Tracker _tracker, JVector position)
@@ -53,8 +53,7 @@ namespace DuckGame.Pickups
 
         public void Update(GameTime gameTime)
         {
-            //body.AngularVelocity = new JVector(0f, 5f, 0f);
-            body.Orientation *= rotationMatrix;
+            body.AngularVelocity = rotationVector;
         }
 
         public void Save(XmlDocument doc, XmlElement currNode)

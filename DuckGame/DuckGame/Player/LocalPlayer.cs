@@ -12,8 +12,8 @@ namespace DuckGame.Players
 {
     class LocalPlayer : Player, IInput
     {
-        const float MOVEMENT_SPEED = 500f;
-        const float JUMP_SPEED = 8f;
+        const float MOVEMENT_SPEED = 1000f;
+        const float JUMP_SPEED = 12f;
 
         public LocalPlayer(Engine _engine, Tracker _tracker, Vector3 position, Model model)
             : base(_engine, _tracker, position, model)

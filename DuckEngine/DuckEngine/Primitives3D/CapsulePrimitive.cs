@@ -9,6 +9,7 @@
 
 #region Using Statements
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -40,11 +41,12 @@ namespace DuckEngine.Primitives3D
         /// with the specified size and tessellation level.
         /// </summary>
         public CapsulePrimitive(GraphicsDevice graphicsDevice,
-                               float diameter,float length, int tessellation)
+                               float diameter, float length, int tessellation)
         {
             if (tessellation % 2 != 0)
                 throw new ArgumentOutOfRangeException("tessellation should be even");
-            
+
+            this.graphicsDevice = graphicsDevice;
             this.diameter = diameter;
             this.length = length;
             this.tessellation = tessellation;

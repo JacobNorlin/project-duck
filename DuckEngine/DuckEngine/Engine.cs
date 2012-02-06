@@ -138,6 +138,9 @@ namespace DuckEngine
             debugDrawer = new DebugDrawer(this);
             helper3D = new Helper3D(this);
 
+            //IsFixedTimeStep = false;
+            //TODO: unlock update speed
+            TargetElapsedTime = TimeSpan.FromMilliseconds(8); //Update every 8 ms
             Window.ClientSizeChanged += new EventHandler<EventArgs>(ClientSizeChanged);
             Content.RootDirectory = "Content";
         }
@@ -199,7 +202,6 @@ namespace DuckEngine
             Input.UpdateInput();
             Tracker.Input(gameTime, Input);
             Tracker.Update(gameTime);
-
             //Physics if enabled
             if (physicsEnabled)
             {

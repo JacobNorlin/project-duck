@@ -65,7 +65,7 @@ namespace DuckEngine.Managers
                 RigidBody hitBody;
                 JVector hitNormal;
                 float hitFraction;
-                
+
                 bool result = Engine.Physics.CollisionSystem.Raycast(rayOrigin, rayDirection,
                     null, out hitBody, out hitNormal, out hitFraction);
                 if (result && WhileMouseOver != null)

@@ -50,10 +50,24 @@ namespace DuckEngine.Helpers
 
         public void LoadContent()
         {
-            BasicEffect = new BasicEffect(engine.GraphicsDevice);
-            BasicEffect.EnableDefaultLighting();
-            BasicEffect.PreferPerPixelLighting = true;
             Primitives = new GeometricPrimitives(engine.GraphicsDevice);
+            BasicEffect = new BasicEffect(engine.GraphicsDevice);
+            setupLightning(BasicEffect);
+        }
+
+        public static void setupLightning(BasicEffect effect)
+        {
+            effect.LightingEnabled = true;
+            effect.PreferPerPixelLighting = true;
+            effect.AmbientLightColor = Color.White.ToVector3() * 0.2f;
+            //effect.SpecularColor = Color.Orange.ToVector3();
+            effect.SpecularPower = 5f;
+            effect.Alpha = 1.0f;
+            effect.DirectionalLight0.Enabled = true;
+            effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(-1,-3,-2))*0.9f;
+            effect.DirectionalLight0.DiffuseColor = Color.White.ToVector3();
+            effect.DirectionalLight0.SpecularColor = Color.White.ToVector3() * 0.1f;
+            //effect.SpecularColor = Color.White.ToVector3() * 0.05f;
         }
 
         public void DrawBoundingBox(RigidBody body, Color color, bool drawSolid, float alpha)
@@ -165,7 +179,7 @@ namespace DuckEngine.Helpers
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     //effect.DiffuseColor = color.ToVector3();
-                    effect.EnableDefaultLighting();
+                    setupLightning(effect);
                     effect.World = mesh.ParentBone.Transform*scale*body.GetWorldMatrix();
 
                     effect.View = engine.Camera.View;
